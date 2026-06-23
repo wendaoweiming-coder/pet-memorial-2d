@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>创建纪念｜宠物纪念园</title>
+
+  <style>
+    :root {
+      --night-1: #071326;
+      --night-2: #0d1d38;
+      --cream: #f6ead6;
+      --cream-2: #fff8ec;
+      --gold: #f4d7a6;
+      --lavender: #b8a7d8;
+      --pink: #e7a9b9;
+      --blue-soft: #94aeca;
+      --green-soft: #8fa88d;
+      --text: #f7efe2;
+      --muted: #b9c0d1;
+      --panel: rgba(9, 20, 39, 0.74);
+      --line: rgba(255, 236, 205, 0.22);
+      --paper: rgba(255, 248, 236, 0.96);
+      --paper-text: #27304a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family:
+        "Microsoft YaHei",
+        "PingFang SC",
+        "Noto Sans SC",
+        system-ui,
+        sans-serif;
+      background:
+        radial-gradient(circle at 75% 18%, rgba(244, 215, 166, 0.18), transparent 12%),
+        linear-gradient(180deg, var(--night-1), var(--night-2) 52%, #101f32);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      padding-bottom: 50px;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #fff6d6;
+      box-shadow:
+        4px 0 #fff6d6,
+        0 4px #fff6d6,
+        4px 4px #fff6d6;
+      opacity: 0.65;
+      animation: twinkle 4s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.28;
+        transform: scale(0.8);
+      }
+
+      50% {
+        opacity: 0.92;
+        transform: scale(1);
+      }
+    }
+
+    .moon {
+      position: absolute;
+      right: 9%;
+      top: 95px;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, #fff9d8 0 10%, transparent 11%),
+        radial-gradient(circle at 62% 42%, rgba(165, 150, 120, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 43% 68%, rgba(150, 139, 116, 0.23) 0 10%, transparent 11%),
+        #f6e8b6;
+      box-shadow:
+        0 0 32px rgba(255, 236, 180, 0.38),
+        0 0 80px rgba(194, 189, 255, 0.16);
+      z-index: 2;
+    }
+
+    .header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 7vw 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      position: relative;
+      image-rendering: pixelated;
+    }
+
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 16px;
+      width: 16px;
+      height: 14px;
+      background: var(--cream);
+      box-shadow:
+        -8px -10px 0 -2px var(--cream),
+        9px -10px 0 -2px var(--cream),
+        -14px 0 0 -3px var(--cream),
+        15px 0 0 -3px var(--cream),
+        0 12px 0 -5px var(--cream);
+      border-radius: 4px;
+    }
+
+    .brand-title {
+      display: block;
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: var(--cream);
+      font-weight: 700;
+      text-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .brand-subtitle {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: rgba(246, 234, 214, 0.58);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: rgba(255, 248, 236, 0.78);
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    .nav a {
+      position: relative;
+      padding: 8px 0;
+    }
+
+    .nav a.active {
+      color: var(--cream);
+    }
+
+    .nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 3px;
+      right: 3px;
+      bottom: -5px;
+      height: 3px;
+      background: var(--gold);
+    }
+
+    .shell {
+      position: relative;
+      z-index: 5;
+      width: min(1180px, calc(100% - 40px));
+      margin: 56px auto 0;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .intro-card {
+      position: sticky;
+      top: 28px;
+      min-height: 640px;
+      padding: 36px 32px;
+      background: var(--panel);
+      border: 2px solid var(--line);
+      box-shadow:
+        0 22px 60px rgba(0, 0, 0, 0.26),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .intro-card h1 {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1.25;
+      letter-spacing: 2px;
+      color: var(--cream);
+    }
+
+    .intro-card p {
+      margin: 22px 0 0;
+      color: rgba(247, 239, 226, 0.72);
+      line-height: 1.9;
+      font-size: 15px;
+    }
+
+    .mini-scene {
+      position: relative;
+      height: 360px;
+      margin-top: 42px;
+      overflow: hidden;
+      border: 2px solid rgba(246, 234, 214, 0.14);
+      background:
+        radial-gradient(circle at 58% 32%, rgba(244, 215, 166, 0.16), transparent 16%),
+        linear-gradient(180deg, rgba(17, 36, 68, 0.85), rgba(17, 45, 42, 0.9));
+    }
+
+    .mini-ground {
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      bottom: 0;
+      height: 45%;
+      border-radius: 50% 50% 0 0;
+      background:
+        radial-gradient(ellipse at 62% 62%, rgba(244, 215, 166, 0.18), transparent 24%),
+        linear-gradient(180deg, #24443d, #122921);
+    }
+
+    .mini-tomb {
+      position: absolute;
+      right: 70px;
+      bottom: 76px;
+      width: 112px;
+      height: 150px;
+      background: linear-gradient(90deg, #696f82, #8d8d9a 48%, #5d6576);
+      border: 4px solid rgba(24, 30, 45, 0.65);
+      border-radius: 54px 54px 8px 8px;
+      box-shadow:
+        inset 7px 0 0 rgba(255,255,255,0.1),
+        10px 10px 0 rgba(0,0,0,0.24);
+    }
+
+    .mini-tomb::before {
+      content: "";
+      position: absolute;
+      left: 42px;
+      top: 32px;
+      width: 28px;
+      height: 22px;
+      background: rgba(36, 42, 60, 0.7);
+      border-radius: 10px;
+      box-shadow:
+        -12px -8px 0 -6px rgba(36,42,60,0.7),
+        12px -8px 0 -6px rgba(36,42,60,0.7),
+        -18px 4px 0 -7px rgba(36,42,60,0.7),
+        18px 4px 0 -7px rgba(36,42,60,0.7);
+    }
+
+    .mini-lantern {
+      position: absolute;
+      right: 192px;
+      bottom: 58px;
+      width: 42px;
+      height: 58px;
+      background: #2a2430;
+      border: 3px solid #171620;
+      box-shadow:
+        0 0 34px rgba(255, 196, 95, 0.55),
+        0 0 80px rgba(255, 196, 95, 0.18);
+    }
+
+    .mini-lantern::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: 10px;
+      bottom: 10px;
+      background: radial-gradient(circle, #fff0aa 0 22%, #ffc05a 24% 52%, transparent 54%);
+    }
+
+    .mini-pet {
+      position: absolute;
+      left: 48px;
+      bottom: 63px;
+      width: 62px;
+      height: 50px;
+      opacity: 0.86;
+    }
+
+    .mini-pet::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      width: 42px;
+      height: 34px;
+      background: #d8c0a8;
+      border-radius: 12px 12px 14px 14px;
+      box-shadow:
+        inset -8px 0 0 #7a5b52,
+        0 5px 0 rgba(0,0,0,0.18);
+    }
+
+    .mini-pet::after {
+      content: "";
+      position: absolute;
+      left: 25px;
+      top: 28px;
+      width: 5px;
+      height: 5px;
+      background: #1e2431;
+      box-shadow: 16px 0 0 #1e2431;
+    }
+
+    .form-card {
+      position: relative;
+      padding: 34px;
+      background: var(--paper);
+      color: var(--paper-text);
+      border: 4px solid rgba(255, 255, 255, 0.58);
+      box-shadow:
+        0 0 0 2px rgba(35, 43, 65, 0.22),
+        0 22px 60px rgba(0, 0, 0, 0.26);
+    }
+
+    .form-card::before,
+    .form-card::after {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: rgba(64, 59, 72, 0.25);
+      border-style: solid;
+    }
+
+    .form-card::before {
+      top: 16px;
+      left: 16px;
+      border-width: 3px 0 0 3px;
+    }
+
+    .form-card::after {
+      right: 16px;
+      bottom: 16px;
+      border-width: 0 3px 3px 0;
+    }
+
+    .form-head {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-head h2 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: 2px;
+      color: #22283c;
+    }
+
+    .form-head p {
+      margin: 12px 0 0;
+      color: #77717a;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 700;
+      color: #333951;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .hint {
+      color: #8b8791;
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: -2px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 2px solid rgba(47, 56, 84, 0.18);
+      background: rgba(255, 255, 255, 0.54);
+      color: #2f3854;
+      outline: none;
+      padding: 13px 14px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.45);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(130, 102, 164, 0.55);
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,0.6),
+        0 0 0 4px rgba(184, 167, 216, 0.18);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 112px;
+      line-height: 1.8;
+    }
+
+    .photo-box {
+      border: 2px dashed rgba(47, 56, 84, 0.22);
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .photo-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .preview-item {
+      aspect-ratio: 1;
+      border: 2px solid rgba(47, 56, 84, 0.16);
+      background:
+        linear-gradient(135deg, rgba(184, 167, 216, 0.24), rgba(244, 215, 166, 0.22));
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: #7b7480;
+      font-size: 12px;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .privacy-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .privacy-option {
+      position: relative;
+    }
+
+    .privacy-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .privacy-option span {
+      display: block;
+      min-height: 80px;
+      padding: 14px;
+      border: 2px solid rgba(47, 56, 84, 0.16);
+      background: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      color: #4d5368;
+      line-height: 1.6;
+    }
+
+    .privacy-option strong {
+      display: block;
+      color: #2f3854;
+      margin-bottom: 4px;
+    }
+
+    .privacy-option input:checked + span {
+      border-color: rgba(130, 102, 164, 0.6);
+      background: rgba(184, 167, 216, 0.28);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.65);
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .pixel-button {
+      min-height: 56px;
+      border: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .pixel-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+    }
+
+    .pixel-button.primary {
+      flex: 1;
+      background: #152846;
+      color: var(--cream);
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, 0.07),
+        6px 6px 0 rgba(19, 25, 42, 0.18);
+    }
+
+    .pixel-button.secondary {
+      background: rgba(255, 255, 255, 0.45);
+      color: #2f3854;
+      box-shadow:
+        inset 0 0 0 3px rgba(47, 56, 84, 0.13),
+        6px 6px 0 rgba(47, 56, 84, 0.08);
+    }
+
+    .petals {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .petal {
+      position: absolute;
+      width: 12px;
+      height: 7px;
+      background: #dd91aa;
+      opacity: 0.65;
+      border-radius: 10px 0 10px 0;
+      animation: fall linear infinite;
+      image-rendering: pixelated;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -8vh, 0) rotate(0deg);
+        opacity: 0;
+      }
+
+      12% {
+        opacity: 0.75;
+      }
+
+      100% {
+        transform: translate3d(var(--drift), 105vh, 0) rotate(260deg);
+        opacity: 0;
+      }
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 34px;
+      transform: translateX(-50%) translateY(20px);
+      padding: 14px 22px;
+      background: rgba(8, 17, 33, 0.94);
+      color: var(--cream);
+      border: 2px solid rgba(246, 234, 214, 0.22);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s ease;
+      z-index: 99;
+      letter-spacing: 1px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .header {
+        padding: 22px 22px 0;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .shell {
+        grid-template-columns: 1fr;
+        width: min(720px, calc(100% - 32px));
+        margin-top: 34px;
+      }
+
+      .intro-card {
+        position: relative;
+        top: auto;
+        min-height: auto;
+      }
+
+      .mini-scene {
+        height: 280px;
+      }
+
+      .form-grid,
+      .privacy-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .form-card {
+        padding: 28px 22px;
+      }
+
+      .form-head h2 {
+        font-size: 26px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="stars" id="stars"></div>
+    <div class="moon" aria-hidden="true"></div>
+    <div class="petals" id="petals"></div>
+
+    <header class="header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>
+          <span class="brand-title">宠物纪念园</span>
+          <span class="brand-subtitle">珍藏每一次相遇</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="#" data-soon="纪念园页面下一步制作">纪念园</a>
+        <a class="active" href="#">创建纪念</a>
+        <a href="#" data-soon="故事页面后面制作">故事</a>
+      </nav>
+    </header>
+
+    <section class="shell">
+      <aside class="intro-card">
+        <h1>为它建立一座小小纪念</h1>
+        <p>
+          先写下它的名字、时间和想对它说的话。<br />
+          这些内容之后会出现在它的纪念馆里，也会用于生成专属墓碑。
+        </p>
+
+        <div class="mini-scene" aria-hidden="true">
+          <div class="mini-ground"></div>
+          <div class="mini-pet"></div>
+          <div class="mini-lantern"></div>
+          <div class="mini-tomb"></div>
+        </div>
+
+        <p>
+          当前只是前端版本，内容会先保存在浏览器里。后面接数据库后，就可以真正保存每一个纪念馆。
+        </p>
+      </aside>
+
+      <section class="form-card">
+        <div class="form-head">
+          <h2>创建纪念</h2>
+          <p>认真填写，不用一次写得很完美。以后还可以继续修改。</p>
+        </div>
+
+        <form id="memorialForm">
+          <div class="form-grid">
+            <div class="field">
+              <label for="petName">宠物名字 *</label>
+              <input id="petName" name="petName" type="text" placeholder="例如：小橘" required />
+            </div>
+
+            <div class="field">
+              <label for="petType">宠物类型</label>
+              <select id="petType" name="petType">
+                <option value="cat">猫</option>
+                <option value="dog">狗</option>
+                <option value="rabbit">兔子</option>
+                <option value="bird">鸟</option>
+                <option value="turtle">乌龟</option>
+                <option value="fish">鱼</option>
+                <option value="other">其他</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="birthDate">出生日期</label>
+              <input id="birthDate" name="birthDate" type="date" />
+            </div>
+
+            <div class="field">
+              <label for="deathDate">离开日期</label>
+              <input id="deathDate" name="deathDate" type="date" />
+            </div>
+
+            <div class="field full">
+              <label for="epitaph">墓志铭 *</label>
+              <input id="epitaph" name="epitaph" type="text" placeholder="例如：谢谢你陪伴我的每一天" required />
+              <div class="hint">这句话会出现在墓碑或纪念馆的显眼位置。</div>
+            </div>
+
+            <div class="field full">
+              <label for="story">它的故事</label>
+              <textarea id="story" name="story" placeholder="写下你们相遇、陪伴、分别的故事……"></textarea>
+            </div>
+
+            <div class="field full">
+              <label>纪念馆可见范围</label>
+
+              <div class="privacy-options">
+                <label class="privacy-option">
+                  <input type="radio" name="privacy" value="public" checked />
+                  <span>
+                    <strong>公开</strong>
+                    所有人都可以看到
+                  </span>
+                </label>
+
+                <label class="privacy-option">
+                  <input type="radio" name="privacy" value="invite" />
+                  <span>
+                    <strong>邀请可见</strong>
+                    只有链接访问者可见
+                  </span>
+                </label>
+
+                <label class="privacy-option">
+                  <input type="radio" name="privacy" value="private" />
+                  <span>
+                    <strong>仅自己</strong>
+                    只有你自己可见
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field full">
+              <label for="petPhotos">上传照片</label>
+              <div class="photo-box">
+                <input id="petPhotos" name="petPhotos" type="file" accept="image/*" multiple />
+                <div class="hint">现在先做预览效果。后面接数据库后，再做公开照片、隐私照片、墓碑展示照片的分类。</div>
+                <div class="photo-preview" id="photoPreview"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="pixel-button secondary" type="button" id="backHome">返回首页</button>
+            <button class="pixel-button primary" type="submit">保存并继续选择墓碑 ›</button>
+          </div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const stars = document.getElementById("stars");
+    const petals = document.getElementById("petals");
+    const toast = document.getElementById("toast");
+    const form = document.getElementById("memorialForm");
+    const photoInput = document.getElementById("petPhotos");
+    const photoPreview = document.getElementById("photoPreview");
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createStars() {
+      for (let i = 0; i < 42; i += 1) {
+        const star = document.createElement("span");
+        star.className = "star";
+        star.style.left = `${random(4, 96)}%`;
+        star.style.top = `${random(8, 58)}%`;
+        star.style.animationDelay = `${random(0, 4)}s`;
+        star.style.transform = `scale(${random(0.55, 1.1)})`;
+        stars.appendChild(star);
+      }
+    }
+
+    function createPetals() {
+      for (let i = 0; i < 16; i += 1) {
+        const petal = document.createElement("span");
+        petal.className = "petal";
+        petal.style.left = `${random(8, 95)}%`;
+        petal.style.top = `${random(-30, 30)}%`;
+        petal.style.setProperty("--drift", `${random(-80, 80)}px`);
+        petal.style.animationDuration = `${random(13, 23)}s`;
+        petal.style.animationDelay = `${random(0, 15)}s`;
+        petals.appendChild(petal);
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1900);
+    }
+
+    function getPrivacyValue() {
+      const selected = document.querySelector("input[name='privacy']:checked");
+      return selected ? selected.value : "public";
+    }
+
+    photoInput.addEventListener("change", () => {
+      photoPreview.innerHTML = "";
+
+      const files = Array.from(photoInput.files).slice(0, 6);
+
+      if (files.length === 0) {
+        return;
+      }
+
+      files.forEach((file) => {
+        const item = document.createElement("div");
+        item.className = "preview-item";
+
+        const img = document.createElement("img");
+        img.alt = "宠物照片预览";
+        img.src = URL.createObjectURL(file);
+
+        item.appendChild(img);
+        photoPreview.appendChild(item);
+      });
+
+      if (photoInput.files.length > 6) {
+        const item = document.createElement("div");
+        item.className = "preview-item";
+        item.textContent = `还有 ${photoInput.files.length - 6} 张`;
+        photoPreview.appendChild(item);
+      }
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const data = {
+        petName: document.getElementById("petName").value.trim(),
+        petType: document.getElementById("petType").value,
+        birthDate: document.getElementById("birthDate").value,
+        deathDate: document.getElementById("deathDate").value,
+        epitaph: document.getElementById("epitaph").value.trim(),
+        story: document.getElementById("story").value.trim(),
+        privacy: getPrivacyValue(),
+        savedAt: new Date().toISOString()
+      };
+
+      if (!data.petName || !data.epitaph) {
+        showToast("请先填写宠物名字和墓志铭");
+        return;
+      }
+
+      localStorage.setItem("petMemorialDraft", JSON.stringify(data));
+      showToast("已保存。下一步制作选择墓碑页面。");
+    });
+
+    document.getElementById("backHome").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    document.querySelectorAll("[data-soon]").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        event.preventDefault();
+        showToast(item.dataset.soon);
+      });
+    });
+
+    createStars();
+    createPetals();
+  </script>
+</body>
+</html>
