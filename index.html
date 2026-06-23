@@ -1,1 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>念之庭｜宠物纪念馆</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
 
+<body>
+  <div class="app">
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">◐</div>
+        <div>
+          <div class="brand-name">念之庭</div>
+          <div class="brand-subtitle">宠物纪念馆</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-link" data-target="home">首页</button>
+        <button class="nav-link" data-target="memorial">纪念馆</button>
+        <button class="nav-link" data-target="letters">留言</button>
+        <button class="nav-link" data-target="gallery">回忆</button>
+      </nav>
+
+      <button class="small-button" id="resetButton">重新创建</button>
+    </header>
+
+    <main>
+
+      <section class="hero section" id="homeSection">
+        <div class="hero-bg">
+          <div class="moon"></div>
+          <div class="star star-1"></div>
+          <div class="star star-2"></div>
+          <div class="star star-3"></div>
+          <div class="mountain mountain-1"></div>
+          <div class="mountain mountain-2"></div>
+          <div class="tree tree-left"></div>
+          <div class="tree tree-right"></div>
+        </div>
+
+        <div class="hero-content">
+          <div class="hero-text">
+            <p class="eyebrow">A quiet place for memories</p>
+            <h1>给它留下一处温柔的地方</h1>
+            <p class="hero-desc">
+              创建一个属于宠物的纪念空间。这里可以留下花瓣、留言、回忆，也会生成一个陪伴在页面里的电子宠物。
+            </p>
+            <div class="hero-actions">
+              <button class="primary-button" id="startCreateButton">开始创建</button>
+              <button class="ghost-button" id="viewMemorialButton">查看纪念页</button>
+            </div>
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-photo" id="previewPhoto">
+              <span>🐾</span>
+            </div>
+            <h2 id="previewName">墨墨</h2>
+            <p id="previewDate">2012.03.15 — 2024.05.20</p>
+            <div class="preview-line"></div>
+            <p id="previewEpitaph">
+              你用一生的陪伴<br />
+              把平凡的日子<br />
+              变成了永恒的温柔
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="create-section section" id="createSection">
+        <div class="section-title">
+          <p class="eyebrow">Create Memorial</p>
+          <h2>创建纪念页</h2>
+          <p>先填写基础信息，之后我们再继续做照片、留言、花瓣和电子宠物的细节。</p>
+        </div>
+
+        <form class="create-form" id="memorialForm">
+          <div class="form-grid">
+            <label>
+              宠物名字
+              <input type="text" id="petName" placeholder="例如：墨墨" required />
+            </label>
+
+            <label>
+              宠物类型
+              <select id="petType">
+                <option value="cat">猫</option>
+                <option value="dog">狗</option>
+                <option value="rabbit">兔子</option>
+                <option value="bird">鸟</option>
+                <option value="hamster">仓鼠</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+
+            <label>
+              出生日期
+              <input type="date" id="birthDate" />
+            </label>
+
+            <label>
+              离开日期
+              <input type="date" id="deathDate" />
+            </label>
+
+            <label>
+              性格
+              <select id="petPersonality">
+                <option value="gentle">温柔安静</option>
+                <option value="lively">活泼黏人</option>
+                <option value="proud">高冷傲娇</option>
+                <option value="brave">勇敢可靠</option>
+                <option value="sleepy">爱睡觉</option>
+              </select>
+            </label>
+
+            <label>
+              纪念页色调
+              <select id="themeTone">
+                <option value="night">月夜蓝</option>
+                <option value="warm">暖金色</option>
+                <option value="green">草木绿</option>
+                <option value="sakura">樱花粉</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            上传宠物照片
+            <input type="file" id="petImage" accept="image/*" />
+          </label>
+
+          <label>
+            墓志铭
+            <textarea id="epitaph" rows="4" placeholder="例如：你用一生的陪伴，把平凡的日子变成了永恒的温柔。"></textarea>
+          </label>
+
+          <label>
+            回忆故事
+            <textarea id="story" rows="5" placeholder="写下你和它之间的一段回忆。"></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-button">生成纪念页</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="memorial-section section hidden" id="memorialSection">
+        <div class="memorial-world" id="memorialWorld">
+          <div class="sky-layer">
+            <div class="big-moon"></div>
+            <div class="soft-cloud cloud-1"></div>
+            <div class="soft-cloud cloud-2"></div>
+          </div>
+
+          <div class="garden-layer">
+            <div class="stone-area">
+              <div class="tombstone">
+                <div class="stone-photo" id="stonePhoto">
+                  <span>🐾</span>
+                </div>
+                <h2 id="stoneName">墨墨</h2>
+                <p id="stoneDates">2012.03.15 — 2024.05.20</p>
+                <div class="stone-divider">✦</div>
+                <p id="stoneEpitaph">
+                  你用一生的陪伴<br />
+                  把平凡的日子<br />
+                  变成了永恒的温柔
+                </p>
+              </div>
+
+              <div class="pet-spirit" id="petSpirit">
+                <div class="pet-aura"></div>
+                <div class="pet-symbol" id="petSymbol">🐈</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <p class="eyebrow">Memorial</p>
+              <h2 id="cardName">墨墨</h2>
+              <p id="cardDates">2012.03.15 — 2024.05.20</p>
+              <div class="card-line"></div>
+              <p id="cardText">
+                它还在这个安静的地方，被想念，也被温柔地记住。
+              </p>
+            </div>
+
+            <div class="petal-ground" id="petalGround"></div>
+          </div>
+
+          <div class="action-dock">
+            <button class="action-button" id="petalButton">
+              <span>✿</span>
+              献一片花瓣
+              <strong id="petalCount">0</strong>
+            </button>
+
+            <button class="action-button" id="letterButton">
+              <span>✉</span>
+              留言
+              <strong id="letterCount">0</strong>
+            </button>
+
+            <button class="action-button" id="storyButton">
+              <span>◌</span>
+              回忆
+            </button>
+
+            <button class="action-button" id="petButton">
+              <span>☾</span>
+              呼唤它
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="letters-section section hidden" id="lettersSection">
+        <div class="section-title">
+          <p class="eyebrow">Letters</p>
+          <h2>留言</h2>
+          <p>来过的人，可以在这里留下一句话。</p>
+        </div>
+
+        <div class="letters-list" id="lettersList">
+          <div class="empty-note">还没有留言。</div>
+        </div>
+      </section>
+
+      <section class="gallery-section section hidden" id="gallerySection">
+        <div class="section-title">
+          <p class="eyebrow">Memories</p>
+          <h2>回忆</h2>
+          <p id="storyDisplay">还没有写下回忆。</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="modal hidden" id="letterModal">
+    <div class="modal-panel">
+      <button class="modal-close" id="closeLetterModal">×</button>
+      <h2>留下一句话</h2>
+      <p>这句话会留在它的纪念页里。</p>
+
+      <textarea id="letterInput" rows="5" placeholder="写下想对它说的话。"></textarea>
+
+      <div class="modal-actions">
+        <button class="ghost-button" id="cancelLetterButton">取消</button>
+        <button class="primary-button" id="saveLetterButton">保存留言</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+</body>
+</html>
