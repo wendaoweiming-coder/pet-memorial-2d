@@ -1037,7 +1037,7 @@
 
       <nav class="nav" aria-label="主导航">
         <a class="active" href="index.html">首页</a>
-        <a href="cemetery.html">纪念园</a>
+        <a href="#" id="navGarden">纪念园</a>
         <a href="create.html">创建纪念</a>
         <a href="#" data-soon="故事页面后面制作">故事</a>
         <button class="nav-action" type="button" data-soon="登录功能后面再接">登录</button>
@@ -1211,8 +1211,35 @@
       }, 1800);
     }
 
+    function hasSavedMemorial() {
+      try {
+        const draft = JSON.parse(localStorage.getItem("petMemorialDraft"));
+        return Boolean(draft && draft.petName && draft.epitaph);
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function openGarden() {
+      if (hasSavedMemorial()) {
+        window.location.href = "cemetery.html";
+        return;
+      }
+
+      showToast("还没有创建纪念，先进入创建页面。");
+
+      setTimeout(() => {
+        window.location.href = "create.html";
+      }, 700);
+    }
+
     document.getElementById("enterGarden").addEventListener("click", () => {
-      window.location.href = "cemetery.html";
+      openGarden();
+    });
+
+    document.getElementById("navGarden").addEventListener("click", (event) => {
+      event.preventDefault();
+      openGarden();
     });
 
     document.getElementById("createMemorial").addEventListener("click", () => {
