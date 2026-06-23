@@ -689,8 +689,8 @@
 
       <nav class="nav" aria-label="主导航">
         <a href="index.html">首页</a>
-        <a href="#" data-soon="纪念园页面下一步制作">纪念园</a>
-        <a class="active" href="#">创建纪念</a>
+        <a href="cemetery.html">纪念园</a>
+        <a class="active" href="create.html">创建纪念</a>
         <a href="#" data-soon="故事页面后面制作">故事</a>
       </nav>
     </header>
@@ -865,6 +865,31 @@
       return selected ? selected.value : "public";
     }
 
+    function loadExistingDraft() {
+      try {
+        const draft = JSON.parse(localStorage.getItem("petMemorialDraft"));
+
+        if (!draft) {
+          return;
+        }
+
+        document.getElementById("petName").value = draft.petName || "";
+        document.getElementById("petType").value = draft.petType || "cat";
+        document.getElementById("birthDate").value = draft.birthDate || "";
+        document.getElementById("deathDate").value = draft.deathDate || "";
+        document.getElementById("epitaph").value = draft.epitaph || "";
+        document.getElementById("story").value = draft.story || "";
+
+        const privacy = draft.privacy || "public";
+        const privacyInput = document.querySelector(`input[name='privacy'][value='${privacy}']`);
+        if (privacyInput) {
+          privacyInput.checked = true;
+        }
+      } catch (error) {
+        return;
+      }
+    }
+
     photoInput.addEventListener("change", () => {
       photoPreview.innerHTML = "";
 
@@ -897,7 +922,16 @@
     form.addEventListener("submit", (event) => {
       event.preventDefault();
 
+      let oldDraft = {};
+
+      try {
+        oldDraft = JSON.parse(localStorage.getItem("petMemorialDraft")) || {};
+      } catch (error) {
+        oldDraft = {};
+      }
+
       const data = {
+        ...oldDraft,
         petName: document.getElementById("petName").value.trim(),
         petType: document.getElementById("petType").value,
         birthDate: document.getElementById("birthDate").value,
@@ -914,7 +948,11 @@
       }
 
       localStorage.setItem("petMemorialDraft", JSON.stringify(data));
-      showToast("已保存。下一步制作选择墓碑页面。");
+      showToast("已保存，正在进入墓碑选择页面。");
+
+      setTimeout(() => {
+        window.location.href = "select-stone.html";
+      }, 700);
     });
 
     document.getElementById("backHome").addEventListener("click", () => {
@@ -930,6 +968,7 @@
 
     createStars();
     createPetals();
+    loadExistingDraft();
   </script>
 </body>
 </html>
