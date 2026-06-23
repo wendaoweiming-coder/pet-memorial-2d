@@ -874,7 +874,8 @@
       <nav class="nav" aria-label="主导航">
         <a href="index.html">首页</a>
         <a href="create.html">创建纪念</a>
-        <a class="active" href="#">选择墓碑</a>
+        <a class="active" href="select-stone.html">选择墓碑</a>
+        <a href="cemetery.html">纪念馆</a>
       </nav>
     </header>
 
@@ -1086,6 +1087,10 @@
       previewYears.textContent = formatYears(draft);
       previewEpitaph.textContent = draft.epitaph || "谢谢你陪伴我的每一天";
       summaryName.textContent = draft.petName || "小橘";
+
+      if (draft.stone) {
+        selectedStone = draft.stone;
+      }
     }
 
     function updateMainStone() {
@@ -1099,16 +1104,19 @@
         <strong>当前选择：</strong>${selectedStone.name}<br />
         <strong>纪念对象：</strong>${previewName.textContent}
       `;
+
+      document.querySelectorAll(".stone-option").forEach((item) => {
+        const isSame =
+          item.dataset.shape === selectedStone.shape &&
+          item.dataset.color === selectedStone.color &&
+          item.dataset.name === selectedStone.name;
+
+        item.classList.toggle("active", isSame);
+      });
     }
 
     document.querySelectorAll(".stone-option").forEach((button) => {
       button.addEventListener("click", () => {
-        document.querySelectorAll(".stone-option").forEach((item) => {
-          item.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
         selectedStone = {
           shape: button.dataset.shape,
           color: button.dataset.color,
@@ -1130,7 +1138,11 @@
       draft.selectedAt = new Date().toISOString();
 
       localStorage.setItem("petMemorialDraft", JSON.stringify(draft));
-      showToast("墓碑已保存。下一步制作最终纪念馆页面。");
+      showToast("墓碑已保存，正在进入纪念馆。");
+
+      setTimeout(() => {
+        window.location.href = "cemetery.html";
+      }, 700);
     });
 
     createStars();
