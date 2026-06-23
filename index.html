@@ -7,20 +7,21 @@
 
   <style>
     :root {
-      --night-1: #071326;
-      --night-2: #0d1d38;
-      --night-3: #172b4f;
-      --cream: #f6ead6;
-      --cream-2: #fff8ec;
-      --gold: #f4d7a6;
-      --lavender: #b8a7d8;
-      --pink: #e7a9b9;
-      --blue-soft: #94aeca;
-      --green-soft: #8fa88d;
-      --text: #f7efe2;
-      --muted: #b9c0d1;
-      --dark-panel: rgba(9, 20, 39, 0.72);
-      --line: rgba(255, 236, 205, 0.22);
+      --bg-1: #050b16;
+      --bg-2: #0b1830;
+      --bg-3: #122641;
+      --cream: #f7ead3;
+      --cream-soft: rgba(247, 234, 211, 0.72);
+      --paper: #fff7e8;
+      --paper-2: #f1ddbd;
+      --ink: #20283f;
+      --muted: #70768a;
+      --gold: #f2d19a;
+      --rose: #d98ea5;
+      --lavender: #9f86c0;
+      --green: #6f9475;
+      --line: rgba(255, 235, 196, 0.18);
+      --shadow: rgba(0, 0, 0, 0.34);
     }
 
     * {
@@ -37,8 +38,8 @@
         "Noto Sans SC",
         system-ui,
         sans-serif;
-      background: #06101f;
-      color: var(--text);
+      background: var(--bg-1);
+      color: var(--cream);
     }
 
     body {
@@ -60,34 +61,57 @@
       min-height: 100vh;
       overflow: hidden;
       background:
-        radial-gradient(circle at 72% 18%, rgba(214, 201, 162, 0.18), transparent 13%),
-        linear-gradient(180deg, var(--night-1) 0%, var(--night-2) 48%, #101f32 100%);
+        radial-gradient(circle at 72% 18%, rgba(247, 214, 150, 0.18), transparent 12%),
+        radial-gradient(circle at 18% 78%, rgba(136, 101, 171, 0.18), transparent 22%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 48%, #0f2335 100%);
     }
 
-    .stars {
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 6px 6px;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .stars,
+    .petals {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 1;
+    }
+
+    .stars {
+      z-index: 2;
+    }
+
+    .petals {
+      z-index: 15;
     }
 
     .star {
       position: absolute;
       width: 3px;
       height: 3px;
-      background: #fff6d6;
+      background: #fff5c8;
       box-shadow:
-        4px 0 #fff6d6,
-        0 4px #fff6d6,
-        4px 4px #fff6d6;
-      opacity: 0.75;
-      animation: twinkle 4s ease-in-out infinite;
+        4px 0 #fff5c8,
+        0 4px #fff5c8,
+        4px 4px #fff5c8;
+      opacity: 0.68;
+      image-rendering: pixelated;
+      animation: starBlink 4s ease-in-out infinite;
     }
 
-    @keyframes twinkle {
+    @keyframes starBlink {
       0%, 100% {
-        opacity: 0.35;
-        transform: scale(0.8);
+        opacity: 0.28;
+        transform: scale(0.75);
       }
 
       50% {
@@ -98,84 +122,44 @@
 
     .moon {
       position: absolute;
-      right: 17%;
-      top: 13%;
-      width: 108px;
-      height: 108px;
+      right: 15vw;
+      top: 105px;
+      width: 112px;
+      height: 112px;
       border-radius: 50%;
       background:
-        radial-gradient(circle at 35% 35%, #fff9d8 0 10%, transparent 11%),
-        radial-gradient(circle at 62% 42%, rgba(165, 150, 120, 0.28) 0 12%, transparent 13%),
-        radial-gradient(circle at 43% 68%, rgba(150, 139, 116, 0.23) 0 10%, transparent 11%),
-        #f6e8b6;
+        radial-gradient(circle at 34% 34%, rgba(255,255,255,0.75) 0 8%, transparent 9%),
+        radial-gradient(circle at 65% 44%, rgba(130,113,91,0.22) 0 12%, transparent 13%),
+        radial-gradient(circle at 45% 70%, rgba(130,113,91,0.2) 0 10%, transparent 11%),
+        #f4e4ad;
       box-shadow:
-        0 0 0 5px rgba(255, 240, 187, 0.06),
-        0 0 36px rgba(255, 236, 180, 0.38),
-        0 0 90px rgba(194, 189, 255, 0.16);
-      image-rendering: pixelated;
+        0 0 0 8px rgba(244, 228, 173, 0.05),
+        0 0 42px rgba(244, 228, 173, 0.34),
+        0 0 110px rgba(180, 167, 255, 0.18);
       z-index: 2;
-    }
-
-    .cloud {
-      position: absolute;
-      height: 38px;
-      opacity: 0.25;
-      filter: blur(0.2px);
-      z-index: 2;
-    }
-
-    .cloud::before,
-    .cloud::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      background: #667a9f;
       image-rendering: pixelated;
     }
 
-    .cloud::before {
-      width: 170px;
-      height: 22px;
-      left: 0;
-      box-shadow:
-        22px -16px 0 #667a9f,
-        62px -24px 0 #667a9f,
-        102px -10px 0 #667a9f;
-    }
-
-    .cloud::after {
-      width: 88px;
-      height: 12px;
-      left: 118px;
-      bottom: 0;
-      background: #6d82aa;
-    }
-
-    .cloud.one {
-      top: 24%;
-      left: 37%;
-      transform: scale(0.95);
-    }
-
-    .cloud.two {
-      top: 38%;
-      left: 8%;
-      transform: scale(0.75);
-    }
-
-    .cloud.three {
-      top: 32%;
-      right: 22%;
-      transform: scale(0.65);
+    .mist {
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      bottom: 29%;
+      height: 130px;
+      background:
+        linear-gradient(90deg, transparent, rgba(186, 197, 223, 0.08), transparent),
+        linear-gradient(180deg, transparent, rgba(186, 197, 223, 0.06), transparent);
+      filter: blur(12px);
+      z-index: 2;
     }
 
     .header {
       position: relative;
-      z-index: 10;
+      z-index: 30;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 30px 7vw 0;
+      padding: 28px 7vw 0;
     }
 
     .brand {
@@ -185,55 +169,54 @@
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
       position: relative;
+      width: 44px;
+      height: 44px;
       image-rendering: pixelated;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
     }
 
     .brand-mark::before {
       content: "";
       position: absolute;
       left: 14px;
-      top: 16px;
-      width: 16px;
-      height: 14px;
+      top: 17px;
+      width: 17px;
+      height: 15px;
       background: var(--cream);
+      border-radius: 5px;
       box-shadow:
-        -8px -10px 0 -2px var(--cream),
-        9px -10px 0 -2px var(--cream),
-        -14px 0 0 -3px var(--cream),
-        15px 0 0 -3px var(--cream),
-        0 12px 0 -5px var(--cream);
-      border-radius: 4px;
-    }
-
-    .brand-text {
-      line-height: 1.15;
+        -9px -11px 0 -2px var(--cream),
+        10px -11px 0 -2px var(--cream),
+        -15px 0 0 -3px var(--cream),
+        16px 0 0 -3px var(--cream),
+        0 13px 0 -5px var(--cream);
     }
 
     .brand-title {
-      font-size: 24px;
+      display: block;
+      font-size: 23px;
+      font-weight: 800;
       letter-spacing: 2px;
       color: var(--cream);
-      font-weight: 700;
-      text-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+      text-shadow: 0 3px 0 rgba(0,0,0,0.25);
     }
 
     .brand-subtitle {
-      margin-top: 6px;
+      display: block;
+      margin-top: 5px;
       font-size: 12px;
       letter-spacing: 2px;
-      color: rgba(246, 234, 214, 0.58);
+      color: rgba(247, 234, 211, 0.55);
     }
 
     .nav {
       display: flex;
       align-items: center;
-      gap: 34px;
-      color: rgba(255, 248, 236, 0.78);
+      gap: 26px;
       font-size: 15px;
       letter-spacing: 1px;
+      color: rgba(247, 234, 211, 0.75);
     }
 
     .nav a {
@@ -253,153 +236,110 @@
       bottom: -5px;
       height: 3px;
       background: var(--gold);
-      box-shadow: 0 0 12px rgba(244, 215, 166, 0.55);
+      box-shadow: 0 0 14px rgba(242, 209, 154, 0.65);
     }
 
     .nav-action {
       padding: 9px 18px;
-      border: 2px solid rgba(246, 234, 214, 0.28);
-      background: rgba(6, 14, 27, 0.35);
+      border: 2px solid rgba(247, 234, 211, 0.22);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--cream);
       cursor: pointer;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.04),
+        0 10px 26px rgba(0,0,0,0.18);
     }
 
     .hero {
       position: relative;
-      z-index: 5;
+      z-index: 10;
       min-height: calc(100vh - 72px);
       display: grid;
-      grid-template-columns: minmax(360px, 0.9fr) minmax(480px, 1.1fr);
+      grid-template-columns: minmax(360px, 0.9fr) minmax(520px, 1.1fr);
+      gap: 44px;
       align-items: center;
-      gap: 40px;
-      padding: 60px 7vw 92px;
+      padding: 56px 7vw 92px;
     }
 
-    .welcome-card {
+    .hero-copy {
       position: relative;
-      max-width: 500px;
-      padding: 52px 48px 44px;
-      background:
-        linear-gradient(180deg, rgba(255, 249, 235, 0.97), rgba(246, 234, 214, 0.94));
-      color: #25304a;
-      border: 4px solid rgba(255, 255, 255, 0.56);
-      box-shadow:
-        0 0 0 2px rgba(35, 43, 65, 0.25),
-        0 22px 60px rgba(0, 0, 0, 0.28);
-      image-rendering: pixelated;
+      max-width: 530px;
     }
 
-    .welcome-card::before,
-    .welcome-card::after {
-      content: "";
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      border-color: rgba(64, 59, 72, 0.25);
-      border-style: solid;
-    }
-
-    .welcome-card::before {
-      top: 16px;
-      left: 16px;
-      border-width: 3px 0 0 3px;
-    }
-
-    .welcome-card::after {
-      right: 16px;
-      bottom: 16px;
-      border-width: 0 3px 3px 0;
-    }
-
-    .card-emblem {
-      width: 66px;
-      height: 42px;
-      margin: 0 auto 28px;
-      position: relative;
-      opacity: 0.55;
-    }
-
-    .card-emblem::before {
-      content: "⌾";
-      position: absolute;
-      inset: 0;
-      text-align: center;
-      font-size: 38px;
-      line-height: 42px;
-      color: #796f62;
-    }
-
-    .welcome-card h1 {
-      margin: 0;
-      text-align: center;
-      font-size: clamp(32px, 4vw, 44px);
-      letter-spacing: 2px;
-      color: #22283c;
-      font-weight: 700;
-    }
-
-    .welcome-card .tagline {
-      margin: 18px 0 0;
-      text-align: center;
-      color: #766f70;
-      font-size: 17px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin-bottom: 22px;
+      color: rgba(247, 234, 211, 0.76);
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(247, 234, 211, 0.16);
+      box-shadow: 0 14px 38px rgba(0,0,0,0.18);
+      backdrop-filter: blur(8px);
+      font-size: 13px;
       letter-spacing: 1px;
     }
 
-    .small-divider {
-      width: 170px;
-      height: 1px;
-      background: rgba(50, 44, 55, 0.18);
-      margin: 26px auto;
-      position: relative;
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      box-shadow:
+        10px 0 0 rgba(217, 142, 165, 0.9),
+        20px 0 0 rgba(159, 134, 192, 0.9);
+      image-rendering: pixelated;
     }
 
-    .small-divider::after {
-      content: "♥";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      padding: 0 12px;
-      background: var(--cream-2);
-      color: #c98b9a;
-      font-size: 13px;
+    .hero h1 {
+      margin: 0;
+      color: var(--cream);
+      font-size: clamp(44px, 5.6vw, 76px);
+      line-height: 1.05;
+      letter-spacing: 3px;
+      text-shadow:
+        0 5px 0 rgba(0,0,0,0.18),
+        0 24px 70px rgba(0,0,0,0.42);
     }
 
-    .welcome-card p {
-      text-align: center;
-      color: #5f6575;
-      line-height: 1.9;
-      font-size: 15px;
-      margin: 0 0 30px;
+    .hero h1 span {
+      display: block;
+      color: #f2d19a;
     }
 
-    .button-stack {
-      display: grid;
+    .hero-desc {
+      margin: 24px 0 0;
+      max-width: 460px;
+      color: rgba(247, 234, 211, 0.72);
+      line-height: 1.95;
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
       gap: 16px;
-      margin-top: 18px;
+      margin-top: 34px;
+      flex-wrap: wrap;
     }
 
     .pixel-button {
-      position: relative;
       min-height: 58px;
       border: 0;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 0 26px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      transition: transform 0.15s ease, filter 0.15s ease;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 25px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      transition: transform 0.16s ease, filter 0.16s ease;
       image-rendering: pixelated;
     }
 
     .pixel-button:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.04);
+      transform: translateY(-3px);
+      filter: brightness(1.05);
     }
 
     .pixel-button:active {
@@ -407,241 +347,335 @@
     }
 
     .pixel-button.primary {
-      background: #152846;
-      color: var(--cream);
+      min-width: 188px;
+      background: var(--paper);
+      color: var(--ink);
       box-shadow:
-        inset 0 0 0 3px rgba(255, 255, 255, 0.07),
-        6px 6px 0 rgba(19, 25, 42, 0.26);
+        inset 0 0 0 3px rgba(32,40,63,0.12),
+        7px 7px 0 rgba(0,0,0,0.25),
+        0 18px 46px rgba(0,0,0,0.28);
     }
 
     .pixel-button.secondary {
-      background: rgba(255, 255, 255, 0.38);
-      color: #2f3854;
+      min-width: 168px;
+      color: var(--cream);
+      background: rgba(255, 255, 255, 0.06);
+      border: 2px solid rgba(247, 234, 211, 0.25);
       box-shadow:
-        inset 0 0 0 3px rgba(47, 56, 84, 0.15),
-        6px 6px 0 rgba(47, 56, 84, 0.09);
-    }
-
-    .button-left {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      font-size: 20px;
+        inset 0 0 0 1px rgba(255,255,255,0.05),
+        7px 7px 0 rgba(0,0,0,0.18);
     }
 
     .button-icon {
-      width: 24px;
-      height: 24px;
-      display: inline-grid;
+      width: 22px;
+      height: 22px;
+      display: grid;
       place-items: center;
-      font-size: 20px;
+      font-size: 18px;
     }
 
-    .lang-row {
-      margin-top: 24px;
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 460px;
+      margin-top: 34px;
+    }
+
+    .meta-card {
+      padding: 14px 12px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(247, 234, 211, 0.14);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.16);
+      backdrop-filter: blur(8px);
+    }
+
+    .meta-card strong {
+      display: block;
+      color: var(--cream);
+      font-size: 19px;
+      margin-bottom: 4px;
+    }
+
+    .meta-card span {
+      color: rgba(247, 234, 211, 0.55);
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .language-wrap {
+      margin-top: 26px;
       display: flex;
-      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      color: rgba(247, 234, 211, 0.55);
+      font-size: 13px;
     }
 
     .language-select {
-      min-width: 160px;
-      padding: 10px 16px;
-      background: rgba(255, 255, 255, 0.36);
-      border: 2px solid rgba(47, 56, 84, 0.16);
-      color: #3e465e;
+      min-width: 150px;
+      padding: 10px 14px;
+      color: var(--cream);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(247, 234, 211, 0.18);
       outline: none;
     }
 
-    .garden {
+    .language-select option {
+      background: #0b1830;
+      color: var(--cream);
+    }
+
+    .scene-card {
       position: relative;
-      min-height: 550px;
-      align-self: stretch;
-    }
-
-    .ground {
-      position: absolute;
-      left: -5%;
-      right: -12%;
-      bottom: 0;
-      height: 56%;
+      min-height: 660px;
+      border: 2px solid rgba(247, 234, 211, 0.18);
       background:
-        radial-gradient(ellipse at 68% 72%, rgba(246, 204, 119, 0.18), transparent 26%),
-        radial-gradient(ellipse at 47% 58%, rgba(143, 168, 141, 0.22), transparent 34%),
-        linear-gradient(180deg, rgba(35, 73, 74, 0.08), #173028 45%, #10251f 100%);
-      border-radius: 60% 40% 0 0 / 24% 18% 0 0;
-      box-shadow: 0 -40px 80px rgba(9, 17, 33, 0.2);
-      z-index: 2;
+        radial-gradient(circle at 70% 22%, rgba(244, 228, 173, 0.08), transparent 18%),
+        linear-gradient(180deg, rgba(14, 30, 58, 0.58), rgba(9, 23, 38, 0.72));
+      box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.32),
+        inset 0 0 0 1px rgba(255,255,255,0.045);
+      overflow: hidden;
+      backdrop-filter: blur(8px);
     }
 
-    .hill {
+    .scene-card::before,
+    .scene-card::after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-color: rgba(247, 234, 211, 0.22);
+      border-style: solid;
+      z-index: 20;
+    }
+
+    .scene-card::before {
+      top: 18px;
+      left: 18px;
+      border-width: 3px 0 0 3px;
+    }
+
+    .scene-card::after {
+      right: 18px;
+      bottom: 18px;
+      border-width: 0 3px 3px 0;
+    }
+
+    .scene-label {
+      position: absolute;
+      top: 30px;
+      left: 34px;
+      z-index: 20;
+      padding: 10px 14px;
+      color: rgba(247, 234, 211, 0.72);
+      background: rgba(5, 11, 22, 0.38);
+      border: 1px solid rgba(247, 234, 211, 0.14);
+      font-size: 13px;
+      letter-spacing: 1px;
+      backdrop-filter: blur(8px);
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .scene-hill {
       position: absolute;
       bottom: 36%;
-      height: 160px;
-      background: rgba(39, 63, 79, 0.52);
+      height: 170px;
       border-radius: 50% 50% 0 0;
       z-index: 1;
+      background: rgba(41, 67, 83, 0.52);
     }
 
-    .hill.one {
-      left: -5%;
-      width: 45%;
-      bottom: 35%;
+    .scene-hill.one {
+      left: -12%;
+      width: 52%;
     }
 
-    .hill.two {
-      left: 20%;
-      width: 50%;
-      bottom: 33%;
-      background: rgba(49, 74, 89, 0.42);
+    .scene-hill.two {
+      left: 18%;
+      width: 58%;
+      bottom: 34%;
+      background: rgba(49, 78, 91, 0.42);
     }
 
-    .hill.three {
-      right: -14%;
-      width: 62%;
-      bottom: 36%;
-      background: rgba(38, 58, 77, 0.55);
+    .scene-hill.three {
+      right: -18%;
+      width: 66%;
+      background: rgba(34, 56, 74, 0.56);
     }
 
-    .path {
+    .scene-ground {
+      position: absolute;
+      left: -12%;
+      right: -12%;
+      bottom: 0;
+      height: 54%;
+      z-index: 3;
+      background:
+        radial-gradient(ellipse at 55% 62%, rgba(244, 209, 154, 0.18), transparent 24%),
+        radial-gradient(ellipse at 38% 65%, rgba(111, 148, 117, 0.26), transparent 28%),
+        linear-gradient(180deg, rgba(27, 62, 61, 0.06), #17352c 38%, #0e241e 100%);
+      border-radius: 58% 42% 0 0 / 20% 18% 0 0;
+      box-shadow: 0 -36px 70px rgba(0,0,0,0.18);
+    }
+
+    .scene-path {
       position: absolute;
       left: 8%;
-      bottom: 7%;
-      width: 70%;
-      height: 35%;
-      z-index: 3;
-      transform: perspective(320px) rotateX(58deg) rotateZ(-8deg);
+      bottom: 4%;
+      width: 74%;
+      height: 38%;
+      z-index: 4;
+      transform: perspective(320px) rotateX(58deg) rotateZ(-7deg);
       transform-origin: bottom center;
     }
 
-    .stone-step {
+    .step {
       position: absolute;
-      width: 84px;
+      width: 86px;
       height: 28px;
-      background: #5d6579;
-      border: 3px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 5px 5px 0 rgba(10, 16, 30, 0.35);
-      opacity: 0.82;
+      background: #596479;
+      border: 3px solid rgba(255,255,255,0.12);
+      box-shadow: 5px 5px 0 rgba(5, 11, 22, 0.38);
+      opacity: 0.86;
     }
 
-    .stone-step.s1 { left: 15%; bottom: 6%; }
-    .stone-step.s2 { left: 31%; bottom: 16%; width: 100px; }
-    .stone-step.s3 { left: 47%; bottom: 30%; width: 118px; }
-    .stone-step.s4 { left: 61%; bottom: 47%; width: 132px; }
-    .stone-step.s5 { left: 72%; bottom: 66%; width: 112px; }
+    .step.s1 { left: 12%; bottom: 7%; }
+    .step.s2 { left: 27%; bottom: 19%; width: 104px; }
+    .step.s3 { left: 42%; bottom: 35%; width: 122px; }
+    .step.s4 { left: 58%; bottom: 54%; width: 138px; }
+    .step.s5 { left: 72%; bottom: 73%; width: 116px; }
 
-    .tree {
+    .big-tree {
       position: absolute;
-      right: -2%;
-      bottom: 20%;
-      width: 240px;
-      height: 360px;
-      z-index: 5;
+      right: -52px;
+      bottom: 125px;
+      width: 286px;
+      height: 390px;
+      z-index: 8;
       pointer-events: none;
     }
 
-    .trunk {
+    .tree-trunk {
       position: absolute;
-      right: 78px;
+      right: 88px;
       bottom: 0;
-      width: 54px;
-      height: 246px;
+      width: 56px;
+      height: 260px;
       background:
-        linear-gradient(90deg, #2a1f24, #54363b 45%, #241b22);
+        linear-gradient(90deg, #251a21, #56383d 45%, #221920);
       box-shadow:
-        -14px 42px 0 #2b2027,
-        18px 86px 0 #3b2930;
-      transform: skewX(-7deg);
+        -14px 50px 0 #2a1d25,
+        18px 96px 0 #3d2a31;
+      transform: skewX(-6deg);
     }
 
     .branch {
       position: absolute;
-      background: #3c2931;
       height: 22px;
+      background: #3c2830;
       transform-origin: left center;
     }
 
     .branch.b1 {
-      width: 170px;
-      right: 34px;
-      top: 92px;
-      transform: rotate(-23deg);
+      width: 188px;
+      right: 38px;
+      top: 94px;
+      transform: rotate(-22deg);
     }
 
     .branch.b2 {
-      width: 120px;
-      right: 104px;
-      top: 146px;
+      width: 135px;
+      right: 118px;
+      top: 152px;
       transform: rotate(-48deg);
     }
 
     .branch.b3 {
-      width: 130px;
-      right: 20px;
-      top: 170px;
-      transform: rotate(18deg);
+      width: 145px;
+      right: 14px;
+      top: 176px;
+      transform: rotate(16deg);
     }
 
-    .blossom {
+    .branch.b4 {
+      width: 95px;
+      right: 110px;
+      top: 218px;
+      transform: rotate(34deg);
+    }
+
+    .leaf-cluster {
       position: absolute;
       width: 18px;
       height: 18px;
-      background: #8d659f;
+      background: #80619a;
       box-shadow:
-        18px 0 #a77ab1,
-        -18px 0 #735789,
-        0 18px #b784b0,
-        0 -18px #8e6aaa,
-        36px 18px #956ca7,
-        -36px 20px #694f82,
-        16px -34px #b181b6;
-      opacity: 0.9;
+        18px 0 #a17ab4,
+        -18px 0 #675381,
+        0 18px #b187b8,
+        0 -18px #9270ac,
+        36px 18px #8f6ba7,
+        -36px 18px #665181,
+        18px -36px #b188bc,
+        -18px -34px #765c92;
+      opacity: 0.92;
+      image-rendering: pixelated;
     }
 
-    .blossom.c1 { right: 8px; top: 54px; }
-    .blossom.c2 { right: 84px; top: 30px; transform: scale(1.2); }
-    .blossom.c3 { right: 122px; top: 94px; transform: scale(1.1); }
-    .blossom.c4 { right: 20px; top: 134px; transform: scale(0.9); }
-    .blossom.c5 { right: 150px; top: 145px; transform: scale(0.8); }
+    .leaf-cluster.c1 { right: 4px; top: 54px; }
+    .leaf-cluster.c2 { right: 86px; top: 28px; transform: scale(1.2); }
+    .leaf-cluster.c3 { right: 138px; top: 98px; transform: scale(1.05); }
+    .leaf-cluster.c4 { right: 20px; top: 142px; transform: scale(0.95); }
+    .leaf-cluster.c5 { right: 158px; top: 158px; transform: scale(0.78); }
 
-    .tomb-area {
+    .tomb-wrap {
       position: absolute;
-      right: 18%;
-      bottom: 17%;
-      width: 230px;
-      height: 300px;
-      z-index: 6;
+      left: 48%;
+      bottom: 122px;
+      width: 270px;
+      height: 360px;
+      transform: translateX(-50%);
+      z-index: 12;
     }
 
-    .tombstone {
+    .tomb {
       position: absolute;
-      left: 32px;
-      bottom: 52px;
-      width: 155px;
-      height: 210px;
+      left: 50%;
+      bottom: 66px;
+      width: 168px;
+      height: 226px;
+      transform: translateX(-50%);
+      border: 5px solid rgba(25, 31, 47, 0.62);
+      border-radius: 82px 82px 9px 9px;
       background:
-        radial-gradient(circle at 40% 28%, rgba(255, 255, 255, 0.18), transparent 8%),
-        linear-gradient(90deg, #6e7182, #8a8b98 46%, #5c6375);
-      border: 5px solid rgba(27, 31, 45, 0.55);
-      border-radius: 74px 74px 8px 8px;
+        radial-gradient(circle at 42% 27%, rgba(255,255,255,0.17), transparent 8%),
+        linear-gradient(90deg, #687084, #8b8c99 46%, #596176);
       box-shadow:
-        inset 9px 0 0 rgba(255, 255, 255, 0.1),
-        inset -10px -8px 0 rgba(0, 0, 0, 0.12),
-        12px 12px 0 rgba(5, 12, 24, 0.32);
+        inset 9px 0 0 rgba(255,255,255,0.1),
+        inset -10px -8px 0 rgba(0,0,0,0.14),
+        14px 14px 0 rgba(5, 11, 22, 0.32);
     }
 
-    .tombstone::before {
+    .tomb::before {
       content: "";
       position: absolute;
-      left: -12px;
-      right: -12px;
-      bottom: -28px;
-      height: 30px;
-      background: #62697c;
-      border: 4px solid rgba(27, 31, 45, 0.5);
-      box-shadow: inset 5px 5px 0 rgba(255, 255, 255, 0.08);
+      left: -15px;
+      right: -15px;
+      bottom: -31px;
+      height: 33px;
+      background: #606a7d;
+      border: 4px solid rgba(25, 31, 47, 0.54);
+      box-shadow: inset 5px 5px 0 rgba(255,255,255,0.08);
     }
 
-    .paw-on-stone {
+    .stone-paw {
       position: absolute;
       left: 50%;
       top: 42px;
@@ -650,65 +684,63 @@
       height: 36px;
     }
 
-    .paw-on-stone::before {
+    .stone-paw::before {
       content: "";
       position: absolute;
       left: 12px;
       top: 15px;
       width: 20px;
       height: 17px;
-      background: rgba(39, 45, 62, 0.75);
-      border-radius: 8px 8px 7px 7px;
+      background: rgba(33, 40, 58, 0.75);
+      border-radius: 8px;
       box-shadow:
-        -9px -9px 0 -4px rgba(39, 45, 62, 0.75),
-        9px -9px 0 -4px rgba(39, 45, 62, 0.75),
-        -16px 2px 0 -5px rgba(39, 45, 62, 0.75),
-        17px 2px 0 -5px rgba(39, 45, 62, 0.75);
+        -9px -9px 0 -4px rgba(33, 40, 58, 0.75),
+        9px -9px 0 -4px rgba(33, 40, 58, 0.75),
+        -16px 2px 0 -5px rgba(33, 40, 58, 0.75),
+        17px 2px 0 -5px rgba(33, 40, 58, 0.75);
     }
 
     .stone-text {
       position: absolute;
       left: 16px;
       right: 16px;
-      top: 92px;
+      top: 95px;
       text-align: center;
-      color: rgba(24, 31, 48, 0.82);
-      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.18);
+      color: rgba(24, 31, 48, 0.84);
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.18);
     }
 
-    .pet-name {
+    .stone-text strong {
       display: block;
-      font-weight: 800;
-      font-size: 22px;
+      font-size: 23px;
       letter-spacing: 4px;
       margin-bottom: 12px;
     }
 
-    .pet-years {
+    .stone-text span {
       display: block;
       font-size: 14px;
       letter-spacing: 1px;
-      line-height: 1.7;
+      line-height: 1.6;
     }
 
-    .heart-mark {
-      margin-top: 12px;
-      color: rgba(34, 37, 54, 0.8);
-      font-size: 14px;
+    .stone-heart {
+      margin-top: 11px;
+      font-size: 13px;
     }
 
     .lantern {
       position: absolute;
-      left: -6px;
-      bottom: 30px;
+      left: 10px;
+      bottom: 48px;
       width: 54px;
       height: 74px;
       background: #2f2730;
-      border: 4px solid #1a1720;
-      z-index: 7;
+      border: 4px solid #171620;
+      z-index: 13;
       box-shadow:
-        0 0 38px rgba(255, 192, 96, 0.55),
-        0 0 90px rgba(255, 192, 96, 0.2);
+        0 0 38px rgba(255, 192, 96, 0.58),
+        0 0 95px rgba(255, 192, 96, 0.22);
     }
 
     .lantern::before {
@@ -720,7 +752,7 @@
       bottom: 12px;
       background:
         radial-gradient(circle, #fff4b7 0 20%, #ffc15f 21% 48%, rgba(255, 193, 95, 0.1) 49%);
-      box-shadow: inset 0 0 0 3px rgba(60, 39, 24, 0.32);
+      box-shadow: inset 0 0 0 3px rgba(60,39,24,0.32);
     }
 
     .lantern::after {
@@ -730,158 +762,142 @@
       right: 14px;
       top: -16px;
       height: 14px;
-      border: 4px solid #1a1720;
+      border: 4px solid #171620;
       border-bottom: 0;
     }
 
     .flower-bed {
       position: absolute;
-      left: 125px;
-      bottom: 36px;
+      right: 2px;
+      bottom: 48px;
       width: 94px;
       height: 62px;
-      z-index: 8;
+      z-index: 13;
     }
 
     .flower {
       position: absolute;
       width: 12px;
       height: 12px;
-      background: #e9d4d6;
+      background: #ead8da;
       box-shadow:
-        12px 0 #c88aa2,
-        0 12px #dfadc5,
-        12px 12px #f2e8d8;
+        12px 0 #c9899f,
+        0 12px #dfa7c1,
+        12px 12px #f2e5d4;
+      image-rendering: pixelated;
     }
 
     .flower.f1 { left: 0; bottom: 14px; }
     .flower.f2 { left: 32px; bottom: 28px; transform: scale(0.9); }
-    .flower.f3 { left: 58px; bottom: 8px; transform: scale(1.15); }
+    .flower.f3 { left: 58px; bottom: 8px; transform: scale(1.12); }
 
-    .grass {
+    .cat {
       position: absolute;
-      bottom: 0;
-      width: 8px;
-      height: 44px;
-      background: #4f7b61;
-      box-shadow:
-        10px 10px 0 #719a72,
-        22px 1px 0 #385f4d,
-        35px 16px 0 #719a72,
-        46px 3px 0 #4c7660,
-        59px 12px 0 #5f8d69;
-      transform: skewX(-9deg);
-      opacity: 0.85;
-    }
-
-    .grass.g1 { left: 8%; bottom: 10%; }
-    .grass.g2 { left: 26%; bottom: 14%; transform: scale(0.8) skewX(10deg); }
-    .grass.g3 { right: 8%; bottom: 12%; transform: scale(1.1) skewX(-7deg); }
-
-    .hidden-pet {
-      position: absolute;
-      right: 6%;
-      bottom: 15%;
-      width: 62px;
+      left: 70px;
+      bottom: 46px;
+      width: 68px;
       height: 48px;
-      z-index: 9;
-      opacity: 0.88;
-      transform: translateY(6px);
-      transition: transform 0.25s ease;
+      z-index: 14;
+      opacity: 0.9;
     }
 
-    .hidden-pet:hover {
-      transform: translateY(0);
-    }
-
-    .pet-head {
+    .cat-body {
       position: absolute;
-      left: 8px;
-      top: 6px;
+      left: 20px;
+      top: 20px;
       width: 42px;
-      height: 36px;
-      background: #d8c0a8;
-      border-radius: 12px 12px 14px 14px;
-      box-shadow:
-        inset -8px 0 0 #7a5b52,
-        0 5px 0 rgba(0,0,0,0.18);
+      height: 22px;
+      background: #d7bfa6;
+      border-radius: 12px 12px 10px 10px;
+      box-shadow: inset -10px 0 0 #7a5b52;
     }
 
-    .pet-head::before,
-    .pet-head::after {
+    .cat-head {
+      position: absolute;
+      left: 4px;
+      top: 9px;
+      width: 35px;
+      height: 31px;
+      background: #d7bfa6;
+      border-radius: 11px 11px 13px 13px;
+      box-shadow: inset -7px 0 0 #7a5b52;
+    }
+
+    .cat-head::before,
+    .cat-head::after {
       content: "";
       position: absolute;
-      top: -9px;
-      width: 16px;
-      height: 16px;
-      background: #d8c0a8;
+      top: -8px;
+      width: 14px;
+      height: 14px;
+      background: #d7bfa6;
       transform: rotate(45deg);
     }
 
-    .pet-head::before {
-      left: 2px;
+    .cat-head::before {
+      left: 3px;
     }
 
-    .pet-head::after {
-      right: 2px;
+    .cat-head::after {
+      right: 3px;
       background: #7a5b52;
     }
 
-    .pet-eyes {
+    .cat-eyes {
       position: absolute;
-      left: 12px;
-      top: 17px;
+      left: 10px;
+      top: 16px;
       width: 5px;
       height: 5px;
-      background: #1e2431;
-      box-shadow: 16px 0 0 #1e2431;
+      background: #1f2533;
+      box-shadow: 13px 0 0 #1f2533;
     }
 
-    .pet-nose {
+    .cat-tail {
       position: absolute;
-      left: 20px;
-      top: 25px;
-      width: 5px;
-      height: 4px;
-      background: #2d2730;
+      right: 0;
+      top: 14px;
+      width: 18px;
+      height: 10px;
+      border-top: 5px solid #7a5b52;
+      border-right: 5px solid #7a5b52;
+      border-radius: 0 12px 0 0;
     }
 
-    .pet-hint {
+    .memory-note {
       position: absolute;
-      right: 7%;
-      bottom: 10%;
-      z-index: 9;
-      font-size: 12px;
-      color: rgba(246, 234, 214, 0.55);
-      letter-spacing: 1px;
-    }
-
-    .petals {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 12;
+      right: 34px;
+      bottom: 32px;
+      z-index: 20;
+      max-width: 220px;
+      padding: 15px 16px;
+      color: rgba(247, 234, 211, 0.74);
+      background: rgba(5, 11, 22, 0.44);
+      border: 1px solid rgba(247, 234, 211, 0.14);
+      line-height: 1.7;
+      font-size: 13px;
+      backdrop-filter: blur(8px);
     }
 
     .petal {
       position: absolute;
       width: 12px;
       height: 7px;
-      background: #dd91aa;
-      opacity: 0.78;
+      background: #d98ea5;
       border-radius: 10px 0 10px 0;
-      animation: fall linear infinite;
+      opacity: 0.72;
       image-rendering: pixelated;
+      animation: petalFall linear infinite;
     }
 
-    @keyframes fall {
+    @keyframes petalFall {
       0% {
         transform: translate3d(0, -8vh, 0) rotate(0deg);
         opacity: 0;
       }
 
-      10% {
-        opacity: 0.85;
+      12% {
+        opacity: 0.72;
       }
 
       100% {
@@ -895,23 +911,23 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 15;
+      z-index: 30;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 20px;
       padding: 18px 7vw;
-      background: rgba(5, 12, 25, 0.42);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: rgba(246, 234, 214, 0.62);
+      color: rgba(247, 234, 211, 0.56);
+      background: rgba(5, 11, 22, 0.45);
+      border-top: 1px solid rgba(247, 234, 211, 0.1);
+      backdrop-filter: blur(8px);
       font-size: 13px;
       letter-spacing: 1px;
-      backdrop-filter: blur(8px);
     }
 
     .footer-links {
       display: flex;
-      gap: 28px;
+      gap: 25px;
       flex-wrap: wrap;
     }
 
@@ -920,15 +936,15 @@
       left: 50%;
       bottom: 34px;
       transform: translateX(-50%) translateY(20px);
+      z-index: 100;
       padding: 14px 22px;
-      background: rgba(8, 17, 33, 0.92);
       color: var(--cream);
-      border: 2px solid rgba(246, 234, 214, 0.22);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+      background: rgba(7, 15, 30, 0.94);
+      border: 2px solid rgba(247, 234, 211, 0.22);
+      box-shadow: 0 16px 42px rgba(0,0,0,0.34);
       opacity: 0;
       pointer-events: none;
-      transition: 0.25s ease;
-      z-index: 99;
+      transition: 0.24s ease;
       letter-spacing: 1px;
     }
 
@@ -937,81 +953,91 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    @media (max-width: 980px) {
-      .header {
-        padding: 22px 22px 0;
-      }
-
+    @media (max-width: 1040px) {
       .nav {
         display: none;
       }
 
       .hero {
         grid-template-columns: 1fr;
-        padding: 38px 22px 100px;
+        padding: 42px 24px 100px;
       }
 
-      .welcome-card {
+      .hero-copy {
         max-width: none;
-        padding: 38px 26px 32px;
       }
 
-      .garden {
-        min-height: 470px;
+      .scene-card {
+        min-height: 560px;
+      }
+
+      .header {
+        padding: 24px 24px 0;
       }
 
       .moon {
-        right: 8%;
-        top: 42%;
-        width: 82px;
-        height: 82px;
-      }
-
-      .tomb-area {
-        right: 19%;
-        transform: scale(0.9);
+        right: 8vw;
+        top: 140px;
+        width: 88px;
+        height: 88px;
       }
 
       .footer {
         position: relative;
         flex-direction: column;
         align-items: flex-start;
-        padding: 18px 22px;
+        padding: 18px 24px;
       }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 640px) {
       .brand-title {
         font-size: 20px;
       }
 
-      .welcome-card h1 {
-        font-size: 30px;
+      .hero h1 {
+        font-size: 42px;
       }
 
-      .button-left {
-        font-size: 17px;
+      .hero-desc {
+        font-size: 15px;
       }
 
-      .garden {
-        min-height: 390px;
+      .hero-actions {
+        display: grid;
       }
 
-      .tree {
-        right: -90px;
-        transform: scale(0.75);
+      .pixel-button {
+        width: 100%;
+      }
+
+      .hero-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .scene-card {
+        min-height: 470px;
+      }
+
+      .big-tree {
+        right: -132px;
+        transform: scale(0.78);
         transform-origin: bottom right;
       }
 
-      .tomb-area {
-        right: 8%;
-        bottom: 13%;
-        transform: scale(0.72);
+      .tomb-wrap {
+        left: 45%;
+        bottom: 74px;
+        transform: translateX(-50%) scale(0.78);
       }
 
-      .hidden-pet,
-      .pet-hint {
+      .memory-note {
         display: none;
+      }
+
+      .scene-label {
+        left: 22px;
+        top: 22px;
       }
     }
   </style>
@@ -1020,16 +1046,14 @@
 <body>
   <main class="page">
     <div class="stars" id="stars"></div>
-
+    <div class="petals" id="petals"></div>
     <div class="moon" aria-hidden="true"></div>
-    <div class="cloud one" aria-hidden="true"></div>
-    <div class="cloud two" aria-hidden="true"></div>
-    <div class="cloud three" aria-hidden="true"></div>
+    <div class="mist" aria-hidden="true"></div>
 
     <header class="header">
       <a class="brand" href="index.html">
         <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-text">
+        <span>
           <span class="brand-title">宠物纪念园</span>
           <span class="brand-subtitle">珍藏每一次相遇</span>
         </span>
@@ -1045,39 +1069,53 @@
     </header>
 
     <section class="hero">
-      <section class="welcome-card" aria-label="欢迎区域">
-        <div class="card-emblem" aria-hidden="true"></div>
+      <section class="hero-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          <span>一座安静的像素纪念花园</span>
+        </div>
 
-        <h1>欢迎来到宠物纪念园</h1>
+        <h1>
+          把爱留在
+          <span>温柔的夜色里</span>
+        </h1>
 
-        <p class="tagline">铭记爱与陪伴 · 思念从未离开</p>
-
-        <div class="small-divider" aria-hidden="true"></div>
-
-        <p>
-          这是一个为爱宠而设的宁静空间，<br />
-          在这里，回忆被温柔珍藏，思念得以安放。
+        <p class="hero-desc">
+          为离开的爱宠建立一座小小纪念馆。
+          写下名字、故事和想说的话，让回忆被安放，也让思念有一个可以回来的地方。
         </p>
 
-        <div class="button-stack">
+        <div class="hero-actions">
           <button class="pixel-button primary" type="button" id="enterGarden">
-            <span class="button-left">
-              <span class="button-icon">▣</span>
-              进入纪念园
-            </span>
-            <span>›</span>
+            <span class="button-icon">▣</span>
+            进入纪念园
           </button>
 
           <button class="pixel-button secondary" type="button" id="createMemorial">
-            <span class="button-left">
-              <span class="button-icon">✿</span>
-              开始创建
-            </span>
-            <span>›</span>
+            <span class="button-icon">✿</span>
+            开始创建
           </button>
         </div>
 
-        <div class="lang-row">
+        <div class="hero-meta">
+          <div class="meta-card">
+            <strong>01</strong>
+            <span>写下名字</span>
+          </div>
+
+          <div class="meta-card">
+            <strong>02</strong>
+            <span>选择墓碑</span>
+          </div>
+
+          <div class="meta-card">
+            <strong>03</strong>
+            <span>留下花瓣</span>
+          </div>
+        </div>
+
+        <div class="language-wrap">
+          <span>语言</span>
           <select class="language-select" id="languageSelect" aria-label="选择语言">
             <option value="zh-CN">简体中文</option>
             <option value="zh-TW">繁體中文</option>
@@ -1087,68 +1125,69 @@
         </div>
       </section>
 
-      <section class="garden" aria-label="像素纪念园夜景">
-        <div class="hill one"></div>
-        <div class="hill two"></div>
-        <div class="hill three"></div>
+      <section class="scene-card" aria-label="首页像素纪念园插画">
+        <div class="scene-label">今晚也有人轻轻想起它</div>
 
-        <div class="ground"></div>
+        <div class="scene">
+          <div class="scene-hill one"></div>
+          <div class="scene-hill two"></div>
+          <div class="scene-hill three"></div>
+          <div class="scene-ground"></div>
 
-        <div class="path" aria-hidden="true">
-          <span class="stone-step s1"></span>
-          <span class="stone-step s2"></span>
-          <span class="stone-step s3"></span>
-          <span class="stone-step s4"></span>
-          <span class="stone-step s5"></span>
-        </div>
+          <div class="scene-path" aria-hidden="true">
+            <span class="step s1"></span>
+            <span class="step s2"></span>
+            <span class="step s3"></span>
+            <span class="step s4"></span>
+            <span class="step s5"></span>
+          </div>
 
-        <div class="tree" aria-hidden="true">
-          <div class="trunk"></div>
-          <div class="branch b1"></div>
-          <div class="branch b2"></div>
-          <div class="branch b3"></div>
-          <div class="blossom c1"></div>
-          <div class="blossom c2"></div>
-          <div class="blossom c3"></div>
-          <div class="blossom c4"></div>
-          <div class="blossom c5"></div>
-        </div>
+          <div class="big-tree" aria-hidden="true">
+            <div class="tree-trunk"></div>
+            <div class="branch b1"></div>
+            <div class="branch b2"></div>
+            <div class="branch b3"></div>
+            <div class="branch b4"></div>
+            <div class="leaf-cluster c1"></div>
+            <div class="leaf-cluster c2"></div>
+            <div class="leaf-cluster c3"></div>
+            <div class="leaf-cluster c4"></div>
+            <div class="leaf-cluster c5"></div>
+          </div>
 
-        <div class="tomb-area">
-          <div class="tombstone">
-            <div class="paw-on-stone"></div>
-            <div class="stone-text">
-              <span class="pet-name">小橘</span>
-              <span class="pet-years">2012 - 2023</span>
-              <div class="heart-mark">♥</div>
+          <div class="tomb-wrap">
+            <div class="tomb">
+              <div class="stone-paw"></div>
+              <div class="stone-text">
+                <strong>小橘</strong>
+                <span>2012 - 2023</span>
+                <div class="stone-heart">♥</div>
+              </div>
+            </div>
+
+            <div class="lantern"></div>
+
+            <div class="flower-bed">
+              <span class="flower f1"></span>
+              <span class="flower f2"></span>
+              <span class="flower f3"></span>
+            </div>
+
+            <div class="cat">
+              <div class="cat-tail"></div>
+              <div class="cat-body"></div>
+              <div class="cat-head">
+                <div class="cat-eyes"></div>
+              </div>
             </div>
           </div>
 
-          <div class="lantern" aria-hidden="true"></div>
-
-          <div class="flower-bed" aria-hidden="true">
-            <span class="flower f1"></span>
-            <span class="flower f2"></span>
-            <span class="flower f3"></span>
+          <div class="memory-note">
+            这里没有喧闹的告别，只有一盏灯、一片花瓣，和还没有说完的话。
           </div>
         </div>
-
-        <div class="grass g1" aria-hidden="true"></div>
-        <div class="grass g2" aria-hidden="true"></div>
-        <div class="grass g3" aria-hidden="true"></div>
-
-        <div class="hidden-pet" title="一只小猫悄悄躲在这里">
-          <div class="pet-head">
-            <div class="pet-eyes"></div>
-            <div class="pet-nose"></div>
-          </div>
-        </div>
-
-        <div class="pet-hint">小猫躲在花丛里</div>
       </section>
     </section>
-
-    <div class="petals" id="petals"></div>
 
     <footer class="footer">
       <div class="footer-links">
@@ -1157,6 +1196,7 @@
         <a href="#" data-soon="隐私政策后面制作">隐私政策</a>
         <a href="#" data-soon="帮助中心后面制作">帮助中心</a>
       </div>
+
       <div>♥ 用爱延续每一段陪伴</div>
     </footer>
   </main>
@@ -1173,29 +1213,29 @@
     }
 
     function createStars() {
-      const count = 46;
+      const count = 58;
 
       for (let i = 0; i < count; i += 1) {
         const star = document.createElement("span");
         star.className = "star";
         star.style.left = `${random(4, 96)}%`;
-        star.style.top = `${random(8, 58)}%`;
+        star.style.top = `${random(7, 62)}%`;
         star.style.animationDelay = `${random(0, 4)}s`;
-        star.style.transform = `scale(${random(0.55, 1.1)})`;
+        star.style.transform = `scale(${random(0.55, 1.15)})`;
         stars.appendChild(star);
       }
     }
 
     function createPetals() {
-      const count = 20;
+      const count = 18;
 
       for (let i = 0; i < count; i += 1) {
         const petal = document.createElement("span");
         petal.className = "petal";
-        petal.style.left = `${random(8, 95)}%`;
-        petal.style.top = `${random(-30, 40)}%`;
-        petal.style.setProperty("--drift", `${random(-80, 80)}px`);
-        petal.style.animationDuration = `${random(12, 22)}s`;
+        petal.style.left = `${random(8, 94)}%`;
+        petal.style.top = `${random(-28, 36)}%`;
+        petal.style.setProperty("--drift", `${random(-90, 90)}px`);
+        petal.style.animationDuration = `${random(13, 24)}s`;
         petal.style.animationDelay = `${random(0, 16)}s`;
         petals.appendChild(petal);
       }
@@ -1256,7 +1296,7 @@
     document.getElementById("languageSelect").addEventListener("change", (event) => {
       const value = event.target.value;
       localStorage.setItem("petMemorialLanguage", value);
-      showToast("语言选择已保存，后面页面会继续使用");
+      showToast("语言选择已保存");
     });
 
     const savedLanguage = localStorage.getItem("petMemorialLanguage");
