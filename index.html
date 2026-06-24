@@ -4,368 +4,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>宠物纪念园</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #050914;
-      color: #ffe8b8;
-      font-family:
-        "Microsoft YaHei",
-        "PingFang SC",
-        "Noto Sans SC",
-        system-ui,
-        sans-serif;
-    }
-
-    body {
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    select {
-      font: inherit;
-    }
-
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; min-height: 100%; background: #050914; overflow: hidden; }
+    body { font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; }
     .page {
       position: relative;
-      min-height: 100vh;
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
-      background:
-        linear-gradient(
-          90deg,
-          rgba(5, 9, 20, 0.88) 0%,
-          rgba(5, 9, 20, 0.74) 34%,
-          rgba(5, 9, 20, 0.34) 58%,
-          rgba(5, 9, 20, 0.06) 100%
-        ),
-        url("hero.png?v=final-clean-1") center center / cover no-repeat;
+      background: url("hero.png?v=redesign-2") center center / cover no-repeat;
     }
-
-    .header {
-      position: relative;
+    .overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+      image-rendering: auto;
+    }
+    .hotspot {
+      position: absolute;
       z-index: 5;
-      height: 92px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5.2vw;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      color: #ffd98d;
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-shadow:
-        2px 0 #4b2a13,
-        0 2px #4b2a13,
-        3px 3px 0 rgba(0, 0, 0, 0.55);
-    }
-
-    .brand-paw {
-      position: relative;
-      width: 34px;
-      height: 30px;
-      image-rendering: pixelated;
-    }
-
-    .brand-paw::before {
-      content: "";
-      position: absolute;
-      left: 11px;
-      top: 13px;
-      width: 13px;
-      height: 11px;
-      background: #ffd98d;
-      box-shadow:
-        -10px -10px 0 -3px #ffd98d,
-        10px -10px 0 -3px #ffd98d,
-        -15px 0 0 -4px #ffd98d,
-        15px 0 0 -4px #ffd98d;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-      color: rgba(255, 232, 184, 0.82);
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-shadow:
-        2px 0 #1e1520,
-        0 2px #1e1520,
-        3px 3px 0 rgba(0, 0, 0, 0.55);
-    }
-
-    .nav a {
-      position: relative;
-      padding: 8px 0;
-    }
-
-    .nav a.active {
-      color: #ffd98d;
-    }
-
-    .nav a.active::after {
-      content: "";
-      position: absolute;
-      left: 2px;
-      right: 2px;
-      bottom: -5px;
-      height: 3px;
-      background: #ffd98d;
-      box-shadow: 0 0 12px rgba(255, 217, 141, 0.65);
-    }
-
-    .language-select {
-      min-width: 132px;
-      height: 42px;
-      padding: 0 14px;
-      color: #ffe8b8;
-      background: rgba(5, 9, 20, 0.46);
-      border: 2px solid rgba(255, 217, 141, 0.52);
-      outline: none;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-shadow:
-        2px 0 #1e1520,
-        0 2px #1e1520;
-    }
-
-    .language-select option {
-      color: #ffe8b8;
-      background: #050914;
-    }
-
-    .hero {
-      position: relative;
-      z-index: 4;
-      min-height: calc(100vh - 92px);
-      display: flex;
-      align-items: center;
-      padding: 0 5.2vw 8vh;
-    }
-
-    .copy {
-      max-width: 720px;
-    }
-
-    .title {
-      margin: 0;
-      color: #ffe8b8;
-      font-size: clamp(48px, 6vw, 92px);
-      line-height: 1.12;
-      font-weight: 900;
-      letter-spacing: 4px;
-      text-shadow:
-        4px 0 #4b2a13,
-        0 4px #4b2a13,
-        4px 4px 0 #4b2a13,
-        8px 8px 0 rgba(0, 0, 0, 0.42),
-        0 0 28px rgba(255, 216, 140, 0.22);
-    }
-
-    .subtitle {
-      margin: 28px 0 0;
-      max-width: 560px;
-      color: rgba(255, 232, 184, 0.9);
-      font-size: 22px;
-      line-height: 1.8;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-shadow:
-        2px 0 #1e1520,
-        0 2px #1e1520,
-        3px 3px 0 rgba(0, 0, 0, 0.58);
-    }
-
-    .actions {
-      display: flex;
-      gap: 22px;
-      margin-top: 44px;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      min-width: 220px;
-      height: 68px;
-      cursor: pointer;
       border: 0;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      image-rendering: pixelated;
-      transition: transform 0.14s ease, filter 0.14s ease;
+      background: transparent;
+      cursor: pointer;
     }
-
-    .button:hover {
-      transform: translateY(-3px);
-      filter: brightness(1.08);
-    }
-
-    .button.primary {
-      color: #2b1b12;
-      background: #ffd98d;
-      border: 4px solid #fff1c8;
-      box-shadow:
-        inset -6px -6px 0 #c98d43,
-        inset 6px 6px 0 #fff4cf,
-        8px 8px 0 rgba(0, 0, 0, 0.42);
-    }
-
-    .button.secondary {
-      color: #ffe8b8;
-      background: rgba(13, 18, 38, 0.76);
-      border: 4px solid rgba(255, 217, 141, 0.68);
-      box-shadow:
-        inset -6px -6px 0 rgba(0, 0, 0, 0.28),
-        inset 6px 6px 0 rgba(255, 255, 255, 0.06),
-        8px 8px 0 rgba(0, 0, 0, 0.35);
-      text-shadow:
-        2px 0 #1e1520,
-        0 2px #1e1520;
-    }
-
+    .enter { left: 6.85%; top: 66.65%; width: 16.7%; height: 7.85%; }
+    .create { left: 26.05%; top: 66.65%; width: 16.7%; height: 7.85%; }
+    .nav-home { left: 42.2%; top: 6.1%; width: 4.0%; height: 5%; }
+    .nav-garden { left: 48.9%; top: 6.1%; width: 5.3%; height: 5%; }
+    .nav-create { left: 57.0%; top: 6.1%; width: 7.4%; height: 5%; }
+    .language { left: 85.4%; top: 5.1%; width: 11.1%; height: 6.2%; }
     .toast {
       position: fixed;
       left: 50%;
       bottom: 34px;
       z-index: 20;
       padding: 14px 22px;
-      color: #ffe8b8;
+      color: #f6e7c6;
       background: rgba(7, 15, 30, 0.94);
-      border: 2px solid rgba(255, 217, 141, 0.52);
+      border: 2px solid rgba(236, 214, 174, 0.5);
       transform: translateX(-50%) translateY(20px);
       opacity: 0;
       pointer-events: none;
       transition: 0.24s ease;
-      font-weight: 900;
+      font-weight: 700;
       letter-spacing: 1px;
     }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     @media (max-width: 900px) {
-      .header {
-        height: 78px;
-        padding: 0 22px;
-      }
-
-      .brand {
-        font-size: 20px;
-      }
-
-      .nav {
-        display: none;
-      }
-
-      .language-select {
-        min-width: 104px;
-        font-size: 13px;
-      }
-
-      .hero {
-        min-height: calc(100vh - 78px);
-        align-items: flex-start;
-        padding: 64px 22px 80px;
-      }
-
-      .title {
-        font-size: 44px;
-      }
-
-      .subtitle {
-        font-size: 17px;
-      }
-
-      .actions {
-        display: grid;
-      }
-
-      .button {
-        width: 100%;
-      }
+      body { overflow: auto; }
+      .page { min-height: 100vh; background-position: center center; }
     }
   </style>
 </head>
-
 <body>
   <main class="page">
-    <header class="header">
-      <a class="brand" href="index.html">
-        <span class="brand-paw"></span>
-        <span>宠物纪念园</span>
-      </a>
-
-      <nav class="nav">
-        <a class="active" href="index.html">首页</a>
-        <a href="#" id="navGarden">纪念园</a>
-        <a href="create.html">创建纪念</a>
-        <a href="#" data-soon="故事页面后面制作">故事</a>
-      </nav>
-
-      <select class="language-select" id="languageSelect">
-        <option value="zh-CN">简体中文</option>
-        <option value="zh-TW">繁體中文</option>
-        <option value="en">English</option>
-        <option value="ja">日本語</option>
-      </select>
-    </header>
-
-    <section class="hero">
-      <div class="copy">
-        <h1 class="title">
-          每一份爱，<br />
-          都值得被温柔铭记
-        </h1>
-
-        <p class="subtitle">
-          为离开的爱宠留下一座安静的纪念花园。
-        </p>
-
-        <div class="actions">
-          <button class="button primary" type="button" id="enterGarden">进入纪念园</button>
-          <button class="button secondary" type="button" id="createMemorial">开始创建</button>
-        </div>
-      </div>
-    </section>
+    <img class="overlay" src="ui-overlay.png?v=redesign-2" alt="宠物纪念园首页" />
+    <button class="hotspot enter" type="button" id="enterGarden" aria-label="进入纪念园"></button>
+    <button class="hotspot create" type="button" id="createMemorial" aria-label="开始创建"></button>
+    <button class="hotspot nav-home" type="button" aria-label="首页"></button>
+    <button class="hotspot nav-garden" type="button" id="navGarden" aria-label="纪念园"></button>
+    <button class="hotspot nav-create" type="button" id="navCreate" aria-label="创建纪念"></button>
+    <button class="hotspot language" type="button" id="languageButton" aria-label="语言"></button>
   </main>
-
   <div class="toast" id="toast"></div>
-
   <script>
     const toast = document.getElementById("toast");
-
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add("show");
-
       window.clearTimeout(showToast.timer);
-      showToast.timer = window.setTimeout(() => {
-        toast.classList.remove("show");
-      }, 1800);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1800);
     }
-
     function hasSavedMemorial() {
       try {
         const draft = JSON.parse(localStorage.getItem("petMemorialDraft"));
@@ -374,47 +88,19 @@
         return false;
       }
     }
-
     function openGarden() {
       if (hasSavedMemorial()) {
         window.location.href = "cemetery.html";
         return;
       }
-
       showToast("还没有创建纪念，先进入创建页面。");
-
-      setTimeout(() => {
-        window.location.href = "create.html";
-      }, 700);
+      setTimeout(() => window.location.href = "create.html", 700);
     }
-
     document.getElementById("enterGarden").addEventListener("click", openGarden);
-
-    document.getElementById("navGarden").addEventListener("click", (event) => {
-      event.preventDefault();
-      openGarden();
-    });
-
-    document.getElementById("createMemorial").addEventListener("click", () => {
-      window.location.href = "create.html";
-    });
-
-    document.querySelectorAll("[data-soon]").forEach((item) => {
-      item.addEventListener("click", (event) => {
-        event.preventDefault();
-        showToast(item.dataset.soon);
-      });
-    });
-
-    document.getElementById("languageSelect").addEventListener("change", (event) => {
-      localStorage.setItem("petMemorialLanguage", event.target.value);
-      showToast("语言选择已保存");
-    });
-
-    const savedLanguage = localStorage.getItem("petMemorialLanguage");
-    if (savedLanguage) {
-      document.getElementById("languageSelect").value = savedLanguage;
-    }
+    document.getElementById("navGarden").addEventListener("click", openGarden);
+    document.getElementById("createMemorial").addEventListener("click", () => window.location.href = "create.html");
+    document.getElementById("navCreate").addEventListener("click", () => window.location.href = "create.html");
+    document.getElementById("languageButton").addEventListener("click", () => showToast("语言切换后面单独接"));
   </script>
 </body>
 </html>
