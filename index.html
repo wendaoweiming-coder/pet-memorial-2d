@@ -7,22 +7,18 @@
 
   <style>
     :root {
-      --bg-deep: #060b15;
-      --bg-night: #0b1628;
-      --bg-blue: #12243a;
+      --bg: #050914;
+      --bg-2: #0a1425;
       --cream: #f7ead4;
       --cream-soft: rgba(247, 234, 212, 0.72);
-      --cream-faint: rgba(247, 234, 212, 0.46);
+      --cream-faint: rgba(247, 234, 212, 0.45);
       --gold: #e8c98e;
-      --rose: #d99caf;
-      --purple: #9c87bd;
-      --green: #6f8f75;
-      --panel: rgba(255, 248, 232, 0.92);
-      --panel-text: #222941;
-      --panel-muted: #6f7280;
-      --glass: rgba(255, 255, 255, 0.07);
-      --glass-line: rgba(255, 245, 220, 0.16);
-      --shadow: rgba(0, 0, 0, 0.34);
+      --gold-2: #c99e63;
+      --panel: rgba(10, 18, 34, 0.68);
+      --panel-2: rgba(255, 255, 255, 0.07);
+      --line: rgba(247, 234, 212, 0.16);
+      --line-strong: rgba(232, 201, 142, 0.42);
+      --shadow: rgba(0, 0, 0, 0.36);
     }
 
     * {
@@ -39,8 +35,8 @@
         "Noto Sans SC",
         system-ui,
         sans-serif;
+      background: var(--bg);
       color: var(--cream);
-      background: var(--bg-deep);
     }
 
     body {
@@ -62,9 +58,9 @@
       min-height: 100vh;
       overflow: hidden;
       background:
-        radial-gradient(circle at 68% 18%, rgba(232, 201, 142, 0.18), transparent 13%),
-        radial-gradient(circle at 24% 80%, rgba(156, 135, 189, 0.16), transparent 24%),
-        linear-gradient(180deg, #050914 0%, #0b1628 48%, #102335 100%);
+        radial-gradient(circle at 74% 24%, rgba(232, 201, 142, 0.15), transparent 16%),
+        radial-gradient(circle at 15% 72%, rgba(117, 93, 155, 0.16), transparent 24%),
+        linear-gradient(180deg, #050914 0%, #081326 48%, #0d1d31 100%);
     }
 
     .page::before {
@@ -72,26 +68,22 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
       background-size: 7px 7px;
-      opacity: 0.42;
+      opacity: 0.45;
       pointer-events: none;
       z-index: 1;
     }
 
-    .soft-glow {
+    .page::after {
+      content: "";
       position: absolute;
-      left: 54%;
-      top: 16%;
-      width: 460px;
-      height: 460px;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(232, 201, 142, 0.15), transparent 62%);
-      filter: blur(8px);
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5, 9, 20, 0.92) 0%, rgba(5, 9, 20, 0.74) 37%, rgba(5, 9, 20, 0.18) 72%, rgba(5, 9, 20, 0.22) 100%);
       pointer-events: none;
-      z-index: 1;
+      z-index: 2;
     }
 
     .stars,
@@ -102,75 +94,66 @@
     }
 
     .stars {
-      z-index: 2;
+      z-index: 3;
     }
 
     .petals {
-      z-index: 20;
+      z-index: 18;
     }
 
     .star {
       position: absolute;
       width: 2px;
       height: 2px;
-      background: rgba(255, 244, 205, 0.9);
+      background: rgba(255, 241, 200, 0.9);
       box-shadow:
-        3px 0 rgba(255, 244, 205, 0.9),
-        0 3px rgba(255, 244, 205, 0.9),
-        3px 3px rgba(255, 244, 205, 0.9);
-      opacity: 0.68;
-      image-rendering: pixelated;
-      animation: starBlink 4.8s ease-in-out infinite;
+        3px 0 rgba(255, 241, 200, 0.9),
+        0 3px rgba(255, 241, 200, 0.9),
+        3px 3px rgba(255, 241, 200, 0.9);
+      animation: twinkle 4.5s ease-in-out infinite;
     }
 
-    @keyframes starBlink {
+    @keyframes twinkle {
       0%, 100% {
-        opacity: 0.25;
+        opacity: 0.22;
         transform: scale(0.75);
       }
 
       50% {
-        opacity: 0.9;
+        opacity: 0.85;
         transform: scale(1);
       }
     }
 
-    .moon {
+    .petal {
       position: absolute;
-      right: 15vw;
-      top: 104px;
-      width: 108px;
-      height: 108px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 34%, rgba(255,255,255,0.72) 0 8%, transparent 9%),
-        radial-gradient(circle at 64% 45%, rgba(126,108,82,0.22) 0 12%, transparent 13%),
-        radial-gradient(circle at 44% 69%, rgba(126,108,82,0.18) 0 10%, transparent 11%),
-        #f2dfaa;
-      box-shadow:
-        0 0 0 8px rgba(242, 223, 170, 0.045),
-        0 0 38px rgba(242, 223, 170, 0.34),
-        0 0 110px rgba(171, 160, 255, 0.16);
-      z-index: 2;
-      image-rendering: pixelated;
+      width: 12px;
+      height: 7px;
+      border-radius: 10px 0 10px 0;
+      background: #d99caf;
+      opacity: 0.65;
+      animation: petalFall linear infinite;
     }
 
-    .mist {
-      position: absolute;
-      left: -8%;
-      right: -8%;
-      bottom: 28%;
-      height: 150px;
-      background:
-        linear-gradient(90deg, transparent, rgba(190, 200, 225, 0.07), transparent),
-        linear-gradient(180deg, transparent, rgba(190, 200, 225, 0.06), transparent);
-      filter: blur(14px);
-      z-index: 2;
+    @keyframes petalFall {
+      0% {
+        transform: translate3d(0, -8vh, 0) rotate(0deg);
+        opacity: 0;
+      }
+
+      12% {
+        opacity: 0.68;
+      }
+
+      100% {
+        transform: translate3d(var(--drift), 105vh, 0) rotate(260deg);
+        opacity: 0;
+      }
     }
 
     .header {
       position: relative;
-      z-index: 40;
+      z-index: 30;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -183,43 +166,43 @@
       gap: 14px;
     }
 
-    .brand-mark {
+    .brand-logo {
       position: relative;
-      width: 42px;
-      height: 42px;
-      border: 1px solid rgba(247, 234, 212, 0.18);
-      background: rgba(255, 255, 255, 0.055);
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.055);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,0.05),
-        0 14px 32px rgba(0,0,0,0.2);
-      backdrop-filter: blur(8px);
+        0 16px 34px rgba(0,0,0,0.24);
+      backdrop-filter: blur(10px);
     }
 
-    .brand-mark::before {
+    .brand-logo::before {
       content: "";
       position: absolute;
-      left: 13px;
-      top: 16px;
-      width: 16px;
-      height: 14px;
+      left: 14px;
+      top: 18px;
+      width: 18px;
+      height: 15px;
       background: var(--cream);
-      border-radius: 5px;
+      border-radius: 6px;
       box-shadow:
-        -8px -10px 0 -2px var(--cream),
-        9px -10px 0 -2px var(--cream),
-        -14px 0 0 -3px var(--cream),
-        15px 0 0 -3px var(--cream),
-        0 12px 0 -5px var(--cream);
+        -9px -11px 0 -3px var(--cream),
+        10px -11px 0 -3px var(--cream),
+        -15px 0 0 -4px var(--cream),
+        16px 0 0 -4px var(--cream),
+        0 13px 0 -6px var(--cream);
     }
 
     .brand-title {
       display: block;
-      color: var(--cream);
-      font-size: 23px;
+      font-size: 24px;
       font-weight: 800;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       line-height: 1;
-      text-shadow: 0 3px 0 rgba(0,0,0,0.22);
+      color: var(--cream);
     }
 
     .brand-subtitle {
@@ -233,7 +216,7 @@
     .nav {
       display: flex;
       align-items: center;
-      gap: 26px;
+      gap: 30px;
       color: rgba(247, 234, 212, 0.72);
       font-size: 15px;
       letter-spacing: 1px;
@@ -259,28 +242,36 @@
       box-shadow: 0 0 14px rgba(232, 201, 142, 0.58);
     }
 
-    .nav-action {
-      cursor: pointer;
+    .language-select {
+      min-width: 138px;
+      padding: 9px 14px;
       color: var(--cream);
-      padding: 9px 18px;
-      border: 1px solid rgba(247, 234, 212, 0.2);
-      background: rgba(255, 255, 255, 0.055);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
-      backdrop-filter: blur(8px);
+      outline: none;
+      border: 1px solid rgba(247, 234, 212, 0.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .language-select option {
+      color: var(--cream);
+      background: #0b1628;
     }
 
     .hero {
       position: relative;
       z-index: 10;
-      min-height: calc(100vh - 72px);
+      min-height: calc(100vh - 74px);
       display: grid;
-      grid-template-columns: minmax(360px, 0.92fr) minmax(520px, 1.08fr);
+      grid-template-columns: minmax(360px, 0.9fr) minmax(520px, 1.1fr);
       align-items: center;
-      gap: 52px;
+      gap: 46px;
       padding: 58px 7vw 92px;
     }
 
     .copy {
+      position: relative;
+      z-index: 20;
       max-width: 560px;
     }
 
@@ -290,43 +281,63 @@
       gap: 10px;
       margin-bottom: 24px;
       padding: 9px 14px;
-      color: rgba(247, 234, 212, 0.75);
-      background: rgba(255, 255, 255, 0.055);
+      color: rgba(247, 234, 212, 0.76);
+      background: rgba(255,255,255,0.055);
       border: 1px solid rgba(247, 234, 212, 0.14);
+      border-radius: 999px;
       box-shadow: 0 14px 38px rgba(0,0,0,0.16);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       font-size: 13px;
       letter-spacing: 1px;
     }
 
-    .eyebrow-icon {
-      width: 8px;
-      height: 8px;
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
       background: var(--gold);
       box-shadow:
-        10px 0 0 rgba(217,156,175,0.9),
-        20px 0 0 rgba(156,135,189,0.9);
+        11px 0 0 rgba(217,156,175,0.9),
+        22px 0 0 rgba(156,135,189,0.9);
     }
 
     .copy h1 {
       margin: 0;
       color: var(--cream);
-      font-size: clamp(42px, 5.4vw, 74px);
-      line-height: 1.05;
+      font-size: clamp(44px, 5.4vw, 76px);
+      line-height: 1.08;
       letter-spacing: 2px;
+      font-weight: 700;
       text-shadow:
         0 5px 0 rgba(0,0,0,0.18),
-        0 26px 76px rgba(0,0,0,0.46);
+        0 28px 78px rgba(0,0,0,0.48);
     }
 
     .copy h1 span {
-      display: block;
       color: var(--gold);
+    }
+
+    .divider {
+      width: min(420px, 100%);
+      height: 1px;
+      margin: 24px 0;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      position: relative;
+    }
+
+    .divider::after {
+      content: "●";
+      position: absolute;
+      left: 185px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-size: 8px;
     }
 
     .desc {
       max-width: 470px;
-      margin: 24px 0 0;
+      margin: 0;
       color: rgba(247, 234, 212, 0.72);
       font-size: 16px;
       line-height: 1.95;
@@ -339,7 +350,7 @@
       margin-top: 34px;
     }
 
-    .pixel-button {
+    .main-button {
       min-height: 58px;
       cursor: pointer;
       border: 0;
@@ -347,493 +358,156 @@
       align-items: center;
       justify-content: center;
       gap: 11px;
-      padding: 0 25px;
+      padding: 0 26px;
       font-weight: 800;
       letter-spacing: 1.5px;
       transition: transform 0.16s ease, filter 0.16s ease;
     }
 
-    .pixel-button:hover {
+    .main-button:hover {
       transform: translateY(-3px);
       filter: brightness(1.05);
     }
 
-    .pixel-button:active {
+    .main-button:active {
       transform: translateY(1px);
     }
 
-    .pixel-button.primary {
+    .main-button.primary {
       min-width: 188px;
       color: #20283f;
-      background: var(--panel);
+      background: linear-gradient(180deg, #ffe4b8, #d7aa68);
       box-shadow:
-        inset 0 0 0 2px rgba(32,40,63,0.1),
+        inset 0 0 0 2px rgba(255,255,255,0.2),
         7px 7px 0 rgba(0,0,0,0.22),
         0 18px 48px rgba(0,0,0,0.26);
     }
 
-    .pixel-button.secondary {
+    .main-button.secondary {
       min-width: 168px;
       color: var(--cream);
       background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(247,234,212,0.24);
+      border: 1px solid rgba(247,234,212,0.28);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,0.04),
         7px 7px 0 rgba(0,0,0,0.16);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
 
-    .button-icon {
-      font-size: 18px;
-    }
-
-    .steps {
+    .features {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-width: 470px;
-      margin-top: 34px;
-    }
-
-    .step-card {
-      min-height: 86px;
-      padding: 15px 13px;
-      background: rgba(255,255,255,0.048);
-      border: 1px solid rgba(247,234,212,0.13);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.025),
-        0 12px 34px rgba(0,0,0,0.16);
-      backdrop-filter: blur(8px);
-    }
-
-    .step-card strong {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--gold);
-      font-size: 18px;
-    }
-
-    .step-card span {
-      color: rgba(247,234,212,0.58);
-      font-size: 13px;
-      letter-spacing: 1px;
-    }
-
-    .language-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 26px;
-      color: rgba(247,234,212,0.54);
-      font-size: 13px;
-    }
-
-    .language-select {
-      min-width: 150px;
-      padding: 10px 14px;
-      color: var(--cream);
-      outline: none;
-      border: 1px solid rgba(247,234,212,0.18);
-      background: rgba(255,255,255,0.06);
-    }
-
-    .language-select option {
-      color: var(--cream);
-      background: #0b1628;
-    }
-
-    .showcase {
-      position: relative;
-      min-height: 660px;
-    }
-
-    .garden-frame {
-      position: absolute;
-      inset: 0;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      max-width: 620px;
+      margin-top: 48px;
+      border: 1px solid rgba(247,234,212,0.11);
+      border-radius: 22px;
       overflow: hidden;
-      border: 1px solid rgba(247, 234, 212, 0.18);
-      background:
-        radial-gradient(circle at 62% 26%, rgba(242, 223, 170, 0.09), transparent 18%),
-        linear-gradient(180deg, rgba(18, 36, 58, 0.72), rgba(8, 20, 34, 0.84));
-      box-shadow:
-        0 34px 100px rgba(0,0,0,0.36),
-        inset 0 0 0 1px rgba(255,255,255,0.04);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
     }
 
-    .garden-frame::before,
-    .garden-frame::after {
-      content: "";
-      position: absolute;
-      width: 26px;
-      height: 26px;
-      z-index: 30;
-      border-color: rgba(247, 234, 212, 0.22);
-      border-style: solid;
+    .feature {
+      min-height: 118px;
+      padding: 20px 16px;
+      background: rgba(255,255,255,0.035);
     }
 
-    .garden-frame::before {
-      top: 18px;
-      left: 18px;
-      border-width: 2px 0 0 2px;
-    }
-
-    .garden-frame::after {
-      right: 18px;
-      bottom: 18px;
-      border-width: 0 2px 2px 0;
-    }
-
-    .frame-label {
-      position: absolute;
-      left: 34px;
-      top: 32px;
-      z-index: 31;
-      padding: 10px 14px;
-      color: rgba(247,234,212,0.7);
-      background: rgba(5, 11, 21, 0.38);
-      border: 1px solid rgba(247,234,212,0.12);
-      backdrop-filter: blur(8px);
-      font-size: 13px;
-      letter-spacing: 1px;
-    }
-
-    .horizon {
-      position: absolute;
-      left: -8%;
-      right: -8%;
-      bottom: 40%;
-      height: 160px;
-      z-index: 2;
-    }
-
-    .hill {
-      position: absolute;
-      bottom: 0;
-      height: 145px;
-      border-radius: 50% 50% 0 0;
-      background: rgba(46, 73, 88, 0.5);
-    }
-
-    .hill.one {
-      left: -10%;
-      width: 50%;
-    }
-
-    .hill.two {
-      left: 18%;
-      width: 56%;
-      bottom: -10px;
-      background: rgba(49, 78, 91, 0.4);
-    }
-
-    .hill.three {
-      right: -14%;
-      width: 60%;
-      background: rgba(38, 59, 76, 0.56);
-    }
-
-    .ground {
-      position: absolute;
-      left: -10%;
-      right: -10%;
-      bottom: 0;
-      height: 55%;
-      z-index: 4;
-      border-radius: 58% 42% 0 0 / 20% 18% 0 0;
-      background:
-        radial-gradient(ellipse at 50% 58%, rgba(232, 201, 142, 0.18), transparent 23%),
-        radial-gradient(ellipse at 38% 66%, rgba(111, 143, 117, 0.24), transparent 28%),
-        linear-gradient(180deg, rgba(33, 70, 64, 0.05), #16352b 42%, #0e241e 100%);
-      box-shadow: 0 -34px 70px rgba(0,0,0,0.18);
-    }
-
-    .path {
-      position: absolute;
-      left: 13%;
-      bottom: 3%;
-      width: 68%;
-      height: 38%;
-      z-index: 5;
-      transform: perspective(320px) rotateX(58deg) rotateZ(-7deg);
-      transform-origin: bottom center;
-    }
-
-    .path span {
-      position: absolute;
+    .feature-icon {
       display: block;
-      height: 26px;
-      border: 2px solid rgba(255,255,255,0.1);
-      background: rgba(92, 102, 122, 0.9);
-      box-shadow: 5px 5px 0 rgba(4, 9, 18, 0.33);
-    }
-
-    .path .p1 { left: 12%; bottom: 8%; width: 82px; }
-    .path .p2 { left: 28%; bottom: 21%; width: 98px; }
-    .path .p3 { left: 43%; bottom: 38%; width: 116px; }
-    .path .p4 { left: 58%; bottom: 58%; width: 128px; }
-
-    .tree {
-      position: absolute;
-      right: -54px;
-      bottom: 118px;
-      width: 280px;
-      height: 380px;
-      z-index: 9;
-      pointer-events: none;
-    }
-
-    .trunk {
-      position: absolute;
-      right: 88px;
-      bottom: 0;
-      width: 54px;
-      height: 252px;
-      background:
-        linear-gradient(90deg, #251b22, #52363b 48%, #21181f);
-      box-shadow:
-        -14px 46px 0 #2a1e25,
-        18px 92px 0 #3a2930;
-      transform: skewX(-6deg);
-    }
-
-    .branch {
-      position: absolute;
-      height: 20px;
-      background: #3a2830;
-      transform-origin: left center;
-    }
-
-    .branch.b1 {
-      width: 178px;
-      right: 40px;
-      top: 96px;
-      transform: rotate(-22deg);
-    }
-
-    .branch.b2 {
-      width: 130px;
-      right: 118px;
-      top: 152px;
-      transform: rotate(-48deg);
-    }
-
-    .branch.b3 {
-      width: 142px;
-      right: 20px;
-      top: 178px;
-      transform: rotate(17deg);
-    }
-
-    .leaf {
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      background: #80619a;
-      box-shadow:
-        18px 0 #a17ab4,
-        -18px 0 #675381,
-        0 18px #b187b8,
-        0 -18px #9270ac,
-        36px 18px #8f6ba7,
-        -36px 18px #665181,
-        18px -36px #b188bc;
-      opacity: 0.88;
-    }
-
-    .leaf.l1 { right: 8px; top: 56px; }
-    .leaf.l2 { right: 88px; top: 30px; transform: scale(1.14); }
-    .leaf.l3 { right: 138px; top: 98px; transform: scale(1.02); }
-    .leaf.l4 { right: 24px; top: 142px; transform: scale(0.92); }
-
-    .tomb-zone {
-      position: absolute;
-      left: 48%;
-      bottom: 118px;
-      width: 280px;
-      height: 360px;
-      transform: translateX(-50%);
-      z-index: 14;
-    }
-
-    .tomb {
-      position: absolute;
-      left: 50%;
-      bottom: 68px;
-      width: 168px;
-      height: 226px;
-      transform: translateX(-50%);
-      border: 4px solid rgba(25, 31, 47, 0.62);
-      border-radius: 82px 82px 10px 10px;
-      background:
-        radial-gradient(circle at 42% 28%, rgba(255,255,255,0.16), transparent 8%),
-        linear-gradient(90deg, #687083, #8d8d98 48%, #596176);
-      box-shadow:
-        inset 9px 0 0 rgba(255,255,255,0.1),
-        inset -10px -8px 0 rgba(0,0,0,0.13),
-        14px 14px 0 rgba(5, 11, 22, 0.3);
-    }
-
-    .tomb::before {
-      content: "";
-      position: absolute;
-      left: -14px;
-      right: -14px;
-      bottom: -30px;
-      height: 32px;
-      background: #606a7d;
-      border: 4px solid rgba(25, 31, 47, 0.52);
-      box-shadow: inset 5px 5px 0 rgba(255,255,255,0.08);
-    }
-
-    .paw {
-      position: absolute;
-      left: 50%;
-      top: 43px;
-      width: 42px;
-      height: 36px;
-      transform: translateX(-50%);
-    }
-
-    .paw::before {
-      content: "";
-      position: absolute;
-      left: 12px;
-      top: 15px;
-      width: 20px;
-      height: 17px;
-      background: rgba(33, 40, 58, 0.75);
-      border-radius: 8px;
-      box-shadow:
-        -9px -9px 0 -4px rgba(33, 40, 58, 0.75),
-        9px -9px 0 -4px rgba(33, 40, 58, 0.75),
-        -16px 2px 0 -5px rgba(33, 40, 58, 0.75),
-        17px 2px 0 -5px rgba(33, 40, 58, 0.75);
-    }
-
-    .tomb-text {
-      position: absolute;
-      left: 16px;
-      right: 16px;
-      top: 96px;
-      text-align: center;
-      color: rgba(24, 31, 48, 0.82);
-      text-shadow: 1px 1px 0 rgba(255,255,255,0.18);
-    }
-
-    .tomb-text strong {
-      display: block;
-      font-size: 23px;
-      letter-spacing: 4px;
+      color: var(--gold);
+      font-size: 22px;
       margin-bottom: 12px;
     }
 
-    .tomb-text span {
+    .feature strong {
       display: block;
+      color: var(--cream);
       font-size: 14px;
+      margin-bottom: 7px;
+      letter-spacing: 1px;
+    }
+
+    .feature span {
+      color: rgba(247,234,212,0.52);
+      font-size: 12px;
       line-height: 1.6;
     }
 
-    .lantern {
-      position: absolute;
-      left: 12px;
-      bottom: 48px;
-      width: 50px;
-      height: 70px;
-      z-index: 15;
-      background: #2f2730;
-      border: 3px solid #171620;
-      box-shadow:
-        0 0 34px rgba(255, 192, 96, 0.55),
-        0 0 90px rgba(255, 192, 96, 0.2);
+    .quote {
+      margin-top: 32px;
+      color: rgba(247,234,212,0.45);
+      font-size: 15px;
+      letter-spacing: 1px;
     }
 
-    .lantern::before {
-      content: "";
+    .art {
+      position: relative;
+      z-index: 12;
+      min-height: 650px;
+    }
+
+    .art-card {
       position: absolute;
-      left: 8px;
-      right: 8px;
-      top: 12px;
-      bottom: 12px;
+      inset: 0;
+      border: 1px solid rgba(247,234,212,0.18);
+      border-radius: 30px;
       background:
-        radial-gradient(circle, #fff4b7 0 20%, #ffc15f 21% 50%, rgba(255,193,95,0.12) 52%);
+        linear-gradient(90deg, rgba(5,9,20,0.08), rgba(5,9,20,0)),
+        url("hero.png") center / cover no-repeat;
+      box-shadow:
+        0 34px 100px rgba(0,0,0,0.38),
+        inset 0 0 0 1px rgba(255,255,255,0.04);
+      overflow: hidden;
     }
 
-    .lantern::after {
+    .art-card::before {
       content: "";
       position: absolute;
-      left: 13px;
-      right: 13px;
-      top: -15px;
-      height: 14px;
-      border: 3px solid #171620;
-      border-bottom: 0;
+      inset: 0;
+      background:
+        radial-gradient(circle at 45% 18%, rgba(232,201,142,0.1), transparent 24%),
+        linear-gradient(180deg, rgba(5,9,20,0.02), rgba(5,9,20,0.28));
+      pointer-events: none;
     }
 
-    .flowers {
+    .art-card::after {
+      content: "";
       position: absolute;
-      right: 8px;
-      bottom: 50px;
-      width: 92px;
-      height: 58px;
-      z-index: 15;
+      inset: 18px;
+      border: 1px solid rgba(232,201,142,0.22);
+      border-radius: 24px;
+      pointer-events: none;
     }
 
-    .flower {
+    .art-note {
       position: absolute;
-      width: 11px;
-      height: 11px;
-      background: #ead8da;
-      box-shadow:
-        11px 0 #c9899f,
-        0 11px #dfa7c1,
-        11px 11px #f2e5d4;
-    }
-
-    .flower.f1 { left: 0; bottom: 14px; }
-    .flower.f2 { left: 32px; bottom: 28px; transform: scale(0.88); }
-    .flower.f3 { left: 58px; bottom: 8px; transform: scale(1.08); }
-
-    .quiet-note {
-      position: absolute;
-      right: 34px;
-      bottom: 32px;
-      z-index: 30;
-      max-width: 230px;
-      padding: 15px 16px;
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 18px;
       color: rgba(247,234,212,0.72);
-      background: rgba(5, 11, 21, 0.42);
-      border: 1px solid rgba(247,234,212,0.12);
-      backdrop-filter: blur(8px);
+      background: rgba(5, 9, 20, 0.48);
+      border: 1px solid rgba(247,234,212,0.14);
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+      font-size: 14px;
       line-height: 1.7;
-      font-size: 13px;
     }
 
-    .petal {
-      position: absolute;
-      width: 12px;
-      height: 7px;
-      background: var(--rose);
-      border-radius: 10px 0 10px 0;
-      opacity: 0.68;
-      image-rendering: pixelated;
-      animation: petalFall linear infinite;
-    }
-
-    @keyframes petalFall {
-      0% {
-        transform: translate3d(0, -8vh, 0) rotate(0deg);
-        opacity: 0;
-      }
-
-      14% {
-        opacity: 0.68;
-      }
-
-      100% {
-        transform: translate3d(var(--drift), 105vh, 0) rotate(260deg);
-        opacity: 0;
-      }
+    .art-note button {
+      flex: 0 0 auto;
+      cursor: pointer;
+      padding: 11px 16px;
+      color: var(--cream);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(247,234,212,0.24);
+      border-radius: 999px;
     }
 
     .footer {
@@ -841,16 +515,16 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 35;
+      z-index: 32;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
       padding: 18px 7vw;
-      color: rgba(247,234,212,0.54);
-      background: rgba(5, 11, 21, 0.46);
-      border-top: 1px solid rgba(247,234,212,0.1);
-      backdrop-filter: blur(8px);
+      color: rgba(247,234,212,0.48);
+      background: rgba(5, 9, 20, 0.48);
+      border-top: 1px solid rgba(247,234,212,0.09);
+      backdrop-filter: blur(10px);
       font-size: 13px;
       letter-spacing: 1px;
     }
@@ -883,7 +557,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    @media (max-width: 1040px) {
+    @media (max-width: 1100px) {
       .nav {
         display: none;
       }
@@ -901,28 +575,34 @@
         max-width: none;
       }
 
-      .showcase {
-        min-height: 560px;
+      .art {
+        min-height: 620px;
       }
 
-      .moon {
-        right: 8vw;
-        top: 138px;
-        width: 88px;
-        height: 88px;
+      .features {
+        max-width: none;
       }
 
       .footer {
         position: relative;
-        align-items: flex-start;
         flex-direction: column;
+        align-items: flex-start;
         padding: 18px 24px;
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 680px) {
       .brand-title {
         font-size: 20px;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .language-select {
+        min-width: 112px;
+        padding: 8px 10px;
       }
 
       .copy h1 {
@@ -937,37 +617,28 @@
         display: grid;
       }
 
-      .pixel-button {
+      .main-button {
         width: 100%;
       }
 
-      .steps {
-        grid-template-columns: 1fr;
+      .features {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .showcase {
-        min-height: 470px;
+      .art {
+        min-height: 520px;
       }
 
-      .tree {
-        right: -138px;
-        transform: scale(0.76);
-        transform-origin: bottom right;
+      .art-note {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        display: block;
       }
 
-      .tomb-zone {
-        left: 45%;
-        bottom: 72px;
-        transform: translateX(-50%) scale(0.78);
-      }
-
-      .quiet-note {
-        display: none;
-      }
-
-      .frame-label {
-        left: 22px;
-        top: 22px;
+      .art-note button {
+        margin-top: 12px;
+        width: 100%;
       }
     }
   </style>
@@ -975,18 +646,15 @@
 
 <body>
   <main class="page">
-    <div class="soft-glow" aria-hidden="true"></div>
     <div class="stars" id="stars"></div>
     <div class="petals" id="petals"></div>
-    <div class="moon" aria-hidden="true"></div>
-    <div class="mist" aria-hidden="true"></div>
 
     <header class="header">
       <a class="brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-logo" aria-hidden="true"></span>
         <span>
           <span class="brand-title">宠物纪念园</span>
-          <span class="brand-subtitle">珍藏每一次相遇</span>
+          <span class="brand-subtitle">爱从未离开 · 思念永不褪色</span>
         </span>
       </a>
 
@@ -995,21 +663,29 @@
         <a href="#" id="navGarden">纪念园</a>
         <a href="create.html">创建纪念</a>
         <a href="#" data-soon="故事页面后面制作">故事</a>
-        <button class="nav-action" type="button" data-soon="登录功能后面再接">登录</button>
       </nav>
+
+      <select class="language-select" id="languageSelect" aria-label="选择语言">
+        <option value="zh-CN">简体中文</option>
+        <option value="zh-TW">繁體中文</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+      </select>
     </header>
 
     <section class="hero">
       <section class="copy">
         <div class="eyebrow">
-          <span class="eyebrow-icon"></span>
+          <span class="eyebrow-dot"></span>
           <span>一座安静的宠物纪念花园</span>
         </div>
 
         <h1>
-          把想念
-          <span>安放在这里</span>
+          每一份<span>爱</span><br />
+          都值得被温柔铭记
         </h1>
+
+        <div class="divider" aria-hidden="true"></div>
 
         <p class="desc">
           为离开的爱宠建立一座小小纪念馆。
@@ -1017,96 +693,49 @@
         </p>
 
         <div class="actions">
-          <button class="pixel-button primary" type="button" id="enterGarden">
-            <span class="button-icon">▣</span>
-            进入纪念园
+          <button class="main-button primary" type="button" id="enterGarden">
+            进入纪念园 →
           </button>
 
-          <button class="pixel-button secondary" type="button" id="createMemorial">
-            <span class="button-icon">✿</span>
-            开始创建
+          <button class="main-button secondary" type="button" id="createMemorial">
+            开始创建 →
           </button>
         </div>
 
-        <div class="steps">
-          <div class="step-card">
-            <strong>01</strong>
-            <span>写下名字与故事</span>
+        <section class="features" aria-label="功能介绍">
+          <div class="feature">
+            <span class="feature-icon">♡</span>
+            <strong>专属纪念空间</strong>
+            <span>为爱宠创建独一无二的纪念页</span>
           </div>
 
-          <div class="step-card">
-            <strong>02</strong>
-            <span>选择纪念墓碑</span>
+          <div class="feature">
+            <span class="feature-icon">✿</span>
+            <strong>珍藏美好回忆</strong>
+            <span>保存照片、故事、留言与思念</span>
           </div>
 
-          <div class="step-card">
-            <strong>03</strong>
-            <span>留下留言与花瓣</span>
+          <div class="feature">
+            <span class="feature-icon">▣</span>
+            <strong>温暖缅怀氛围</strong>
+            <span>让每一次想念都有安放之处</span>
           </div>
-        </div>
 
-        <div class="language-wrap">
-          <span>语言</span>
-          <select class="language-select" id="languageSelect" aria-label="选择语言">
-            <option value="zh-CN">简体中文</option>
-            <option value="zh-TW">繁體中文</option>
-            <option value="en">English</option>
-            <option value="ja">日本語</option>
-          </select>
-        </div>
+          <div class="feature">
+            <span class="feature-icon">☆</span>
+            <strong>隐私安全守护</strong>
+            <span>后续支持公开、邀请、私密访问</span>
+          </div>
+        </section>
+
+        <div class="quote">“你来过，便是永恒。”</div>
       </section>
 
-      <section class="showcase" aria-label="首页纪念园插画">
-        <div class="garden-frame">
-          <div class="frame-label">今晚，也有人轻轻想起它</div>
-
-          <div class="horizon">
-            <div class="hill one"></div>
-            <div class="hill two"></div>
-            <div class="hill three"></div>
-          </div>
-
-          <div class="ground"></div>
-
-          <div class="path" aria-hidden="true">
-            <span class="p1"></span>
-            <span class="p2"></span>
-            <span class="p3"></span>
-            <span class="p4"></span>
-          </div>
-
-          <div class="tree" aria-hidden="true">
-            <div class="trunk"></div>
-            <div class="branch b1"></div>
-            <div class="branch b2"></div>
-            <div class="branch b3"></div>
-            <div class="leaf l1"></div>
-            <div class="leaf l2"></div>
-            <div class="leaf l3"></div>
-            <div class="leaf l4"></div>
-          </div>
-
-          <div class="tomb-zone">
-            <div class="tomb">
-              <div class="paw"></div>
-              <div class="tomb-text">
-                <strong>小橘</strong>
-                <span>2012 - 2023</span>
-                <span>♥</span>
-              </div>
-            </div>
-
-            <div class="lantern" aria-hidden="true"></div>
-
-            <div class="flowers" aria-hidden="true">
-              <span class="flower f1"></span>
-              <span class="flower f2"></span>
-              <span class="flower f3"></span>
-            </div>
-          </div>
-
-          <div class="quiet-note">
-            这里没有喧闹的告别，只有一盏灯、一片花瓣，和还没有说完的话。
+      <section class="art" aria-label="纪念园主视觉">
+        <div class="art-card">
+          <div class="art-note">
+            <span>一盏灯，一片花瓣，都是没有说完的想念。</span>
+            <button type="button" id="lightButton">点亮心灯</button>
           </div>
         </div>
       </section>
@@ -1136,13 +765,11 @@
     }
 
     function createStars() {
-      const count = 56;
-
-      for (let i = 0; i < count; i += 1) {
+      for (let i = 0; i < 52; i += 1) {
         const star = document.createElement("span");
         star.className = "star";
         star.style.left = `${random(4, 96)}%`;
-        star.style.top = `${random(7, 62)}%`;
+        star.style.top = `${random(7, 64)}%`;
         star.style.animationDelay = `${random(0, 4.5)}s`;
         star.style.transform = `scale(${random(0.55, 1.05)})`;
         stars.appendChild(star);
@@ -1150,15 +777,13 @@
     }
 
     function createPetals() {
-      const count = 14;
-
-      for (let i = 0; i < count; i += 1) {
+      for (let i = 0; i < 12; i += 1) {
         const petal = document.createElement("span");
         petal.className = "petal";
         petal.style.left = `${random(8, 94)}%`;
         petal.style.top = `${random(-28, 30)}%`;
         petal.style.setProperty("--drift", `${random(-85, 85)}px`);
-        petal.style.animationDuration = `${random(14, 25)}s`;
+        petal.style.animationDuration = `${random(15, 26)}s`;
         petal.style.animationDelay = `${random(0, 16)}s`;
         petals.appendChild(petal);
       }
@@ -1207,6 +832,10 @@
 
     document.getElementById("createMemorial").addEventListener("click", () => {
       window.location.href = "create.html";
+    });
+
+    document.getElementById("lightButton").addEventListener("click", () => {
+      showToast("心灯已点亮，愿思念被温柔照亮。");
     });
 
     document.querySelectorAll("[data-soon]").forEach((item) => {
