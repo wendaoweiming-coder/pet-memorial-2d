@@ -20,8 +20,8 @@
         "Noto Sans SC",
         system-ui,
         sans-serif;
-      background: #06101f;
-      color: #f7ead4;
+      background: #060b16;
+      color: #fff0c8;
     }
 
     body {
@@ -43,7 +43,7 @@
       min-height: 100vh;
       overflow: hidden;
       background:
-        linear-gradient(90deg, rgba(4, 8, 18, 0.84) 0%, rgba(4, 8, 18, 0.58) 42%, rgba(4, 8, 18, 0.12) 100%),
+        linear-gradient(90deg, rgba(4, 8, 18, 0.88) 0%, rgba(4, 8, 18, 0.68) 36%, rgba(4, 8, 18, 0.18) 68%, rgba(4, 8, 18, 0.12) 100%),
         url("hero.png") center / cover no-repeat;
     }
 
@@ -52,8 +52,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 75% 18%, rgba(255, 216, 148, 0.12), transparent 22%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.28));
+        radial-gradient(circle at 72% 18%, rgba(255, 213, 140, 0.12), transparent 24%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.26));
       pointer-events: none;
       z-index: 1;
     }
@@ -70,24 +70,23 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 25px;
+      gap: 12px;
+      color: #f6d59a;
+      font-size: 26px;
       font-weight: 800;
       letter-spacing: 4px;
-      color: #f6d59a;
-      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
     }
 
     .brand-icon {
-      font-size: 30px;
-      line-height: 1;
+      font-size: 28px;
     }
 
     .nav {
       display: flex;
       align-items: center;
       gap: 34px;
-      color: rgba(247, 234, 212, 0.78);
+      color: rgba(255, 240, 200, 0.78);
       font-size: 15px;
       letter-spacing: 1px;
     }
@@ -98,7 +97,7 @@
     }
 
     .nav a.active {
-      color: #f7ead4;
+      color: #fff0c8;
     }
 
     .nav a.active::after {
@@ -113,40 +112,54 @@
 
     .language-select {
       padding: 9px 14px;
-      color: #f7ead4;
-      border: 1px solid rgba(247, 234, 212, 0.32);
+      min-width: 132px;
+      color: #fff0c8;
+      border: 1px solid rgba(255, 240, 200, 0.35);
       background: rgba(4, 8, 18, 0.36);
       outline: none;
+      backdrop-filter: blur(8px);
     }
 
     .language-select option {
-      color: #f7ead4;
+      color: #fff0c8;
       background: #06101f;
     }
 
     .hero {
       position: relative;
       z-index: 5;
-      min-height: calc(100vh - 90px);
+      min-height: calc(100vh - 88px);
       display: flex;
       align-items: center;
-      padding: 0 6vw 72px;
+      padding: 0 6vw 80px;
     }
 
     .copy {
-      max-width: 620px;
+      max-width: 660px;
       transform: translateY(-8px);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 26px;
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 240, 200, 0.24);
+      background: rgba(4, 8, 18, 0.34);
+      color: rgba(255, 240, 200, 0.78);
+      font-size: 14px;
+      letter-spacing: 2px;
+      backdrop-filter: blur(8px);
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(44px, 6vw, 86px);
-      line-height: 1.14;
+      font-size: clamp(46px, 6vw, 88px);
+      line-height: 1.15;
       letter-spacing: 3px;
       color: #fff0c8;
       text-shadow:
-        0 5px 0 rgba(0, 0, 0, 0.22),
-        0 22px 55px rgba(0, 0, 0, 0.55);
+        0 5px 0 rgba(0, 0, 0, 0.2),
+        0 24px 58px rgba(0, 0, 0, 0.58);
     }
 
     h1 span {
@@ -154,9 +167,9 @@
     }
 
     .subtitle {
-      margin: 26px 0 0;
+      margin: 28px 0 0;
       max-width: 520px;
-      color: rgba(247, 234, 212, 0.82);
+      color: rgba(255, 240, 200, 0.82);
       font-size: 18px;
       line-height: 1.9;
       letter-spacing: 1px;
@@ -187,16 +200,16 @@
 
     .button.primary {
       color: #1f2432;
-      background: linear-gradient(180deg, #ffe7bb, #d7a45f);
+      background: linear-gradient(180deg, #ffe8bb, #d7a45f);
       box-shadow:
         inset 0 0 0 3px rgba(255, 255, 255, 0.18),
         7px 7px 0 rgba(0, 0, 0, 0.28);
     }
 
     .button.secondary {
-      color: #f7ead4;
+      color: #fff0c8;
       background: rgba(6, 12, 26, 0.42);
-      border: 1px solid rgba(247, 234, 212, 0.42);
+      border: 1px solid rgba(255, 240, 200, 0.42);
       box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.04),
         7px 7px 0 rgba(0, 0, 0, 0.2);
@@ -209,9 +222,9 @@
       bottom: 34px;
       z-index: 20;
       padding: 14px 22px;
-      color: #f7ead4;
+      color: #fff0c8;
       background: rgba(7, 15, 30, 0.94);
-      border: 1px solid rgba(247, 234, 212, 0.22);
+      border: 1px solid rgba(255, 240, 200, 0.22);
       transform: translateX(-50%) translateY(20px);
       opacity: 0;
       pointer-events: none;
@@ -238,7 +251,7 @@
       }
 
       .hero {
-        padding: 70px 22px 80px;
+        padding: 72px 22px 80px;
         align-items: flex-start;
       }
 
@@ -269,7 +282,7 @@
   <main class="page">
     <header class="header">
       <a class="brand" href="index.html">
-        <span class="brand-icon"> paw </span>
+        <span class="brand-icon">🐾</span>
         <span>宠物纪念园</span>
       </a>
 
@@ -290,6 +303,8 @@
 
     <section class="hero">
       <div class="copy">
+        <div class="tag">一座安静的宠物纪念花园</div>
+
         <h1>
           每一份<span>爱</span>，<br />
           都值得被温柔铭记
