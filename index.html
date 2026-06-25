@@ -6,101 +6,129 @@
   <title>宠物纪念园</title>
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; width: 100%; min-height: 100%; background: #050914; overflow: hidden; }
-    body { font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #07111f;
+      overflow: hidden;
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    }
     .page {
       position: relative;
       width: 100vw;
       height: 100vh;
-      overflow: hidden;
-      background: url("hero.png?v=redesign-2") center center / cover no-repeat;
+      background: url("hero.png") center center / cover no-repeat;
     }
-    .overlay {
+    .page::after {
+      content: "";
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      background: url("ui-overlay.png") center center / cover no-repeat;
       pointer-events: none;
-      user-select: none;
-      image-rendering: auto;
     }
-    .hotspot {
+    .hit {
       position: absolute;
       z-index: 5;
       border: 0;
+      padding: 0;
       background: transparent;
       cursor: pointer;
     }
-    .enter { left: 6.85%; top: 66.65%; width: 16.7%; height: 7.85%; }
-    .create { left: 26.05%; top: 66.65%; width: 16.7%; height: 7.85%; }
-    .nav-home { left: 42.2%; top: 6.1%; width: 4.0%; height: 5%; }
-    .nav-garden { left: 48.9%; top: 6.1%; width: 5.3%; height: 5%; }
-    .nav-create { left: 57.0%; top: 6.1%; width: 7.4%; height: 5%; }
-    .language { left: 85.4%; top: 5.1%; width: 11.1%; height: 6.2%; }
+    .brand { left: 2%; top: 2%; width: 14.5%; height: 7.5%; }
+    .nav-home { left: 42.8%; top: 3%; width: 4.6%; height: 6.5%; }
+    .nav-garden { left: 49.4%; top: 3%; width: 5.2%; height: 6.5%; }
+    .nav-create { left: 57.2%; top: 3%; width: 7%; height: 6.5%; }
+    .lang {
+      position: absolute;
+      z-index: 6;
+      left: 85.8%; top: 2.5%; width: 10.2%; height: 5.8%;
+      opacity: 0.01;
+      cursor: pointer;
+    }
+    .enter { left: 5%; top: 64.5%; width: 18.7%; height: 8.3%; }
+    .create { left: 26.3%; top: 64.5%; width: 16.8%; height: 8.3%; }
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 34px;
-      z-index: 20;
-      padding: 14px 22px;
-      color: #f6e7c6;
-      background: rgba(7, 15, 30, 0.94);
-      border: 2px solid rgba(236, 214, 174, 0.5);
-      transform: translateX(-50%) translateY(20px);
+      bottom: 28px;
+      transform: translateX(-50%) translateY(16px);
+      padding: 12px 18px;
+      border: 1px solid rgba(246,212,142,0.35);
+      background: rgba(9,16,31,0.95);
+      color: #f6eedf;
       opacity: 0;
       pointer-events: none;
-      transition: 0.24s ease;
-      font-weight: 700;
+      transition: 0.22s ease;
+      z-index: 30;
       letter-spacing: 1px;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     @media (max-width: 900px) {
       body { overflow: auto; }
-      .page { min-height: 100vh; background-position: center center; }
+      .page { min-height: 100vh; }
+      .brand { left: 2%; top: 1.6%; width: 24%; height: 7%; }
+      .lang { left: 78%; top: 2%; width: 18%; height: 6%; }
+      .nav-home { left: 38%; top: 2.8%; width: 7%; height: 6%; }
+      .nav-garden { left: 47%; top: 2.8%; width: 8%; height: 6%; }
+      .nav-create { left: 58%; top: 2.8%; width: 12%; height: 6%; }
+      .enter { left: 5%; top: 67%; width: 27%; height: 7.5%; }
+      .create { left: 35%; top: 67%; width: 25%; height: 7.5%; }
     }
   </style>
 </head>
 <body>
   <main class="page">
-    <img class="overlay" src="ui-overlay.png?v=redesign-2" alt="宠物纪念园首页" />
-    <button class="hotspot enter" type="button" id="enterGarden" aria-label="进入纪念园"></button>
-    <button class="hotspot create" type="button" id="createMemorial" aria-label="开始创建"></button>
-    <button class="hotspot nav-home" type="button" aria-label="首页"></button>
-    <button class="hotspot nav-garden" type="button" id="navGarden" aria-label="纪念园"></button>
-    <button class="hotspot nav-create" type="button" id="navCreate" aria-label="创建纪念"></button>
-    <button class="hotspot language" type="button" id="languageButton" aria-label="语言"></button>
+    <button class="hit brand" type="button" onclick="location.href='index.html'" aria-label="首页"></button>
+    <button class="hit nav-home" type="button" onclick="location.href='index.html'" aria-label="首页"></button>
+    <button class="hit nav-garden" type="button" id="navGarden" aria-label="纪念园"></button>
+    <button class="hit nav-create" type="button" id="navCreate" aria-label="创建纪念"></button>
+    <button class="hit enter" type="button" id="enterGarden" aria-label="进入纪念园"></button>
+    <button class="hit create" type="button" id="createMemorial" aria-label="开始创建"></button>
+
+    <select class="lang" id="languageSelect" aria-label="语言选择">
+      <option value="zh-CN">简体中文</option>
+      <option value="zh-TW">繁體中文</option>
+      <option value="en">English</option>
+      <option value="ja">日本語</option>
+    </select>
   </main>
   <div class="toast" id="toast"></div>
   <script>
-    const toast = document.getElementById("toast");
+    const toast = document.getElementById('toast');
     function showToast(message) {
       toast.textContent = message;
-      toast.classList.add("show");
-      window.clearTimeout(showToast.timer);
-      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1800);
+      toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove('show'), 1800);
     }
     function hasSavedMemorial() {
       try {
-        const draft = JSON.parse(localStorage.getItem("petMemorialDraft"));
-        return Boolean(draft && draft.petName && draft.epitaph);
-      } catch (error) {
+        const draft = JSON.parse(localStorage.getItem('petMemorialDraft'));
+        return Boolean(draft && draft.petName);
+      } catch (e) {
         return false;
       }
     }
     function openGarden() {
       if (hasSavedMemorial()) {
-        window.location.href = "cemetery.html";
-        return;
+        window.location.href = 'cemetery.html';
+      } else {
+        showToast('还没有创建纪念，先去创建页面。');
+        setTimeout(() => { window.location.href = 'create.html'; }, 700);
       }
-      showToast("还没有创建纪念，先进入创建页面。");
-      setTimeout(() => window.location.href = "create.html", 700);
     }
-    document.getElementById("enterGarden").addEventListener("click", openGarden);
-    document.getElementById("navGarden").addEventListener("click", openGarden);
-    document.getElementById("createMemorial").addEventListener("click", () => window.location.href = "create.html");
-    document.getElementById("navCreate").addEventListener("click", () => window.location.href = "create.html");
-    document.getElementById("languageButton").addEventListener("click", () => showToast("语言切换后面单独接"));
+    document.getElementById('enterGarden').addEventListener('click', openGarden);
+    document.getElementById('navGarden').addEventListener('click', openGarden);
+    document.getElementById('createMemorial').addEventListener('click', () => { window.location.href = 'create.html'; });
+    document.getElementById('navCreate').addEventListener('click', () => { window.location.href = 'create.html'; });
+    const select = document.getElementById('languageSelect');
+    const savedLanguage = localStorage.getItem('petMemorialLanguage');
+    if (savedLanguage) select.value = savedLanguage;
+    select.addEventListener('change', function() {
+      localStorage.setItem('petMemorialLanguage', this.value);
+      showToast('语言已保存');
+    });
   </script>
 </body>
 </html>
