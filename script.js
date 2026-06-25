@@ -9,6 +9,8 @@ const enterImage = document.getElementById("enterImage");
 const createImage = document.getElementById("createImage");
 const languageImage = document.getElementById("languageImage");
 
+const version = "pixel-button-fixed-1";
+
 const assetMap = {
   "zh-CN": {
     key: "zh_CN",
@@ -43,6 +45,7 @@ resizeStage();
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
+
   clearTimeout(showToast.timer);
   showToast.timer = setTimeout(() => {
     toast.classList.remove("show");
@@ -53,11 +56,11 @@ function applyLanguage(lang) {
   const data = assetMap[lang] || assetMap["zh-CN"];
   const key = data.key;
 
-  brandImage.src = `assets/brand_${key}.png`;
-  heroImage.src = `assets/hero_${key}.png`;
-  enterImage.src = `assets/button_enter_${key}.png`;
-  createImage.src = `assets/button_create_${key}.png`;
-  languageImage.src = `assets/language_${key}.png`;
+  brandImage.src = `assets/brand_${key}.png?v=${version}`;
+  heroImage.src = `assets/hero_${key}.png?v=${version}`;
+  enterImage.src = `assets/button_enter_${key}.png?v=${version}`;
+  createImage.src = `assets/button_create_${key}.png?v=${version}`;
+  languageImage.src = `assets/language_${key}.png?v=${version}`;
 
   document.querySelectorAll(".language-menu button").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === lang);
@@ -118,9 +121,8 @@ document.addEventListener("click", () => {
   languageBox.classList.remove("open");
 });
 
-const previousVersion = localStorage.getItem("starpawHomeVersion");
-if (previousVersion !== "pixel-assets-1") {
-  localStorage.setItem("starpawHomeVersion", "pixel-assets-1");
+if (localStorage.getItem("starpawHomeVersion") !== version) {
+  localStorage.setItem("starpawHomeVersion", version);
   localStorage.setItem("petMemorialLanguage", "zh-CN");
 }
 

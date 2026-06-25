@@ -34,7 +34,7 @@ button {
   transform-origin: center center;
   background:
     linear-gradient(90deg, rgba(5, 10, 22, 0.18) 0%, rgba(5, 10, 22, 0.07) 55%, rgba(5, 10, 22, 0.00) 100%),
-    url("assets/bg.png?v=final-pixel-ui-1") center center / cover no-repeat;
+    url("assets/bg.png?v=pixel-button-fixed-1") center center / cover no-repeat;
 }
 
 .brand-image {
@@ -42,7 +42,7 @@ button {
   left: 42px;
   top: 37px;
   width: 360px;
-  height: 100px;
+  height: 105px;
   object-fit: contain;
   z-index: 10;
 }
@@ -64,7 +64,6 @@ button {
   width: 230px;
   height: 62px;
   display: block;
-  image-rendering: auto;
 }
 
 .language-menu {
@@ -101,8 +100,8 @@ button {
   position: absolute;
   left: 78px;
   top: 258px;
-  width: 760px;
-  height: 430px;
+  width: 780px;
+  height: 420px;
   object-fit: contain;
   z-index: 10;
 }
@@ -118,7 +117,7 @@ button {
 
 .real-button {
   width: 330px;
-  height: 116px;
+  height: 112px;
   display: block;
   transition: transform 0.14s ease, filter 0.14s ease;
 }
@@ -130,7 +129,7 @@ button {
 
 .real-button img {
   width: 330px;
-  height: 116px;
+  height: 112px;
   display: block;
   pointer-events: none;
 }
