@@ -1,1 +1,1 @@
-/* script is now embedded in index.html to avoid GitHub Pages cache issues */
+/* Script is embedded in index.html. */

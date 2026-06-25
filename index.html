@@ -17,19 +17,21 @@
       height:941px;
       transform-origin:center center;
       background:
-        linear-gradient(90deg,rgba(5,10,22,.14) 0%,rgba(5,10,22,.05) 55%,rgba(5,10,22,0) 100%),
-        url("assets/bg.png?v=force-layout-inline-1") center center/cover no-repeat;
+        linear-gradient(90deg,rgba(5,10,22,.13) 0%,rgba(5,10,22,.05) 55%,rgba(5,10,22,0) 100%),
+        url("assets/bg.png?v=layout-size-position-fixed-1") center center/cover no-repeat;
     }
+
     .brand-image{
       position:absolute;
-      left:8px;
-      top:18px;
-      width:300px;
-      height:72px;
+      left:56px;
+      top:54px;
+      width:270px;
+      height:76px;
       object-fit:contain;
       object-position:left top;
       z-index:10;
     }
+
     .language{
       position:absolute;
       right:68px;
@@ -61,35 +63,38 @@
 
     .hero-image{
       position:absolute;
-      left:16px;
-      top:212px;
-      width:620px;
-      height:334px;
+      left:72px;
+      top:232px;
+      width:560px;
+      height:302px;
       object-fit:contain;
       object-position:left top;
       z-index:10;
     }
+
     .actions{
       position:absolute;
-      left:70px;
-      top:626px;
+      left:84px;
+      top:638px;
       z-index:20;
       display:flex;
-      gap:32px;
+      gap:28px;
     }
+
     .real-button{
-      width:285px;
-      height:100px;
+      width:250px;
+      height:88px;
       display:block;
       transition:transform .14s ease,filter .14s ease;
     }
     .real-button:hover{transform:translateY(-2px);filter:brightness(1.06)}
     .real-button img{
-      width:285px;
-      height:100px;
+      width:250px;
+      height:88px;
       display:block;
       pointer-events:none;
     }
+
     .toast{
       position:fixed;
       left:50%;
@@ -112,11 +117,11 @@
 <body>
   <main class="viewport">
     <section class="stage" id="stage">
-      <img class="brand-image" id="brandImage" src="assets/brand_zh_CN.png?v=force-layout-inline-1" alt="星爪纪念花园" />
+      <img class="brand-image" id="brandImage" src="assets/brand_zh_CN.png?v=layout-size-position-fixed-1" alt="星爪纪念花园" />
 
       <div class="language" id="languageBox">
         <button class="language-button" type="button" id="languageButton" aria-label="选择语言">
-          <img id="languageImage" src="assets/language_zh_CN.png?v=force-layout-inline-1" alt="简体中文" />
+          <img id="languageImage" src="assets/language_zh_CN.png?v=layout-size-position-fixed-1" alt="简体中文" />
         </button>
         <div class="language-menu">
           <button type="button" data-lang="zh-CN">简体中文</button>
@@ -126,14 +131,14 @@
         </div>
       </div>
 
-      <img class="hero-image" id="heroImage" src="assets/hero_zh_CN.png?v=force-layout-inline-1" alt="让想念，有一个安静的地方" />
+      <img class="hero-image" id="heroImage" src="assets/hero_zh_CN.png?v=layout-size-position-fixed-1" alt="让想念，有一个安静的地方" />
 
       <div class="actions">
         <button class="real-button" type="button" id="enterGarden">
-          <img id="enterImage" src="assets/button_enter_zh_CN.png?v=force-layout-inline-1" alt="进入纪念园" />
+          <img id="enterImage" src="assets/button_enter_zh_CN.png?v=layout-size-position-fixed-1" alt="进入纪念园" />
         </button>
         <button class="real-button" type="button" id="createMemorial">
-          <img id="createImage" src="assets/button_create_zh_CN.png?v=force-layout-inline-1" alt="开始创建" />
+          <img id="createImage" src="assets/button_create_zh_CN.png?v=layout-size-position-fixed-1" alt="开始创建" />
         </button>
       </div>
     </section>
@@ -153,29 +158,13 @@
     const createImage = document.getElementById("createImage");
     const languageImage = document.getElementById("languageImage");
 
-    const version = "force-layout-inline-1";
+    const version = "layout-size-position-fixed-1";
 
     const assetMap = {
-      "zh-CN": {
-        key: "zh_CN",
-        saved: "语言已保存",
-        noMemorial: "还没有创建纪念，先去创建页面。"
-      },
-      "zh-TW": {
-        key: "zh_TW",
-        saved: "語言已保存",
-        noMemorial: "還沒有建立紀念，先去建立頁面。"
-      },
-      en: {
-        key: "en",
-        saved: "Language saved",
-        noMemorial: "No memorial yet. Opening the creation page."
-      },
-      ja: {
-        key: "ja",
-        saved: "言語を保存しました",
-        noMemorial: "まだ記念ページがありません。作成ページへ移動します。"
-      }
+      "zh-CN": { key: "zh_CN", saved: "语言已保存", noMemorial: "还没有创建纪念，先去创建页面。" },
+      "zh-TW": { key: "zh_TW", saved: "語言已保存", noMemorial: "還沒有建立紀念，先去建立頁面。" },
+      en: { key: "en", saved: "Language saved", noMemorial: "No memorial yet. Opening the creation page." },
+      ja: { key: "ja", saved: "言語を保存しました", noMemorial: "まだ記念ページがありません。作成ページへ移動します。" }
     };
 
     function resizeStage() {
@@ -190,15 +179,12 @@
       toast.textContent = message;
       toast.classList.add("show");
       clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 1500);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1500);
     }
 
     function applyLanguage(lang) {
       const data = assetMap[lang] || assetMap["zh-CN"];
       const key = data.key;
-
       brandImage.src = `assets/brand_${key}.png?v=${version}`;
       heroImage.src = `assets/hero_${key}.png?v=${version}`;
       enterImage.src = `assets/button_enter_${key}.png?v=${version}`;
@@ -222,24 +208,16 @@
     function openGarden() {
       const lang = localStorage.getItem("petMemorialLanguage") || "zh-CN";
       const data = assetMap[lang] || assetMap["zh-CN"];
-
       if (hasSavedMemorial()) {
         window.location.href = "cemetery.html";
         return;
       }
-
       showToast(data.noMemorial);
-
-      setTimeout(() => {
-        window.location.href = "create.html";
-      }, 700);
+      setTimeout(() => window.location.href = "create.html", 700);
     }
 
     document.getElementById("enterGarden").addEventListener("click", openGarden);
-
-    document.getElementById("createMemorial").addEventListener("click", () => {
-      window.location.href = "create.html";
-    });
+    document.getElementById("createMemorial").addEventListener("click", () => window.location.href = "create.html");
 
     languageButton.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -253,16 +231,12 @@
         localStorage.setItem("petMemorialLanguage", lang);
         applyLanguage(lang);
         languageBox.classList.remove("open");
-
         const data = assetMap[lang] || assetMap["zh-CN"];
         showToast(data.saved);
       });
     });
 
-    document.addEventListener("click", () => {
-      languageBox.classList.remove("open");
-    });
-
+    document.addEventListener("click", () => languageBox.classList.remove("open"));
     localStorage.setItem("starpawHomeVersion", version);
     applyLanguage(localStorage.getItem("petMemorialLanguage") || "zh-CN");
   </script>
