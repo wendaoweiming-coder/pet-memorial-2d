@@ -3,1057 +3,336 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>创建纪念｜星归园</title>
+  <title>创建纪念 - 星归园</title>
   <style>
-    * { box-sizing: border-box; }
-
-    :root {
-      --bg: #07111f;
-      --panel: rgba(7, 17, 34, .78);
-      --panel-strong: rgba(7, 17, 34, .92);
-      --field: rgba(4, 12, 26, .86);
-      --gold: rgba(232, 201, 148, .92);
-      --gold-soft: rgba(232, 213, 178, .70);
-      --gold-dim: rgba(232, 213, 178, .48);
-      --line: rgba(205, 157, 91, .68);
-      --line-soft: rgba(205, 157, 91, .38);
-      --shadow: rgba(0, 0, 0, .26);
-      --font-pixel: "SimSun", "宋体", "Courier New", monospace;
+    :root{
+      --stage-w: 1672;
+      --stage-h: 941;
+      --gold:#e0b870;
+      --gold-soft:#d4ad69;
+      --deep:#061329;
+      --input-bg: rgba(4,13,31,.92);
+      --input-bg-soft: rgba(5,16,36,.84);
+      --panel-line: rgba(224,184,112,.22);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:#050d19;color:var(--gold);font-family:"Noto Serif CJK SC","Microsoft YaHei","PingFang SC",serif}
+    body{overflow:hidden}
+    button,input,select,textarea{font:inherit}
+    .viewport{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:#050d19}
+    .stage{
+      position:relative;
+      width:1672px;height:941px;
+      background:url("assets/create-page-bg.png") center/cover no-repeat;
+      transform-origin:center center;
+      image-rendering:pixelated;
+      overflow:hidden;
     }
 
-    html,
-    body {
-      margin: 0;
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--gold);
-      font-family: var(--font-pixel);
-      -webkit-font-smoothing: none;
-      text-rendering: geometricPrecision;
+    .ghost-button,
+    .ghost-link{
+      position:absolute;
+      background:transparent;
+      border:0;
+      cursor:pointer;
+      z-index:8;
+    }
+    .ghost-link{display:block;text-decoration:none}
+
+    /* top controls */
+    .home-hit{left:1258px;top:18px;width:122px;height:56px}
+    .lang-hit{left:1402px;top:18px;width:174px;height:56px}
+    .lang-menu{
+      position:absolute;left:1402px;top:77px;width:174px;
+      display:none;z-index:20;padding:6px;background:rgba(6,16,34,.98);
+      border:1px solid rgba(224,184,112,.38);box-shadow:0 8px 24px rgba(0,0,0,.35)
+    }
+    .lang-menu.open{display:block}
+    .lang-menu button{
+      width:100%;height:38px;border:0;background:transparent;color:var(--gold);text-align:left;
+      padding:0 14px;font-size:18px;cursor:pointer
+    }
+    .lang-menu button:hover{background:rgba(224,184,112,.08)}
+
+    /* form overlay */
+    .form-layer{position:absolute;inset:0;z-index:10}
+    .field{position:absolute;display:flex;align-items:center}
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;height:100%;
+      color:var(--gold);
+      background:var(--input-bg);
+      border:1px solid rgba(224,184,112,.16);
+      outline:none;
+      padding:0 18px;
+      font-size:19px;
+      line-height:1.2;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+    .field input::placeholder,
+    .field textarea::placeholder,
+    .field select.placeholder{color:rgba(212,173,105,.66)}
+    .field textarea{padding:14px 18px;resize:none;line-height:1.55}
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus{
+      border-color:rgba(224,184,112,.42);
+      box-shadow:0 0 0 1px rgba(224,184,112,.22), inset 0 0 0 1px rgba(255,255,255,.02)
+    }
+    select{
+      appearance:none;-webkit-appearance:none;-moz-appearance:none;
+      background-image:none;
+      padding-right:46px;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator{opacity:0;cursor:pointer}
+
+    .counter{
+      position:absolute;right:12px;bottom:8px;font-size:14px;color:rgba(224,184,112,.82);
+      letter-spacing:.3px;pointer-events:none;z-index:2
+    }
+    .textarea-wrap{position:absolute}
+    .textarea-wrap .field{position:absolute;inset:0}
+
+    .visibility-group{position:absolute;left:642px;top:619px;display:flex;gap:15px;z-index:10}
+    .visibility-option{
+      position:relative;width:286px;height:74px;background:rgba(5,14,33,.82);border:1px solid rgba(224,184,112,.16);
+      cursor:pointer;display:block
+    }
+    .visibility-option input{position:absolute;opacity:0;pointer-events:none}
+    .visibility-option.active{box-shadow:inset 0 0 0 1px rgba(224,184,112,.38)}
+    .visibility-option .ring{
+      position:absolute;left:16px;top:12px;width:21px;height:21px;border-radius:50%;border:2px solid rgba(224,184,112,.82)
+    }
+    .visibility-option.active .ring::after{
+      content:"";position:absolute;left:4px;top:4px;width:9px;height:9px;border-radius:50%;background:rgba(224,184,112,.92)
     }
 
-    body { overflow-x: hidden; }
-
-    button,
-    input,
-    textarea,
-    select { font: inherit; }
-
-    button { border: 0; cursor: pointer; }
-
-    .page {
-      min-height: 100vh;
-      position: relative;
-      padding: 34px 58px 52px;
-      background:
-        linear-gradient(90deg, rgba(5, 10, 22, .72), rgba(5, 10, 22, .53) 48%, rgba(5, 10, 22, .35)),
-        url("assets/bg.png") center center / cover fixed no-repeat;
+    .upload-zone{position:absolute;left:643px;top:741px;display:flex;gap:14px;z-index:12}
+    .upload-slot{
+      position:relative;height:84px;border:1px dashed rgba(224,184,112,.34);background:rgba(5,14,33,.28);overflow:hidden
+    }
+    .upload-slot.large{width:338px;cursor:pointer}
+    .upload-slot.small{width:104px}
+    .upload-slot.small button,.upload-slot.large button{position:absolute;inset:0;border:0;background:transparent;cursor:pointer}
+    .upload-slot img{width:100%;height:100%;object-fit:cover;display:none}
+    .upload-slot.filled img{display:block}
+    .upload-slot.filled .remove{display:flex}
+    .remove{
+      position:absolute;right:6px;top:6px;width:18px;height:18px;display:none;align-items:center;justify-content:center;
+      border:1px solid rgba(224,184,112,.55);background:rgba(8,16,33,.85);color:var(--gold);font-size:12px;cursor:pointer;z-index:2
+    }
+    .primary-action{
+      position:absolute;left:1324px;top:849px;width:245px;height:47px;z-index:15;
+      background:transparent;border:0;cursor:pointer
     }
 
-    .page::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at 24% 16%, rgba(246, 218, 154, .09), transparent 18%);
+    .toast{
+      position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+      padding:10px 18px;background:rgba(6,14,28,.94);border:1px solid rgba(224,184,112,.36);
+      color:var(--gold);font-size:16px;opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:50
     }
+    .toast.show{opacity:1}
 
-    .topbar {
-      position: relative;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
-    }
+    /* absolute coordinates for form fields */
+    #petNameWrap{left:643px;top:175px;width:462px;height:44px}
+    #speciesWrap{left:1138px;top:175px;width:425px;height:44px}
+    #birthWrap{left:643px;top:272px;width:462px;height:44px}
+    #deathWrap{left:1138px;top:272px;width:425px;height:44px}
+    #epitaphWrap{left:643px;top:365px;width:920px;height:79px}
+    #storyWrap{left:643px;top:492px;width:920px;height:79px}
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--gold);
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-shadow: 3px 3px 0 rgba(17, 12, 8, .55);
-    }
-
-    .brand img,
-    .panel-title img,
-    .small-paw {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-      image-rendering: pixelated;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .pixel-control,
-    .language-button,
-    .main-button,
-    .ghost-button {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      color: var(--gold);
-      background: rgba(7, 16, 32, .76);
-      border: 2px solid var(--line);
-      box-shadow:
-        inset 0 0 0 2px rgba(255, 232, 178, .045),
-        5px 5px 0 var(--shadow);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 0 rgba(17, 12, 8, .38);
-      line-height: 1;
-    }
-
-    .pixel-control,
-    .language-button { height: 42px; padding: 0 16px; }
-
-    .pixel-control::before,
-    .pixel-control::after,
-    .language-button::before,
-    .language-button::after,
-    .panel::before,
-    .panel::after,
-    .mini-card::before,
-    .mini-card::after,
-    .choice::before,
-    .choice::after {
-      content: "";
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      pointer-events: none;
-      border-color: rgba(236, 191, 116, .74);
-      border-style: solid;
-    }
-
-    .pixel-control::before,
-    .language-button::before,
-    .panel::before,
-    .mini-card::before,
-    .choice::before {
-      left: 8px;
-      top: 8px;
-      border-width: 2px 0 0 2px;
-    }
-
-    .pixel-control::after,
-    .language-button::after,
-    .panel::after,
-    .mini-card::after,
-    .choice::after {
-      right: 8px;
-      bottom: 8px;
-      border-width: 0 2px 2px 0;
-    }
-
-    .globe-svg {
-      width: 19px;
-      height: 19px;
-      opacity: .88;
-      flex: none;
-    }
-
-    .language { position: relative; z-index: 30; }
-
-    .language-menu {
-      position: absolute;
-      right: 0;
-      top: 50px;
-      width: 152px;
-      display: none;
-      padding: 6px;
-      background: rgba(8, 16, 32, .98);
-      border: 2px solid var(--line);
-      box-shadow: 6px 6px 0 rgba(0, 0, 0, .28);
-    }
-
-    .language.open .language-menu { display: grid; gap: 4px; }
-
-    .language-menu button {
-      height: 34px;
-      color: var(--gold);
-      background: transparent;
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: .8px;
-    }
-
-    .language-menu button:hover,
-    .language-menu button.active { background: rgba(232, 191, 116, .12); }
-
-    .layout {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: 430px minmax(650px, 930px);
-      gap: 34px;
-      max-width: 1400px;
-      margin: 0 auto;
-      align-items: start;
-    }
-
-    .panel {
-      position: relative;
-      background: var(--panel);
-      border: 2px solid rgba(205, 157, 91, .62);
-      box-shadow:
-        inset 0 0 0 2px rgba(255, 232, 178, .04),
-        8px 8px 0 var(--shadow);
-    }
-
-    .left-panel { padding: 24px; min-height: 640px; }
-    .form-panel { padding: 24px 26px 26px; }
-
-    .panel-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 20px;
-      color: rgba(238, 213, 167, .96);
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 0 rgba(17, 12, 8, .42);
-    }
-
-    .ornament-line {
-      position: relative;
-      height: 2px;
-      width: 100%;
-      margin: 0 0 26px;
-      background: linear-gradient(90deg, rgba(205,157,91,.72), rgba(205,157,91,.22), transparent);
-    }
-
-    .ornament-line::after {
-      content: "";
-      position: absolute;
-      left: 48%;
-      top: -7px;
-      width: 14px;
-      height: 14px;
-      background: rgba(226, 184, 112, .72);
-      transform: rotate(45deg);
-      box-shadow:
-        -22px 0 0 rgba(226, 184, 112, .42),
-        22px 0 0 rgba(226, 184, 112, .42);
-    }
-
-    .hero-copy {
-      margin: 0 0 26px;
-      padding: 6px 0 0;
-    }
-
-    .hero-copy h1 {
-      margin: 0;
-      color: rgba(226, 199, 145, .94);
-      font-family: "SimSun", "宋体", serif;
-      font-size: 42px;
-      line-height: 1.18;
-      letter-spacing: 1px;
-      text-shadow:
-        4px 4px 0 rgba(30, 23, 17, .70),
-        2px 2px 0 rgba(66, 48, 30, .58);
-    }
-
-    .hero-copy p {
-      margin: 18px 0 0;
-      color: var(--gold-soft);
-      font-size: 15px;
-      line-height: 1.9;
-      letter-spacing: .6px;
-      text-shadow: 0 2px 0 rgba(17, 12, 8, .34);
-    }
-
-    .mini-card {
-      position: relative;
-      margin-top: 24px;
-      padding: 22px 20px 24px;
-      min-height: 260px;
-      background:
-        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px),
-        rgba(4, 12, 26, .58);
-      background-size: 5px 5px, 5px 5px, auto;
-      border: 2px solid rgba(205, 157, 91, .46);
-      box-shadow: inset 0 0 0 2px rgba(255,232,178,.03), 5px 5px 0 rgba(0,0,0,.18);
-    }
-
-    .card-label {
-      color: rgba(232, 213, 178, .58);
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      margin-bottom: 18px;
-    }
-
-    .card-name {
-      color: rgba(238, 213, 167, .96);
-      font-size: 34px;
-      font-weight: 900;
-      line-height: 1.2;
-      letter-spacing: 1px;
-      text-shadow: 3px 3px 0 rgba(17,12,8,.52);
-      word-break: break-word;
-    }
-
-    .card-date {
-      margin-top: 18px;
-      color: rgba(232, 213, 178, .72);
-      font-size: 15px;
-      line-height: 1.7;
-      font-weight: 900;
-    }
-
-    .card-epitaph {
-      margin-top: 18px;
-      padding-top: 16px;
-      color: rgba(232, 213, 178, .78);
-      border-top: 2px solid rgba(205,157,91,.26);
-      font-size: 15px;
-      line-height: 1.7;
-      max-height: 86px;
-      overflow: hidden;
-    }
-
-    .preview-note {
-      margin: 18px 0 0;
-      color: rgba(232, 213, 178, .52);
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px 18px;
-    }
-
-    .section-label {
-      grid-column: 1 / -1;
-      position: relative;
-      margin-top: 2px;
-      padding: 10px 14px 10px 18px;
-      color: rgba(238, 213, 167, .94);
-      background: rgba(205, 157, 91, .09);
-      border-left: 4px solid rgba(236,191,116,.78);
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: .8px;
-      text-shadow: 0 2px 0 rgba(17,12,8,.36);
-    }
-
-    .field { display: grid; gap: 8px; }
-    .full { grid-column: 1 / -1; }
-
-    label {
-      color: rgba(232,213,178,.82);
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: .6px;
-      text-shadow: 0 2px 0 rgba(17, 12, 8, .26);
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      color: rgba(249, 228, 186, .95);
-      background: var(--field);
-      border: 2px solid rgba(205, 157, 91, .55);
-      outline: none;
-      padding: 12px 13px;
-      box-shadow: inset 0 0 0 2px rgba(255, 232, 178, .035), 4px 4px 0 rgba(0,0,0,.18);
-      border-radius: 0;
-      color-scheme: dark;
-      font-weight: 900;
-      letter-spacing: .5px;
-    }
-
-    input, select { height: 48px; }
-    textarea { min-height: 96px; resize: vertical; line-height: 1.7; }
-
-    input::placeholder,
-    textarea::placeholder { color: rgba(232, 213, 178, .34); }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: rgba(236, 191, 116, .90);
-      box-shadow: inset 0 0 0 2px rgba(255,232,178,.06), 0 0 0 4px rgba(236,191,116,.08), 4px 4px 0 rgba(0,0,0,.18);
-    }
-
-    .choice-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .choice {
-      position: relative;
-      display: block;
-      min-height: 76px;
-      padding: 14px;
-      color: rgba(232,213,178,.78);
-      background: rgba(4, 12, 26, .64);
-      border: 2px solid rgba(205, 157, 91, .46);
-      box-shadow: 4px 4px 0 rgba(0,0,0,.16);
-      cursor: pointer;
-    }
-
-    .choice input { position: absolute; opacity: 0; pointer-events: none; }
-
-    .choice strong {
-      display: block;
-      margin-bottom: 5px;
-      color: rgba(238,213,167,.94);
-      font-size: 14px;
-    }
-
-    .choice span {
-      display: block;
-      font-size: 12px;
-      line-height: 1.5;
-      opacity: .74;
-    }
-
-    .choice:has(input:checked) {
-      border-color: rgba(236,191,116,.88);
-      background: rgba(236,191,116,.10);
-    }
-
-    .upload-zone { display: grid; gap: 12px; margin-top: 8px; }
-
-    .upload-card {
-      display: grid;
-      grid-template-columns: 170px 1fr;
-      gap: 14px;
-      align-items: center;
-      padding: 13px;
-      background: rgba(4,12,26,.62);
-      border: 2px solid rgba(205,157,91,.42);
-      box-shadow: 4px 4px 0 rgba(0,0,0,.14);
-    }
-
-    .upload-card input { height: auto; padding: 9px; }
-
-    .upload-card strong {
-      display: block;
-      margin-bottom: 5px;
-      color: rgba(238,213,167,.92);
-      font-size: 14px;
-    }
-
-    .upload-card span {
-      display: block;
-      color: rgba(232,213,178,.58);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .photo-preview { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-
-    .thumb {
-      width: 58px;
-      height: 58px;
-      object-fit: cover;
-      border: 2px solid rgba(205,157,91,.50);
-      background: rgba(5,13,28,.54);
-      image-rendering: pixelated;
-    }
-
-    .hint {
-      margin-top: 14px;
-      color: rgba(232, 213, 178, .50);
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .footer-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 14px;
-      margin-top: 24px;
-    }
-
-    .main-button,
-    .ghost-button {
-      height: 52px;
-      min-width: 168px;
-      padding: 0 22px;
-    }
-
-    .main-button {
-      border-color: rgba(226,176,102,.90);
-      background: rgba(20,35,62,.80);
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 28px;
-      z-index: 100;
-      padding: 12px 18px;
-      color: #e8c994;
-      background: rgba(9,16,31,.96);
-      border: 2px solid rgba(205,157,91,.58);
-      box-shadow: 5px 5px 0 rgba(0,0,0,.20);
-      transform: translateX(-50%) translateY(16px);
-      opacity: 0;
-      pointer-events: none;
-      transition: .22s ease;
-      font-weight: 900;
-    }
-
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    @media (max-width: 1120px) {
-      .page { padding: 28px 20px 42px; }
-      .layout { grid-template-columns: 1fr; }
-      .form-grid, .choice-row { grid-template-columns: 1fr; }
-      .upload-card { grid-template-columns: 1fr; }
-      .topbar { align-items: flex-start; gap: 16px; }
-      .top-actions { flex-wrap: wrap; justify-content: flex-end; }
+    @media (max-width: 900px){
+      body{overflow:auto}
+      .viewport{position:relative;min-height:100vh;padding:12px}
     }
   </style>
 </head>
-
 <body>
-  <main class="page">
-    <header class="topbar">
-      <div class="brand">
-        <img src="assets/paw.png" alt="" />
-        <span id="brandName">星归园</span>
+  <main class="viewport">
+    <section class="stage" id="stage" aria-label="创建纪念页面">
+      <a class="ghost-link home-hit" href="index.html" aria-label="返回首页"></a>
+      <button class="ghost-button lang-hit" id="langButton" aria-label="选择语言"></button>
+      <div class="lang-menu" id="langMenu">
+        <button type="button" data-lang="zh-CN">简体中文</button>
+        <button type="button" data-lang="zh-TW">繁體中文</button>
+        <button type="button" data-lang="en">English</button>
+        <button type="button" data-lang="ja">日本語</button>
       </div>
 
-      <div class="top-actions">
-        <a class="pixel-control" href="index.html" id="backHome">返回首页</a>
-
-        <div class="language" id="languageBox">
-          <button class="language-button" type="button" id="languageButton" aria-label="选择语言">
-            <svg class="globe-svg" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="9" fill="none" stroke="rgba(232,201,148,.86)" stroke-width="2" shape-rendering="crispEdges"/>
-              <path d="M4 12H20" fill="none" stroke="rgba(232,201,148,.82)" stroke-width="2" shape-rendering="crispEdges"/>
-              <path d="M6 8H18" fill="none" stroke="rgba(232,201,148,.58)" stroke-width="1.5" shape-rendering="crispEdges"/>
-              <path d="M6 16H18" fill="none" stroke="rgba(232,201,148,.58)" stroke-width="1.5" shape-rendering="crispEdges"/>
-              <path d="M12 3C9 6 8 9 8 12C8 15 9 18 12 21" fill="none" stroke="rgba(232,201,148,.76)" stroke-width="1.6" shape-rendering="crispEdges"/>
-              <path d="M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="rgba(232,201,148,.76)" stroke-width="1.6" shape-rendering="crispEdges"/>
-            </svg>
-            <span id="languageLabel">简体中文</span>
-            <span>⌄</span>
-          </button>
-
-          <div class="language-menu">
-            <button type="button" data-lang="zh-CN">简体中文</button>
-            <button type="button" data-lang="zh-TW">繁體中文</button>
-            <button type="button" data-lang="en">English</button>
-            <button type="button" data-lang="ja">日本語</button>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <section class="layout">
-      <aside class="panel left-panel">
-        <h2 class="panel-title">
-          <img src="assets/paw.png" alt="" />
-          <span id="previewTitle">纪念内容预览</span>
-        </h2>
-
-        <div class="ornament-line"></div>
-
-        <div class="hero-copy">
-          <h1 id="sideTitle">把想说的话，<br />先安静地写下。</h1>
-          <p id="sideIntro">墓碑样式会在下一步选择。这里先整理名字、日期、照片和故事。</p>
+      <form class="form-layer" id="memorialForm" autocomplete="off">
+        <div class="field" id="petNameWrap">
+          <input id="petName" name="petName" type="text" maxlength="20" placeholder="请输入爱宠名字" />
         </div>
 
-        <div class="mini-card">
-          <div class="card-label" id="cardLabel">MEMORIAL CARD</div>
-          <div class="card-name" id="previewName">Lucky</div>
-          <div class="card-date" id="previewDate">2014.06.12 - 2025.11.03</div>
-          <div class="card-epitaph" id="previewEpitaph">谢谢你把最温柔的日子留给我。</div>
+        <div class="field" id="speciesWrap">
+          <select id="petType" name="petType">
+            <option value="" selected disabled>请选择爱宠种类</option>
+            <option>猫</option><option>狗</option><option>兔子</option><option>鸟</option><option>乌龟</option><option>仓鼠</option><option>鱼</option><option>其他</option>
+          </select>
         </div>
 
-        <p class="preview-note" id="previewNote">这不是最终墓碑，只是文字预览。确认信息后，再进入墓碑选择页。</p>
-      </aside>
+        <div class="field" id="birthWrap">
+          <input id="birthDate" name="birthDate" type="date" />
+        </div>
 
-      <section class="panel form-panel">
-        <h2 class="panel-title">
-          <img src="assets/paw.png" alt="" />
-          <span id="formTitle">纪念信息</span>
-        </h2>
+        <div class="field" id="deathWrap">
+          <input id="deathDate" name="deathDate" type="date" />
+        </div>
 
-        <form id="memorialForm">
-          <div class="form-grid">
-            <div class="section-label" id="basicSection">基础信息</div>
-
-            <div class="field">
-              <label for="petName" id="labelName">爱宠名字</label>
-              <input id="petName" required maxlength="40" placeholder="例如：Lucky" />
-            </div>
-
-            <div class="field">
-              <label for="petType" id="labelType">爱宠种类</label>
-              <select id="petType">
-                <option value="cat">猫</option>
-                <option value="dog">狗</option>
-                <option value="bird">鸟</option>
-                <option value="rabbit">兔子</option>
-                <option value="hamster">仓鼠</option>
-                <option value="other">其他</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="birthDate" id="labelBirth">出生日期</label>
-              <input id="birthDate" type="date" />
-            </div>
-
-            <div class="field">
-              <label for="deathDate" id="labelDeath">离开日期</label>
-              <input id="deathDate" type="date" />
-            </div>
-
-            <div class="section-label" id="wordsSection">文字纪念</div>
-
-            <div class="field full">
-              <label for="epitaph" id="labelEpitaph">墓志铭</label>
-              <textarea id="epitaph" maxlength="120" placeholder="写一句最想刻在墓碑上的话。"></textarea>
-            </div>
-
-            <div class="field full">
-              <label for="story" id="labelStory">可公开的故事</label>
-              <textarea id="story" maxlength="1200" placeholder="写下它的性格、习惯，或者你最想记住的一天。"></textarea>
-            </div>
-
-            <div class="section-label" id="visibilitySection">可见范围</div>
-
-            <div class="field full">
-              <div class="choice-row">
-                <label class="choice">
-                  <input type="radio" name="visibility" value="public" checked />
-                  <strong id="privacyPublic">公开</strong>
-                  <span id="privacyPublicDesc">所有访客都可以看到。</span>
-                </label>
-
-                <label class="choice">
-                  <input type="radio" name="visibility" value="invite" />
-                  <strong id="privacyInvite">邀请可见</strong>
-                  <span id="privacyInviteDesc">只给拥有链接的人看。</span>
-                </label>
-
-                <label class="choice">
-                  <input type="radio" name="visibility" value="private" />
-                  <strong id="privacyPrivate">仅自己</strong>
-                  <span id="privacyPrivateDesc">只有自己可以查看。</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="section-label" id="photoSection">照片</div>
-
-            <div class="field full">
-              <div class="upload-zone">
-                <div class="upload-card">
-                  <div>
-                    <strong id="stonePhotoTitle">墓碑展示照片</strong>
-                    <span id="stonePhotoDesc">用于墓碑正面，只选择一张。</span>
-                  </div>
-                  <input id="stonePhoto" type="file" accept="image/*" />
-                </div>
-
-                <div class="upload-card">
-                  <div>
-                    <strong id="publicPhotoTitle">公开相册</strong>
-                    <span id="publicPhotoDesc">所有访客都可以看到。</span>
-                  </div>
-                  <input id="publicPhotos" type="file" accept="image/*" multiple />
-                </div>
-
-                <div class="upload-card">
-                  <div>
-                    <strong id="privatePhotoTitle">私密相册</strong>
-                    <span id="privatePhotoDesc">只保存在你的纪念页里。</span>
-                  </div>
-                  <input id="privatePhotos" type="file" accept="image/*" multiple />
-                </div>
-              </div>
-
-              <div class="photo-preview" id="photoPreview"></div>
-              <div class="hint" id="photoHint">当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。</div>
-            </div>
+        <div class="textarea-wrap" id="epitaphWrap">
+          <div class="field">
+            <textarea id="epitaph" name="epitaph" maxlength="120" placeholder="写下您想对爱宠说的话..."></textarea>
           </div>
+          <span class="counter" id="epitaphCount">0/120</span>
+        </div>
 
-          <div class="footer-actions">
-            <button class="ghost-button" type="button" id="saveDraft">保存草稿</button>
-            <button class="main-button" type="submit" id="nextStep">继续选择墓碑</button>
+        <div class="textarea-wrap" id="storyWrap">
+          <div class="field">
+            <textarea id="story" name="story" maxlength="300" placeholder="记录一段属于你们的故事，分享这份爱与回忆..."></textarea>
           </div>
-        </form>
-      </section>
+          <span class="counter" id="storyCount">0/300</span>
+        </div>
+
+        <div class="visibility-group" id="visibilityGroup">
+          <label class="visibility-option active">
+            <input type="radio" name="visibility" value="public" checked />
+            <span class="ring"></span>
+          </label>
+          <label class="visibility-option">
+            <input type="radio" name="visibility" value="invite" />
+            <span class="ring"></span>
+          </label>
+          <label class="visibility-option">
+            <input type="radio" name="visibility" value="private" />
+            <span class="ring"></span>
+          </label>
+        </div>
+
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-slot large" id="uploadMainSlot">
+            <button type="button" id="uploadTrigger" aria-label="上传照片"></button>
+          </div>
+          <div class="upload-slot small" data-slot="1"><img alt="照片缩略图"><button type="button"></button><button type="button" class="remove">×</button></div>
+          <div class="upload-slot small" data-slot="2"><img alt="照片缩略图"><button type="button"></button><button type="button" class="remove">×</button></div>
+          <div class="upload-slot small" data-slot="3"><img alt="照片缩略图"><button type="button"></button><button type="button" class="remove">×</button></div>
+          <div class="upload-slot small" data-slot="4"><img alt="照片缩略图"><button type="button"></button><button type="button" class="remove">×</button></div>
+          <input id="photoInput" type="file" accept="image/*" multiple hidden />
+        </div>
+
+        <button class="primary-action" id="saveMemorial" type="submit" aria-label="创建纪念"></button>
+      </form>
     </section>
   </main>
 
   <div class="toast" id="toast"></div>
 
   <script>
-    const TEXTS = {
-      "zh-CN": {
-        brandName: "星归园",
-        backHome: "返回首页",
-        languageLabel: "简体中文",
-        previewTitle: "纪念内容预览",
-        sideTitle: "把想说的话，<br />先安静地写下。",
-        sideIntro: "墓碑样式会在下一步选择。这里先整理名字、日期、照片和故事。",
-        cardLabel: "MEMORIAL CARD",
-        previewNote: "这不是最终墓碑，只是文字预览。确认信息后，再进入墓碑选择页。",
-        formTitle: "纪念信息",
-        basicSection: "基础信息",
-        wordsSection: "文字纪念",
-        visibilitySection: "可见范围",
-        photoSection: "照片",
-        labelName: "爱宠名字",
-        labelType: "爱宠种类",
-        labelBirth: "出生日期",
-        labelDeath: "离开日期",
-        labelEpitaph: "墓志铭",
-        labelStory: "可公开的故事",
-        privacyPublic: "公开",
-        privacyPublicDesc: "所有访客都可以看到。",
-        privacyInvite: "邀请可见",
-        privacyInviteDesc: "只给拥有链接的人看。",
-        privacyPrivate: "仅自己",
-        privacyPrivateDesc: "只有自己可以查看。",
-        stonePhotoTitle: "墓碑展示照片",
-        stonePhotoDesc: "用于墓碑正面，只选择一张。",
-        publicPhotoTitle: "公开相册",
-        publicPhotoDesc: "所有访客都可以看到。",
-        privatePhotoTitle: "私密相册",
-        privatePhotoDesc: "只保存在你的纪念页里。",
-        photoHint: "当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。",
-        saveDraft: "保存草稿",
-        nextStep: "继续选择墓碑",
-        saved: "已保存草稿",
-        needName: "请先填写爱宠名字",
-        dateError: "离开日期不能早于出生日期",
-        defaultName: "Lucky",
-        defaultDate: "----.--.-- - ----.--.--",
-        defaultEpitaph: "谢谢你把最温柔的日子留给我。"
-      },
-      "zh-TW": {
-        brandName: "星歸園",
-        backHome: "返回首頁",
-        languageLabel: "繁體中文",
-        previewTitle: "紀念內容預覽",
-        sideTitle: "把想說的話，<br />先安靜地寫下。",
-        sideIntro: "墓碑樣式會在下一步選擇。這裡先整理名字、日期、照片和故事。",
-        cardLabel: "MEMORIAL CARD",
-        previewNote: "這不是最終墓碑，只是文字預覽。確認資訊後，再進入墓碑選擇頁。",
-        formTitle: "紀念資訊",
-        basicSection: "基礎資訊",
-        wordsSection: "文字紀念",
-        visibilitySection: "可見範圍",
-        photoSection: "照片",
-        labelName: "愛寵名字",
-        labelType: "愛寵種類",
-        labelBirth: "出生日期",
-        labelDeath: "離開日期",
-        labelEpitaph: "墓誌銘",
-        labelStory: "可公開的故事",
-        privacyPublic: "公開",
-        privacyPublicDesc: "所有訪客都可以看到。",
-        privacyInvite: "邀請可見",
-        privacyInviteDesc: "只給擁有連結的人看。",
-        privacyPrivate: "僅自己",
-        privacyPrivateDesc: "只有自己可以查看。",
-        stonePhotoTitle: "墓碑展示照片",
-        stonePhotoDesc: "用於墓碑正面，只選擇一張。",
-        publicPhotoTitle: "公開相簿",
-        publicPhotoDesc: "所有訪客都可以看到。",
-        privatePhotoTitle: "私密相簿",
-        privatePhotoDesc: "只保存在你的紀念頁裡。",
-        photoHint: "目前版本會把填寫內容暫存在瀏覽器本地，後續接入帳號和資料庫後再保存到伺服器。",
-        saveDraft: "保存草稿",
-        nextStep: "繼續選擇墓碑",
-        saved: "已保存草稿",
-        needName: "請先填寫愛寵名字",
-        dateError: "離開日期不能早於出生日期",
-        defaultName: "Lucky",
-        defaultDate: "----.--.-- - ----.--.--",
-        defaultEpitaph: "謝謝你把最溫柔的日子留給我。"
-      },
-      "en": {
-        brandName: "Starhome Garden",
-        backHome: "Home",
-        languageLabel: "English",
-        previewTitle: "Memorial Preview",
-        sideTitle: "Write the words<br />quietly first.",
-        sideIntro: "The tombstone style comes next. First, organize the name, dates, photos, and story.",
-        cardLabel: "MEMORIAL CARD",
-        previewNote: "This is not the final tombstone, only a text preview before choosing a stone style.",
-        formTitle: "Memorial Information",
-        basicSection: "Basic Info",
-        wordsSection: "Memorial Words",
-        visibilitySection: "Visibility",
-        photoSection: "Photos",
-        labelName: "Pet name",
-        labelType: "Pet type",
-        labelBirth: "Birth date",
-        labelDeath: "Passing date",
-        labelEpitaph: "Epitaph",
-        labelStory: "Public story",
-        privacyPublic: "Public",
-        privacyPublicDesc: "Visible to all visitors.",
-        privacyInvite: "Invite only",
-        privacyInviteDesc: "Visible to people with the link.",
-        privacyPrivate: "Private",
-        privacyPrivateDesc: "Only you can view it.",
-        stonePhotoTitle: "Tombstone photo",
-        stonePhotoDesc: "Shown on the tombstone. Choose one.",
-        publicPhotoTitle: "Public album",
-        publicPhotoDesc: "Visible to all visitors.",
-        privatePhotoTitle: "Private album",
-        privatePhotoDesc: "Kept only in your memorial page.",
-        photoHint: "This version stores the draft locally in your browser. Account and database storage can be added later.",
-        saveDraft: "Save Draft",
-        nextStep: "Choose Tombstone",
-        saved: "Draft saved",
-        needName: "Please enter the pet name",
-        dateError: "Passing date cannot be earlier than birth date",
-        defaultName: "Lucky",
-        defaultDate: "----.--.-- - ----.--.--",
-        defaultEpitaph: "Thank you for leaving me the gentlest days."
-      },
-      "ja": {
-        brandName: "星帰園",
-        backHome: "ホームへ",
-        languageLabel: "日本語",
-        previewTitle: "記念内容プレビュー",
-        sideTitle: "伝えたい言葉を、<br />静かに書き残す。",
-        sideIntro: "墓碑の種類は次の画面で選びます。まず名前、日付、写真、物語を整理します。",
-        cardLabel: "MEMORIAL CARD",
-        previewNote: "これは最終の墓碑ではなく、墓碑を選ぶ前の文字プレビューです。",
-        formTitle: "記念情報",
-        basicSection: "基本情報",
-        wordsSection: "記念の言葉",
-        visibilitySection: "公開範囲",
-        photoSection: "写真",
-        labelName: "名前",
-        labelType: "種類",
-        labelBirth: "誕生日",
-        labelDeath: "旅立った日",
-        labelEpitaph: "墓誌銘",
-        labelStory: "公開できる物語",
-        privacyPublic: "公開",
-        privacyPublicDesc: "すべての訪問者が見られます。",
-        privacyInvite: "招待のみ",
-        privacyInviteDesc: "リンクを持つ人だけが見られます。",
-        privacyPrivate: "自分だけ",
-        privacyPrivateDesc: "自分だけが確認できます。",
-        stonePhotoTitle: "墓碑に表示する写真",
-        stonePhotoDesc: "墓碑正面に使用します。一枚だけ選択。",
-        publicPhotoTitle: "公開アルバム",
-        publicPhotoDesc: "すべての訪問者が見られます。",
-        privatePhotoTitle: "非公開アルバム",
-        privatePhotoDesc: "あなたの記念ページだけに保存します。",
-        photoHint: "現在のバージョンでは入力内容をブラウザ内に一時保存します。アカウントとデータベース保存は後で追加できます。",
-        saveDraft: "下書き保存",
-        nextStep: "墓碑を選ぶ",
-        saved: "下書きを保存しました",
-        needName: "名前を入力してください",
-        dateError: "旅立った日は誕生日より前にできません",
-        defaultName: "Lucky",
-        defaultDate: "----.--.-- - ----.--.--",
-        defaultEpitaph: "いちばん優しい日々をありがとう。"
-      }
-    };
+    const stage = document.getElementById('stage');
+    const langButton = document.getElementById('langButton');
+    const langMenu = document.getElementById('langMenu');
+    const toast = document.getElementById('toast');
+    const photoInput = document.getElementById('photoInput');
+    const uploadTrigger = document.getElementById('uploadTrigger');
+    const uploadSlots = Array.from(document.querySelectorAll('.upload-slot.small'));
+    const form = document.getElementById('memorialForm');
 
-    const ids = [
-      "brandName", "backHome", "languageLabel", "previewTitle", "sideIntro", "cardLabel", "previewNote",
-      "formTitle", "basicSection", "wordsSection", "visibilitySection", "photoSection", "labelName", "labelType",
-      "labelBirth", "labelDeath", "labelEpitaph", "labelStory", "privacyPublic", "privacyPublicDesc",
-      "privacyInvite", "privacyInviteDesc", "privacyPrivate", "privacyPrivateDesc", "stonePhotoTitle",
-      "stonePhotoDesc", "publicPhotoTitle", "publicPhotoDesc", "privatePhotoTitle", "privatePhotoDesc",
-      "photoHint", "saveDraft", "nextStep"
-    ];
-
-    const languageBox = document.getElementById("languageBox");
-    const languageButton = document.getElementById("languageButton");
-    const toast = document.getElementById("toast");
-    const form = document.getElementById("memorialForm");
-    const photoPreview = document.getElementById("photoPreview");
-
-    const petName = document.getElementById("petName");
-    const birthDate = document.getElementById("birthDate");
-    const deathDate = document.getElementById("deathDate");
-    const epitaph = document.getElementById("epitaph");
-    const previewName = document.getElementById("previewName");
-    const previewDate = document.getElementById("previewDate");
-    const previewEpitaph = document.getElementById("previewEpitaph");
-    const sideTitle = document.getElementById("sideTitle");
-
-    function currentLang() {
-      return localStorage.getItem("petMemorialLanguage") || "zh-CN";
+    function resizeStage(){
+      const scale = Math.min(window.innerWidth / 1672, window.innerHeight / 941);
+      stage.style.transform = `scale(${scale})`;
     }
+    resizeStage();
+    window.addEventListener('resize', resizeStage);
 
-    function data() {
-      return TEXTS[currentLang()] || TEXTS["zh-CN"];
-    }
-
-    function t(key) {
-      return data()[key] || TEXTS["zh-CN"][key] || "";
-    }
-
-    function formatDate(value) {
-      return value ? value.replaceAll("-", ".") : "----.--.--";
-    }
-
-    function updatePreview() {
-      const d = data();
-      previewName.textContent = petName.value.trim() || d.defaultName;
-      const start = formatDate(birthDate.value);
-      const end = formatDate(deathDate.value);
-      previewDate.textContent = `${start} - ${end}`;
-      previewEpitaph.textContent = epitaph.value.trim() || d.defaultEpitaph;
-    }
-
-    function applyLanguage(lang) {
-      const d = TEXTS[lang] || TEXTS["zh-CN"];
-      ids.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el && d[id]) el.textContent = d[id];
-      });
-      sideTitle.innerHTML = d.sideTitle;
-
-      document.querySelectorAll(".language-menu button").forEach((button) => {
-        button.classList.toggle("active", button.dataset.lang === lang);
-      });
-      updatePreview();
-    }
-
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add('show');
       clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1500);
+      showToast.timer = setTimeout(() => toast.classList.remove('show'), 1500);
     }
 
-    function getFilesAsDataURLs(input) {
-      const files = Array.from(input.files || []);
-      return Promise.all(files.map((file) => {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve({ name: file.name, data: reader.result });
-          reader.readAsDataURL(file);
-        });
-      }));
+    langButton.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      langMenu.classList.toggle('open');
+    });
+    document.addEventListener('click', ()=> langMenu.classList.remove('open'));
+    langMenu.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const btn = e.target.closest('button[data-lang]');
+      if(!btn) return;
+      localStorage.setItem('petMemorialLanguage', btn.dataset.lang);
+      langMenu.classList.remove('open');
+      showToast('语言已保存');
+    });
+
+    function updateCounter(id, max){
+      const el = document.getElementById(id);
+      const counter = document.getElementById(id + 'Count');
+      el.addEventListener('input', ()=> counter.textContent = `${el.value.length}/${max}`);
+    }
+    updateCounter('epitaph', 120);
+    updateCounter('story', 300);
+
+    document.querySelectorAll('.visibility-option').forEach(option => {
+      option.addEventListener('click', ()=>{
+        document.querySelectorAll('.visibility-option').forEach(el => el.classList.remove('active'));
+        option.classList.add('active');
+        option.querySelector('input').checked = true;
+      });
+    });
+
+    const selectedFiles = [];
+    function renderSlots(){
+      uploadSlots.forEach((slot, index)=>{
+        const img = slot.querySelector('img');
+        const remove = slot.querySelector('.remove');
+        const file = selectedFiles[index];
+        if(file){
+          const url = URL.createObjectURL(file);
+          img.src = url;
+          slot.classList.add('filled');
+          remove.style.display = 'flex';
+        } else {
+          img.removeAttribute('src');
+          slot.classList.remove('filled');
+          remove.style.display = 'none';
+        }
+      });
     }
 
-    async function collectData() {
-      const visibility = document.querySelector("input[name='visibility']:checked")?.value || "public";
-      const [stonePhotos, publicPhotos, privatePhotos] = await Promise.all([
-        getFilesAsDataURLs(document.getElementById("stonePhoto")),
-        getFilesAsDataURLs(document.getElementById("publicPhotos")),
-        getFilesAsDataURLs(document.getElementById("privatePhotos"))
-      ]);
+    uploadTrigger.addEventListener('click', ()=> photoInput.click());
+    photoInput.addEventListener('change', ()=>{
+      const files = Array.from(photoInput.files).slice(0,5);
+      selectedFiles.length = 0;
+      selectedFiles.push(...files.slice(0,4));
+      renderSlots();
+      if(files.length) showToast(`已选择 ${files.length} 张照片`);
+    });
+    uploadSlots.forEach((slot, index)=>{
+      slot.querySelector('button').addEventListener('click', ()=> photoInput.click());
+      slot.querySelector('.remove').addEventListener('click', (e)=>{
+        e.stopPropagation();
+        selectedFiles.splice(index, 1);
+        renderSlots();
+      });
+    });
 
-      return {
-        petName: petName.value.trim(),
-        petType: document.getElementById("petType").value,
-        birthDate: birthDate.value,
-        deathDate: deathDate.value,
-        epitaph: epitaph.value.trim(),
-        story: document.getElementById("story").value.trim(),
-        visibility,
-        stonePhoto: stonePhotos[0] || null,
-        publicPhotos,
-        privatePhotos,
-        savedAt: new Date().toISOString()
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const draft = {
+        petName: document.getElementById('petName').value.trim(),
+        petType: document.getElementById('petType').value,
+        birthDate: document.getElementById('birthDate').value,
+        deathDate: document.getElementById('deathDate').value,
+        epitaph: document.getElementById('epitaph').value.trim(),
+        story: document.getElementById('story').value.trim(),
+        visibility: document.querySelector('input[name="visibility"]:checked')?.value || 'public',
+        photoCount: selectedFiles.length,
+        updatedAt: Date.now()
       };
-    }
-
-    function validateData(memorial) {
-      if (!memorial.petName) {
-        showToast(t("needName"));
-        petName.focus();
-        return false;
-      }
-      if (memorial.birthDate && memorial.deathDate && memorial.deathDate < memorial.birthDate) {
-        showToast(t("dateError"));
-        deathDate.focus();
-        return false;
-      }
-      return true;
-    }
-
-    async function saveDraft() {
-      const memorial = await collectData();
-      if (!validateData(memorial)) return false;
-      localStorage.setItem("petMemorialDraft", JSON.stringify(memorial));
-      showToast(t("saved"));
-      return true;
-    }
-
-    function renderPhotoPreview() {
-      photoPreview.innerHTML = "";
-      ["stonePhoto", "publicPhotos", "privatePhotos"].forEach((id) => {
-        Array.from(document.getElementById(id).files || []).forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const img = document.createElement("img");
-            img.className = "thumb";
-            img.src = reader.result;
-            photoPreview.appendChild(img);
-          };
-          reader.readAsDataURL(file);
-        });
-      });
-    }
-
-    ["stonePhoto", "publicPhotos", "privatePhotos"].forEach((id) => {
-      document.getElementById(id).addEventListener("change", renderPhotoPreview);
+      localStorage.setItem('petMemorialDraft', JSON.stringify(draft));
+      showToast('纪念信息已保存');
     });
-
-    [petName, birthDate, deathDate, epitaph].forEach((input) => {
-      input.addEventListener("input", updatePreview);
-      input.addEventListener("change", updatePreview);
-    });
-
-    document.getElementById("saveDraft").addEventListener("click", saveDraft);
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const saved = await saveDraft();
-      if (saved) setTimeout(() => window.location.href = "select-stone.html", 500);
-    });
-
-    languageButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      languageBox.classList.toggle("open");
-    });
-
-    document.querySelectorAll(".language-menu button").forEach((button) => {
-      button.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const lang = button.dataset.lang;
-        localStorage.setItem("petMemorialLanguage", lang);
-        applyLanguage(lang);
-        languageBox.classList.remove("open");
-      });
-    });
-
-    document.addEventListener("click", () => languageBox.classList.remove("open"));
-    applyLanguage(currentLang());
   </script>
 </body>
 </html>
