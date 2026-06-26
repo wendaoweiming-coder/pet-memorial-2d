@@ -8,23 +8,28 @@
     * { box-sizing: border-box; }
 
     :root {
-      --gold: rgba(232, 201, 148, .92);
-      --gold-soft: rgba(232, 213, 178, .72);
-      --gold-line: rgba(205, 157, 91, .72);
-      --panel: rgba(7, 17, 34, .84);
+      --bg: #07111f;
+      --panel: rgba(7, 17, 34, .78);
+      --panel-strong: rgba(7, 17, 34, .92);
       --field: rgba(4, 12, 26, .86);
+      --gold: rgba(232, 201, 148, .92);
+      --gold-soft: rgba(232, 213, 178, .70);
+      --gold-dim: rgba(232, 213, 178, .48);
+      --line: rgba(205, 157, 91, .68);
+      --line-soft: rgba(205, 157, 91, .38);
       --shadow: rgba(0, 0, 0, .26);
+      --font-pixel: "SimSun", "宋体", "Courier New", monospace;
     }
 
     html,
     body {
       margin: 0;
       min-height: 100%;
-      background: #07111f;
+      background: var(--bg);
       color: var(--gold);
-      font-family: "Courier New", "SimSun", "Microsoft YaHei", monospace;
+      font-family: var(--font-pixel);
       -webkit-font-smoothing: none;
-      font-smooth: never;
+      text-rendering: geometricPrecision;
     }
 
     body { overflow-x: hidden; }
@@ -32,18 +37,16 @@
     button,
     input,
     textarea,
-    select {
-      font: inherit;
-    }
+    select { font: inherit; }
 
     button { border: 0; cursor: pointer; }
 
     .page {
-      position: relative;
       min-height: 100vh;
-      padding: 36px 58px 52px;
+      position: relative;
+      padding: 34px 58px 52px;
       background:
-        linear-gradient(90deg, rgba(5,10,22,.78), rgba(5,10,22,.60) 46%, rgba(5,10,22,.38)),
+        linear-gradient(90deg, rgba(5, 10, 22, .72), rgba(5, 10, 22, .53) 48%, rgba(5, 10, 22, .35)),
         url("assets/bg.png") center center / cover fixed no-repeat;
     }
 
@@ -52,36 +55,32 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background:
-        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px);
-      background-size: 4px 4px;
-      mix-blend-mode: screen;
-      opacity: .68;
+      background: radial-gradient(circle at 24% 16%, rgba(246, 218, 154, .09), transparent 18%);
     }
 
     .topbar {
       position: relative;
       z-index: 5;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      justify-content: space-between;
+      margin-bottom: 28px;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      font-size: 23px;
+      color: var(--gold);
+      font-size: 24px;
       font-weight: 900;
       letter-spacing: 2px;
-      color: var(--gold);
-      text-shadow: 3px 3px 0 rgba(17,12,8,.58);
+      text-shadow: 3px 3px 0 rgba(17, 12, 8, .55);
     }
 
     .brand img,
-    .panel-title img {
+    .panel-title img,
+    .small-paw {
       width: 24px;
       height: 24px;
       object-fit: contain;
@@ -94,54 +93,66 @@
       gap: 14px;
     }
 
-    .pixel-button,
-    .language-button {
+    .pixel-control,
+    .language-button,
+    .main-button,
+    .ghost-button {
       position: relative;
-      height: 42px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 9px;
-      padding: 0 16px;
       color: var(--gold);
-      background: rgba(7,16,32,.78);
-      border: 2px solid var(--gold-line);
+      background: rgba(7, 16, 32, .76);
+      border: 2px solid var(--line);
       box-shadow:
-        inset 0 0 0 2px rgba(255,232,178,.055),
-        5px 5px 0 rgba(0,0,0,.24);
+        inset 0 0 0 2px rgba(255, 232, 178, .045),
+        5px 5px 0 var(--shadow);
       text-decoration: none;
       font-size: 15px;
       font-weight: 900;
       letter-spacing: 1px;
-      text-shadow: 0 2px 0 rgba(17,12,8,.40);
+      text-shadow: 0 2px 0 rgba(17, 12, 8, .38);
+      line-height: 1;
     }
 
-    .pixel-button::before,
-    .pixel-button::after,
+    .pixel-control,
+    .language-button { height: 42px; padding: 0 16px; }
+
+    .pixel-control::before,
+    .pixel-control::after,
     .language-button::before,
     .language-button::after,
     .panel::before,
-    .panel::after {
+    .panel::after,
+    .mini-card::before,
+    .mini-card::after,
+    .choice::before,
+    .choice::after {
       content: "";
       position: absolute;
       width: 8px;
       height: 8px;
       pointer-events: none;
-      border-color: rgba(236, 191, 116, .76);
+      border-color: rgba(236, 191, 116, .74);
       border-style: solid;
     }
 
-    .pixel-button::before,
+    .pixel-control::before,
     .language-button::before,
-    .panel::before {
+    .panel::before,
+    .mini-card::before,
+    .choice::before {
       left: 8px;
       top: 8px;
       border-width: 2px 0 0 2px;
     }
 
-    .pixel-button::after,
+    .pixel-control::after,
     .language-button::after,
-    .panel::after {
+    .panel::after,
+    .mini-card::after,
+    .choice::after {
       right: 8px;
       bottom: 8px;
       border-width: 0 2px 2px 0;
@@ -163,9 +174,9 @@
       width: 152px;
       display: none;
       padding: 6px;
-      background: rgba(8,16,32,.98);
-      border: 2px solid var(--gold-line);
-      box-shadow: 6px 6px 0 rgba(0,0,0,.28);
+      background: rgba(8, 16, 32, .98);
+      border: 2px solid var(--line);
+      box-shadow: 6px 6px 0 rgba(0, 0, 0, .28);
     }
 
     .language.open .language-menu { display: grid; gap: 4px; }
@@ -180,17 +191,15 @@
     }
 
     .language-menu button:hover,
-    .language-menu button.active {
-      background: rgba(232,191,116,.12);
-    }
+    .language-menu button.active { background: rgba(232, 191, 116, .12); }
 
     .layout {
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 460px minmax(660px, 900px);
+      grid-template-columns: 430px minmax(650px, 930px);
       gap: 34px;
-      max-width: 1390px;
+      max-width: 1400px;
       margin: 0 auto;
       align-items: start;
     }
@@ -198,13 +207,13 @@
     .panel {
       position: relative;
       background: var(--panel);
-      border: 2px solid rgba(205,157,91,.66);
+      border: 2px solid rgba(205, 157, 91, .62);
       box-shadow:
-        inset 0 0 0 2px rgba(255,232,178,.045),
+        inset 0 0 0 2px rgba(255, 232, 178, .04),
         8px 8px 0 var(--shadow);
     }
 
-    .preview-panel { padding: 24px 24px 30px; min-height: 660px; }
+    .left-panel { padding: 24px; min-height: 640px; }
     .form-panel { padding: 24px 26px 26px; }
 
     .panel-title {
@@ -212,187 +221,177 @@
       align-items: center;
       gap: 10px;
       margin: 0 0 20px;
-      color: rgba(238,213,167,.96);
+      color: rgba(238, 213, 167, .96);
       font-size: 20px;
       font-weight: 900;
       letter-spacing: 1px;
-      text-shadow: 0 2px 0 rgba(17,12,8,.40);
+      text-shadow: 0 2px 0 rgba(17, 12, 8, .42);
     }
 
-    .pixel-line {
+    .ornament-line {
       position: relative;
-      width: 100%;
       height: 2px;
-      margin: 0 0 30px;
-      background: linear-gradient(90deg, rgba(205,157,91,.75), rgba(205,157,91,.22), transparent);
+      width: 100%;
+      margin: 0 0 26px;
+      background: linear-gradient(90deg, rgba(205,157,91,.72), rgba(205,157,91,.22), transparent);
     }
 
-    .pixel-line::after {
+    .ornament-line::after {
       content: "";
       position: absolute;
-      left: 47%;
+      left: 48%;
       top: -7px;
       width: 14px;
       height: 14px;
-      background: rgba(226,184,112,.75);
+      background: rgba(226, 184, 112, .72);
       transform: rotate(45deg);
       box-shadow:
-        -22px 0 0 rgba(226,184,112,.42),
-        22px 0 0 rgba(226,184,112,.42);
+        -22px 0 0 rgba(226, 184, 112, .42),
+        22px 0 0 rgba(226, 184, 112, .42);
     }
 
-    .scene {
+    .hero-copy {
+      margin: 0 0 26px;
+      padding: 6px 0 0;
+    }
+
+    .hero-copy h1 {
+      margin: 0;
+      color: rgba(226, 199, 145, .94);
+      font-family: "SimSun", "宋体", serif;
+      font-size: 42px;
+      line-height: 1.18;
+      letter-spacing: 1px;
+      text-shadow:
+        4px 4px 0 rgba(30, 23, 17, .70),
+        2px 2px 0 rgba(66, 48, 30, .58);
+    }
+
+    .hero-copy p {
+      margin: 18px 0 0;
+      color: var(--gold-soft);
+      font-size: 15px;
+      line-height: 1.9;
+      letter-spacing: .6px;
+      text-shadow: 0 2px 0 rgba(17, 12, 8, .34);
+    }
+
+    .mini-card {
       position: relative;
-      height: 380px;
-      overflow: hidden;
-      border: 2px solid rgba(205,157,91,.46);
+      margin-top: 24px;
+      padding: 22px 20px 24px;
+      min-height: 260px;
       background:
         linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px),
-        radial-gradient(circle at 50% 8%, rgba(238,213,167,.14), transparent 24%),
-        linear-gradient(#081327, #050c1a);
-      background-size: 5px 5px, 5px 5px, auto, auto;
-      box-shadow: inset 0 0 0 2px rgba(255,232,178,.035);
+        rgba(4, 12, 26, .58);
+      background-size: 5px 5px, 5px 5px, auto;
+      border: 2px solid rgba(205, 157, 91, .46);
+      box-shadow: inset 0 0 0 2px rgba(255,232,178,.03), 5px 5px 0 rgba(0,0,0,.18);
     }
 
-    .scene-ground {
-      position: absolute;
-      left: -20px;
-      right: -20px;
-      bottom: 0;
-      height: 82px;
-      background:
-        linear-gradient(90deg, transparent 0 12px, rgba(104,86,53,.34) 12px 18px, transparent 18px 30px),
-        linear-gradient(rgba(35,54,38,.90), rgba(18,31,25,.98));
-      background-size: 30px 10px, auto;
-      border-top: 2px solid rgba(205,157,91,.32);
-    }
-
-    .stone-wrap {
-      position: absolute;
-      left: 50%;
-      top: 52px;
-      width: 256px;
-      height: 330px;
-      transform: translateX(-50%);
-    }
-
-    .stone-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: auto;
-      image-rendering: pixelated;
-      filter: drop-shadow(8px 8px 0 rgba(0,0,0,.22));
-    }
-
-    .stone-text {
-      position: absolute;
-      left: 54px;
-      right: 46px;
-      top: 114px;
-      height: 148px;
-      text-align: center;
-      color: rgba(34,31,28,.82);
-      font-family: "Courier New", "SimSun", "Microsoft YaHei", monospace;
+    .card-label {
+      color: rgba(232, 213, 178, .58);
+      font-size: 13px;
       font-weight: 900;
-      text-shadow: 1px 1px 0 rgba(210,202,184,.20);
-      overflow: hidden;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
     }
 
-    .stone-name {
-      margin-top: 0;
-      font-size: 24px;
-      line-height: 1.15;
+    .card-name {
+      color: rgba(238, 213, 167, .96);
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: 1px;
+      text-shadow: 3px 3px 0 rgba(17,12,8,.52);
       word-break: break-word;
     }
 
-    .stone-date {
-      margin-top: 13px;
-      font-size: 13px;
-      line-height: 1.35;
-      opacity: .82;
+    .card-date {
+      margin-top: 18px;
+      color: rgba(232, 213, 178, .72);
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 900;
     }
 
-    .stone-epitaph {
-      margin-top: 9px;
-      font-size: 13px;
-      line-height: 1.35;
-      max-height: 52px;
+    .card-epitaph {
+      margin-top: 18px;
+      padding-top: 16px;
+      color: rgba(232, 213, 178, .78);
+      border-top: 2px solid rgba(205,157,91,.26);
+      font-size: 15px;
+      line-height: 1.7;
+      max-height: 86px;
       overflow: hidden;
-      opacity: .76;
     }
 
     .preview-note {
       margin: 18px 0 0;
-      color: rgba(232,213,178,.66);
-      font-size: 14px;
+      color: rgba(232, 213, 178, .52);
+      font-size: 13px;
       line-height: 1.8;
-      text-shadow: 0 2px 0 rgba(17,12,8,.32);
-    }
-
-    .section-label {
-      grid-column: 1 / -1;
-      margin-top: 4px;
-      padding: 9px 12px;
-      color: rgba(238,213,167,.94);
-      background: rgba(205,157,91,.10);
-      border-left: 4px solid rgba(236,191,116,.78);
-      font-weight: 900;
-      letter-spacing: .8px;
-      text-shadow: 0 2px 0 rgba(17,12,8,.36);
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 17px 18px;
+      gap: 16px 18px;
+    }
+
+    .section-label {
+      grid-column: 1 / -1;
+      position: relative;
+      margin-top: 2px;
+      padding: 10px 14px 10px 18px;
+      color: rgba(238, 213, 167, .94);
+      background: rgba(205, 157, 91, .09);
+      border-left: 4px solid rgba(236,191,116,.78);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: .8px;
+      text-shadow: 0 2px 0 rgba(17,12,8,.36);
     }
 
     .field { display: grid; gap: 8px; }
     .full { grid-column: 1 / -1; }
 
     label {
-      color: rgba(232,213,178,.84);
+      color: rgba(232,213,178,.82);
       font-size: 14px;
       font-weight: 900;
       letter-spacing: .6px;
-      text-shadow: 0 2px 0 rgba(17,12,8,.30);
+      text-shadow: 0 2px 0 rgba(17, 12, 8, .26);
     }
 
     input,
     textarea,
     select {
       width: 100%;
-      color: rgba(249,228,186,.95);
+      color: rgba(249, 228, 186, .95);
       background: var(--field);
-      border: 2px solid rgba(205,157,91,.56);
+      border: 2px solid rgba(205, 157, 91, .55);
       outline: none;
       padding: 12px 13px;
-      box-shadow:
-        inset 0 0 0 2px rgba(255,232,178,.035),
-        4px 4px 0 rgba(0,0,0,.18);
+      box-shadow: inset 0 0 0 2px rgba(255, 232, 178, .035), 4px 4px 0 rgba(0,0,0,.18);
       border-radius: 0;
       color-scheme: dark;
       font-weight: 900;
+      letter-spacing: .5px;
     }
 
     input, select { height: 48px; }
-    textarea { min-height: 98px; resize: vertical; line-height: 1.7; }
+    textarea { min-height: 96px; resize: vertical; line-height: 1.7; }
 
     input::placeholder,
-    textarea::placeholder {
-      color: rgba(232,213,178,.34);
-    }
+    textarea::placeholder { color: rgba(232, 213, 178, .34); }
 
     input:focus,
     textarea:focus,
     select:focus {
-      border-color: rgba(236,191,116,.90);
-      box-shadow:
-        inset 0 0 0 2px rgba(255,232,178,.06),
-        0 0 0 4px rgba(236,191,116,.08),
-        4px 4px 0 rgba(0,0,0,.18);
+      border-color: rgba(236, 191, 116, .90);
+      box-shadow: inset 0 0 0 2px rgba(255,232,178,.06), 0 0 0 4px rgba(236,191,116,.08), 4px 4px 0 rgba(0,0,0,.18);
     }
 
     .choice-row {
@@ -404,11 +403,11 @@
     .choice {
       position: relative;
       display: block;
-      min-height: 78px;
+      min-height: 76px;
       padding: 14px;
       color: rgba(232,213,178,.78);
-      background: rgba(4,12,26,.64);
-      border: 2px solid rgba(205,157,91,.46);
+      background: rgba(4, 12, 26, .64);
+      border: 2px solid rgba(205, 157, 91, .46);
       box-shadow: 4px 4px 0 rgba(0,0,0,.16);
       cursor: pointer;
     }
@@ -476,7 +475,7 @@
 
     .hint {
       margin-top: 14px;
-      color: rgba(232,213,178,.50);
+      color: rgba(232, 213, 178, .50);
       font-size: 12px;
       line-height: 1.6;
     }
@@ -488,23 +487,14 @@
       margin-top: 24px;
     }
 
-    .main,
-    .ghost {
+    .main-button,
+    .ghost-button {
       height: 52px;
       min-width: 168px;
       padding: 0 22px;
-      color: var(--gold);
-      background: rgba(11,22,43,.70);
-      border: 2px solid rgba(205,157,91,.70);
-      box-shadow:
-        inset 0 0 0 2px rgba(255,231,174,.06),
-        5px 5px 0 rgba(0,0,0,.20);
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 0 rgba(17,12,8,.34);
     }
 
-    .main {
+    .main-button {
       border-color: rgba(226,176,102,.90);
       background: rgba(20,35,62,.80);
     }
@@ -548,7 +538,7 @@
       </div>
 
       <div class="top-actions">
-        <a class="pixel-button" href="index.html" id="backHome">返回首页</a>
+        <a class="pixel-control" href="index.html" id="backHome">返回首页</a>
 
         <div class="language" id="languageBox">
           <button class="language-button" type="button" id="languageButton" aria-label="选择语言">
@@ -575,28 +565,27 @@
     </header>
 
     <section class="layout">
-      <aside class="panel preview-panel">
+      <aside class="panel left-panel">
         <h2 class="panel-title">
           <img src="assets/paw.png" alt="" />
-          <span id="previewTitle">墓碑预览</span>
+          <span id="previewTitle">纪念内容预览</span>
         </h2>
 
-        <div class="pixel-line"></div>
+        <div class="ornament-line"></div>
 
-        <div class="scene">
-          <div class="scene-ground"></div>
-
-          <div class="stone-wrap">
-            <img class="stone-img" src="assets/stone_preview.png" alt="" />
-            <div class="stone-text">
-              <div class="stone-name" id="previewName">Lucky</div>
-              <div class="stone-date" id="previewDate">2014.06.12<br />2025.11.03</div>
-              <div class="stone-epitaph" id="previewEpitaph">谢谢你把最温柔的日子留给我。</div>
-            </div>
-          </div>
+        <div class="hero-copy">
+          <h1 id="sideTitle">把想说的话，<br />先安静地写下。</h1>
+          <p id="sideIntro">墓碑样式会在下一步选择。这里先整理名字、日期、照片和故事。</p>
         </div>
 
-        <p class="preview-note" id="previewNote">这里先展示基础墓碑预览。下一步会进入墓碑样式选择页面。</p>
+        <div class="mini-card">
+          <div class="card-label" id="cardLabel">MEMORIAL CARD</div>
+          <div class="card-name" id="previewName">Lucky</div>
+          <div class="card-date" id="previewDate">2014.06.12 - 2025.11.03</div>
+          <div class="card-epitaph" id="previewEpitaph">谢谢你把最温柔的日子留给我。</div>
+        </div>
+
+        <p class="preview-note" id="previewNote">这不是最终墓碑，只是文字预览。确认信息后，再进入墓碑选择页。</p>
       </aside>
 
       <section class="panel form-panel">
@@ -611,7 +600,7 @@
 
             <div class="field">
               <label for="petName" id="labelName">爱宠名字</label>
-              <input id="petName" required maxlength="40" placeholder="例如：Lucky" value="Lucky" />
+              <input id="petName" required maxlength="40" placeholder="例如：Lucky" />
             </div>
 
             <div class="field">
@@ -628,19 +617,19 @@
 
             <div class="field">
               <label for="birthDate" id="labelBirth">出生日期</label>
-              <input id="birthDate" type="date" value="2014-06-12" />
+              <input id="birthDate" type="date" />
             </div>
 
             <div class="field">
               <label for="deathDate" id="labelDeath">离开日期</label>
-              <input id="deathDate" type="date" value="2025-11-03" />
+              <input id="deathDate" type="date" />
             </div>
 
             <div class="section-label" id="wordsSection">文字纪念</div>
 
             <div class="field full">
               <label for="epitaph" id="labelEpitaph">墓志铭</label>
-              <textarea id="epitaph" maxlength="120" placeholder="写一句最想刻在墓碑上的话。">谢谢你把最温柔的日子留给我。</textarea>
+              <textarea id="epitaph" maxlength="120" placeholder="写一句最想刻在墓碑上的话。"></textarea>
             </div>
 
             <div class="field full">
@@ -707,8 +696,8 @@
           </div>
 
           <div class="footer-actions">
-            <button class="ghost" type="button" id="saveDraft">保存草稿</button>
-            <button class="main" type="submit" id="nextStep">继续选择墓碑</button>
+            <button class="ghost-button" type="button" id="saveDraft">保存草稿</button>
+            <button class="main-button" type="submit" id="nextStep">继续选择墓碑</button>
           </div>
         </form>
       </section>
@@ -723,8 +712,11 @@
         brandName: "星归园",
         backHome: "返回首页",
         languageLabel: "简体中文",
-        previewTitle: "墓碑预览",
-        previewNote: "这里先展示基础墓碑预览。下一步会进入墓碑样式选择页面。",
+        previewTitle: "纪念内容预览",
+        sideTitle: "把想说的话，<br />先安静地写下。",
+        sideIntro: "墓碑样式会在下一步选择。这里先整理名字、日期、照片和故事。",
+        cardLabel: "MEMORIAL CARD",
+        previewNote: "这不是最终墓碑，只是文字预览。确认信息后，再进入墓碑选择页。",
         formTitle: "纪念信息",
         basicSection: "基础信息",
         wordsSection: "文字纪念",
@@ -753,14 +745,20 @@
         nextStep: "继续选择墓碑",
         saved: "已保存草稿",
         needName: "请先填写爱宠名字",
-        dateError: "离开日期不能早于出生日期"
+        dateError: "离开日期不能早于出生日期",
+        defaultName: "Lucky",
+        defaultDate: "----.--.-- - ----.--.--",
+        defaultEpitaph: "谢谢你把最温柔的日子留给我。"
       },
       "zh-TW": {
         brandName: "星歸園",
         backHome: "返回首頁",
         languageLabel: "繁體中文",
-        previewTitle: "墓碑預覽",
-        previewNote: "這裡先展示基礎墓碑預覽。下一步會進入墓碑樣式選擇頁面。",
+        previewTitle: "紀念內容預覽",
+        sideTitle: "把想說的話，<br />先安靜地寫下。",
+        sideIntro: "墓碑樣式會在下一步選擇。這裡先整理名字、日期、照片和故事。",
+        cardLabel: "MEMORIAL CARD",
+        previewNote: "這不是最終墓碑，只是文字預覽。確認資訊後，再進入墓碑選擇頁。",
         formTitle: "紀念資訊",
         basicSection: "基礎資訊",
         wordsSection: "文字紀念",
@@ -789,14 +787,20 @@
         nextStep: "繼續選擇墓碑",
         saved: "已保存草稿",
         needName: "請先填寫愛寵名字",
-        dateError: "離開日期不能早於出生日期"
+        dateError: "離開日期不能早於出生日期",
+        defaultName: "Lucky",
+        defaultDate: "----.--.-- - ----.--.--",
+        defaultEpitaph: "謝謝你把最溫柔的日子留給我。"
       },
       "en": {
         brandName: "Starhome Garden",
         backHome: "Home",
         languageLabel: "English",
-        previewTitle: "Tombstone Preview",
-        previewNote: "This shows a basic preview first. The next page will let you choose the tombstone style.",
+        previewTitle: "Memorial Preview",
+        sideTitle: "Write the words<br />quietly first.",
+        sideIntro: "The tombstone style comes next. First, organize the name, dates, photos, and story.",
+        cardLabel: "MEMORIAL CARD",
+        previewNote: "This is not the final tombstone, only a text preview before choosing a stone style.",
         formTitle: "Memorial Information",
         basicSection: "Basic Info",
         wordsSection: "Memorial Words",
@@ -825,14 +829,20 @@
         nextStep: "Choose Tombstone",
         saved: "Draft saved",
         needName: "Please enter the pet name",
-        dateError: "Passing date cannot be earlier than birth date"
+        dateError: "Passing date cannot be earlier than birth date",
+        defaultName: "Lucky",
+        defaultDate: "----.--.-- - ----.--.--",
+        defaultEpitaph: "Thank you for leaving me the gentlest days."
       },
       "ja": {
         brandName: "星帰園",
         backHome: "ホームへ",
         languageLabel: "日本語",
-        previewTitle: "墓碑プレビュー",
-        previewNote: "まず基礎的な墓碑プレビューを表示します。次のページで墓碑の種類を選びます。",
+        previewTitle: "記念内容プレビュー",
+        sideTitle: "伝えたい言葉を、<br />静かに書き残す。",
+        sideIntro: "墓碑の種類は次の画面で選びます。まず名前、日付、写真、物語を整理します。",
+        cardLabel: "MEMORIAL CARD",
+        previewNote: "これは最終の墓碑ではなく、墓碑を選ぶ前の文字プレビューです。",
         formTitle: "記念情報",
         basicSection: "基本情報",
         wordsSection: "記念の言葉",
@@ -861,17 +871,19 @@
         nextStep: "墓碑を選ぶ",
         saved: "下書きを保存しました",
         needName: "名前を入力してください",
-        dateError: "旅立った日は誕生日より前にできません"
+        dateError: "旅立った日は誕生日より前にできません",
+        defaultName: "Lucky",
+        defaultDate: "----.--.-- - ----.--.--",
+        defaultEpitaph: "いちばん優しい日々をありがとう。"
       }
     };
 
     const ids = [
-      "brandName", "backHome", "languageLabel", "previewTitle", "previewNote",
-      "formTitle", "basicSection", "wordsSection", "visibilitySection", "photoSection",
-      "labelName", "labelType", "labelBirth", "labelDeath", "labelEpitaph", "labelStory",
-      "privacyPublic", "privacyPublicDesc", "privacyInvite", "privacyInviteDesc",
-      "privacyPrivate", "privacyPrivateDesc", "stonePhotoTitle", "stonePhotoDesc",
-      "publicPhotoTitle", "publicPhotoDesc", "privatePhotoTitle", "privatePhotoDesc",
+      "brandName", "backHome", "languageLabel", "previewTitle", "sideIntro", "cardLabel", "previewNote",
+      "formTitle", "basicSection", "wordsSection", "visibilitySection", "photoSection", "labelName", "labelType",
+      "labelBirth", "labelDeath", "labelEpitaph", "labelStory", "privacyPublic", "privacyPublicDesc",
+      "privacyInvite", "privacyInviteDesc", "privacyPrivate", "privacyPrivateDesc", "stonePhotoTitle",
+      "stonePhotoDesc", "publicPhotoTitle", "publicPhotoDesc", "privatePhotoTitle", "privatePhotoDesc",
       "photoHint", "saveDraft", "nextStep"
     ];
 
@@ -888,36 +900,45 @@
     const previewName = document.getElementById("previewName");
     const previewDate = document.getElementById("previewDate");
     const previewEpitaph = document.getElementById("previewEpitaph");
+    const sideTitle = document.getElementById("sideTitle");
 
     function currentLang() {
       return localStorage.getItem("petMemorialLanguage") || "zh-CN";
     }
 
+    function data() {
+      return TEXTS[currentLang()] || TEXTS["zh-CN"];
+    }
+
     function t(key) {
-      const lang = currentLang();
-      return (TEXTS[lang] && TEXTS[lang][key]) || TEXTS["zh-CN"][key] || "";
+      return data()[key] || TEXTS["zh-CN"][key] || "";
     }
 
     function formatDate(value) {
       return value ? value.replaceAll("-", ".") : "----.--.--";
     }
 
-    function updateStonePreview() {
-      previewName.textContent = petName.value.trim() || "Lucky";
-      previewDate.innerHTML = `${formatDate(birthDate.value)}<br />${formatDate(deathDate.value)}`;
-      previewEpitaph.textContent = epitaph.value.trim() || "谢谢你把最温柔的日子留给我。";
+    function updatePreview() {
+      const d = data();
+      previewName.textContent = petName.value.trim() || d.defaultName;
+      const start = formatDate(birthDate.value);
+      const end = formatDate(deathDate.value);
+      previewDate.textContent = `${start} - ${end}`;
+      previewEpitaph.textContent = epitaph.value.trim() || d.defaultEpitaph;
     }
 
     function applyLanguage(lang) {
-      const data = TEXTS[lang] || TEXTS["zh-CN"];
+      const d = TEXTS[lang] || TEXTS["zh-CN"];
       ids.forEach((id) => {
         const el = document.getElementById(id);
-        if (el && data[id]) el.textContent = data[id];
+        if (el && d[id]) el.textContent = d[id];
       });
+      sideTitle.innerHTML = d.sideTitle;
 
       document.querySelectorAll(".language-menu button").forEach((button) => {
         button.classList.toggle("active", button.dataset.lang === lang);
       });
+      updatePreview();
     }
 
     function showToast(message) {
@@ -961,26 +982,24 @@
       };
     }
 
-    function validateData(data) {
-      if (!data.petName) {
+    function validateData(memorial) {
+      if (!memorial.petName) {
         showToast(t("needName"));
         petName.focus();
         return false;
       }
-
-      if (data.birthDate && data.deathDate && data.deathDate < data.birthDate) {
+      if (memorial.birthDate && memorial.deathDate && memorial.deathDate < memorial.birthDate) {
         showToast(t("dateError"));
         deathDate.focus();
         return false;
       }
-
       return true;
     }
 
     async function saveDraft() {
-      const data = await collectData();
-      if (!validateData(data)) return false;
-      localStorage.setItem("petMemorialDraft", JSON.stringify(data));
+      const memorial = await collectData();
+      if (!validateData(memorial)) return false;
+      localStorage.setItem("petMemorialDraft", JSON.stringify(memorial));
       showToast(t("saved"));
       return true;
     }
@@ -1006,8 +1025,8 @@
     });
 
     [petName, birthDate, deathDate, epitaph].forEach((input) => {
-      input.addEventListener("input", updateStonePreview);
-      input.addEventListener("change", updateStonePreview);
+      input.addEventListener("input", updatePreview);
+      input.addEventListener("change", updatePreview);
     });
 
     document.getElementById("saveDraft").addEventListener("click", saveDraft);
@@ -1015,9 +1034,7 @@
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const saved = await saveDraft();
-      if (saved) {
-        setTimeout(() => window.location.href = "select-stone.html", 500);
-      }
+      if (saved) setTimeout(() => window.location.href = "select-stone.html", 500);
     });
 
     languageButton.addEventListener("click", (event) => {
@@ -1037,7 +1054,6 @@
 
     document.addEventListener("click", () => languageBox.classList.remove("open"));
     applyLanguage(currentLang());
-    updateStonePreview();
   </script>
 </body>
 </html>
