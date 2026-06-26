@@ -1,966 +1,132 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>创建纪念｜星归园</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #07111f;
-      color: rgba(238, 213, 167, .92);
-      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-    }
-
-    body { overflow-x: hidden; }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-    }
-
-    .page {
-      min-height: 100vh;
-      position: relative;
-      background:
-        linear-gradient(90deg, rgba(5, 10, 22, .72) 0%, rgba(5, 10, 22, .50) 45%, rgba(5, 10, 22, .30) 100%),
-        url("assets/bg.png") center center / cover fixed no-repeat;
-      padding: 42px 72px 56px;
-    }
-
-    .page::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 28% 16%, rgba(246, 218, 154, .11), transparent 22%),
-        radial-gradient(circle at 80% 82%, rgba(226, 172, 94, .09), transparent 28%);
-    }
-
-    .topbar {
-      position: relative;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 34px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      color: rgba(232, 201, 148, .88);
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 0 rgba(17, 12, 8, .34);
-    }
-
-    .brand img {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-      image-rendering: pixelated;
-      opacity: .92;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .quiet-link,
-    .language-button {
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      padding: 0 16px;
-      color: rgba(232, 201, 148, .86);
-      background: rgba(8, 17, 35, .50);
-      border: 2px solid rgba(198, 151, 85, .54);
-      box-shadow:
-        inset 0 0 0 2px rgba(255, 232, 178, .05),
-        0 8px 20px rgba(0, 0, 0, .16);
-      text-decoration: none;
-      letter-spacing: 1px;
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .language { position: relative; z-index: 20; }
-
-    .language-menu {
-      position: absolute;
-      top: 48px;
-      right: 0;
-      width: 152px;
-      display: none;
-      padding: 6px;
-      background: rgba(8, 16, 32, .96);
-      border: 2px solid rgba(198, 151, 85, .54);
-      box-shadow: 0 18px 34px rgba(0, 0, 0, .32);
-    }
-
-    .language.open .language-menu {
-      display: grid;
-      gap: 4px;
-    }
-
-    .language-menu button {
-      height: 34px;
-      color: rgba(232, 201, 148, .9);
-      background: transparent;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .8px;
-    }
-
-    .language-menu button:hover,
-    .language-menu button.active {
-      background: rgba(232, 191, 116, .12);
-    }
-
-    .layout {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: minmax(380px, 500px) minmax(560px, 1fr);
-      gap: 34px;
-      align-items: start;
-      max-width: 1320px;
-      margin: 0 auto;
-    }
-
-    .intro { padding-top: 40px; }
-
-    .ornament {
-      width: 430px;
-      height: 26px;
-      position: relative;
-      margin-bottom: 28px;
-      opacity: .70;
-    }
-
-    .ornament::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 13px;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(202,150,84,.70), rgba(202,150,84,.50), rgba(202,150,84,.18));
-    }
-
-    .ornament img {
-      position: absolute;
-      left: 190px;
-      top: -4px;
-      width: 34px;
-      height: 34px;
-      object-fit: contain;
-      image-rendering: pixelated;
-    }
-
-    h1 {
-      margin: 0;
-      color: rgba(226, 199, 145, .94);
-      font-family: "STSong", "SimSun", "Noto Serif CJK SC", "Microsoft YaHei", serif;
-      font-size: 58px;
-      line-height: 1.04;
-      letter-spacing: 1px;
-      text-shadow:
-        4px 4px 0 rgba(30, 23, 17, .70),
-        2px 2px 0 rgba(66, 48, 30, .66);
-    }
-
-    .intro p {
-      width: 430px;
-      margin: 24px 0 0;
-      color: rgba(232, 213, 178, .78);
-      font-size: 18px;
-      line-height: 1.9;
-      letter-spacing: .5px;
-      text-shadow: 0 2px 0 rgba(12, 10, 8, .40);
-    }
-
-    .steps {
-      display: grid;
-      gap: 18px;
-      margin-top: 58px;
-      width: 420px;
-    }
-
-    .step-card {
-      padding: 18px 20px;
-      background: rgba(8, 18, 36, .48);
-      border: 1px solid rgba(198, 151, 85, .30);
-      box-shadow: inset 0 0 0 1px rgba(255, 232, 178, .04);
-    }
-
-    .step-card strong {
-      display: block;
-      color: rgba(232, 201, 148, .88);
-      font-size: 18px;
-      margin-bottom: 8px;
-      letter-spacing: .8px;
-    }
-
-    .step-card span {
-      color: rgba(232, 213, 178, .58);
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .panel {
-      background: rgba(10, 20, 38, .64);
-      border: 1px solid rgba(218, 174, 106, .42);
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 232, 178, .06),
-        0 24px 70px rgba(0, 0, 0, .34);
-      backdrop-filter: blur(12px);
-      padding: 26px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 20px;
-      color: rgba(238, 213, 167, .94);
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .section-title img {
-      width: 18px;
-      height: 18px;
-      object-fit: contain;
-      image-rendering: pixelated;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field.full { grid-column: 1 / -1; }
-
-    label {
-      color: rgba(232, 213, 178, .82);
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .6px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      color: rgba(249, 228, 186, .94);
-      background: rgba(5, 13, 28, .62);
-      border: 1px solid rgba(198, 151, 85, .45);
-      outline: none;
-      padding: 12px 13px;
-      box-shadow: inset 0 0 0 1px rgba(255, 232, 178, .04);
-      border-radius: 0;
-    }
-
-    input,
-    select { height: 46px; }
-
-    textarea {
-      min-height: 98px;
-      resize: vertical;
-      line-height: 1.7;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: rgba(232, 213, 178, .36);
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: rgba(236, 191, 116, .82);
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 232, 178, .08),
-        0 0 0 3px rgba(236, 191, 116, .08);
-    }
-
-    .choice-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .choice {
-      position: relative;
-      display: block;
-      min-height: 68px;
-      padding: 13px 13px 12px;
-      color: rgba(232, 213, 178, .78);
-      background: rgba(5, 13, 28, .42);
-      border: 1px solid rgba(198, 151, 85, .36);
-      cursor: pointer;
-    }
-
-    .choice input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .choice strong {
-      display: block;
-      margin-bottom: 5px;
-      color: rgba(238, 213, 167, .92);
-      font-size: 14px;
-    }
-
-    .choice span {
-      font-size: 12px;
-      line-height: 1.5;
-      opacity: .74;
-    }
-
-    .choice:has(input:checked) {
-      border-color: rgba(236, 191, 116, .78);
-      background: rgba(236, 191, 116, .10);
-    }
-
-    .upload-zone {
-      display: grid;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .upload-card {
-      display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 14px;
-      align-items: center;
-      padding: 13px;
-      background: rgba(5, 13, 28, .40);
-      border: 1px solid rgba(198, 151, 85, .36);
-    }
-
-    .upload-card input {
-      height: auto;
-      padding: 9px;
-    }
-
-    .upload-card strong {
-      display: block;
-      margin-bottom: 5px;
-      color: rgba(238, 213, 167, .90);
-      font-size: 14px;
-    }
-
-    .upload-card span {
-      display: block;
-      color: rgba(232, 213, 178, .58);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-      min-height: 0;
-    }
-
-    .thumb {
-      width: 58px;
-      height: 58px;
-      object-fit: cover;
-      border: 1px solid rgba(198, 151, 85, .42);
-      background: rgba(5, 13, 28, .54);
-    }
-
-    .footer-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 14px;
-      margin-top: 24px;
-    }
-
-    .main-button,
-    .ghost-button {
-      position: relative;
-      height: 50px;
-      min-width: 168px;
-      padding: 0 22px;
-      color: rgba(232, 201, 148, .92);
-      background: rgba(11, 22, 43, .56);
-      border: 2px solid rgba(198, 151, 85, .62);
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 0 rgba(17, 12, 8, .34);
-      box-shadow:
-        inset 0 0 0 2px rgba(255, 231, 174, .06),
-        0 8px 20px rgba(0, 0, 0, .18);
-    }
-
-    .main-button {
-      border-color: rgba(226, 176, 102, .84);
-      background: rgba(20, 35, 62, .70);
-    }
-
-    .hint {
-      margin-top: 14px;
-      color: rgba(232, 213, 178, .54);
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 28px;
-      z-index: 100;
-      padding: 12px 18px;
-      color: #e8c994;
-      background: rgba(9, 16, 31, .96);
-      border: 1px solid rgba(198, 151, 85, .45);
-      transform: translateX(-50%) translateY(16px);
-      opacity: 0;
-      pointer-events: none;
-      transition: .22s ease;
-      letter-spacing: 1px;
-      font: 700 15px "Microsoft YaHei", "PingFang SC", sans-serif;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    @media (max-width: 980px) {
-      .page { padding: 28px 20px 42px; }
-      .layout { grid-template-columns: 1fr; }
-      .intro { padding-top: 10px; }
-      .intro p,
-      .ornament,
-      .steps { width: 100%; }
-      h1 { font-size: 42px; }
-      .form-grid,
-      .choice-row { grid-template-columns: 1fr; }
-      .upload-card { grid-template-columns: 1fr; }
-      .topbar {
-        align-items: flex-start;
-        gap: 16px;
-      }
-      .top-actions {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>创建纪念｜星归园</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#07111f;color:rgba(239,214,169,.92);font-family:"Microsoft YaHei","PingFang SC",sans-serif}
+button,input,textarea,select{font:inherit}
+button{border:0;cursor:pointer}
+.page{min-height:100vh;padding:36px 62px 48px;background:linear-gradient(90deg,rgba(5,10,22,.78),rgba(5,10,22,.56) 48%,rgba(5,10,22,.35)),url("assets/bg.png") center/cover fixed no-repeat;position:relative}
+.page:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:4px 4px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px;position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;color:rgba(232,201,148,.9);font-size:22px;font-weight:900;letter-spacing:2px;text-shadow:3px 3px 0 rgba(17,12,8,.5)}
+.brand img,.paw{width:24px;height:24px;object-fit:contain;image-rendering:pixelated}
+.top-actions{display:flex;gap:14px;align-items:center}
+.pixel-btn,.lang-btn{height:42px;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:0 16px;color:rgba(232,201,148,.88);background:rgba(7,16,32,.76);border:2px solid rgba(203,157,91,.7);box-shadow:inset 0 0 0 2px rgba(255,232,178,.05),4px 4px 0 rgba(0,0,0,.24);text-decoration:none;font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.36);position:relative}
+.pixel-btn:before,.pixel-btn:after,.panel:before,.panel:after,.preview-panel:before,.preview-panel:after{content:"";position:absolute;width:8px;height:8px;border-color:rgba(226,176,102,.72);border-style:solid;pointer-events:none}
+.pixel-btn:before{left:6px;top:6px;border-width:2px 0 0 2px}.pixel-btn:after{right:6px;bottom:6px;border-width:0 2px 2px 0}
+.language{position:relative;z-index:30}.language-menu{position:absolute;right:0;top:50px;width:152px;padding:6px;display:none;gap:4px;background:rgba(8,16,32,.98);border:2px solid rgba(203,157,91,.7);box-shadow:6px 6px 0 rgba(0,0,0,.28)}.language.open .language-menu{display:grid}.language-menu button{height:34px;background:transparent;color:rgba(232,201,148,.9);font-weight:900}.language-menu button.active,.language-menu button:hover{background:rgba(232,191,116,.12)}
+.layout{position:relative;z-index:2;display:grid;grid-template-columns:430px minmax(620px,900px);gap:34px;max-width:1360px;margin:0 auto;align-items:start}
+.panel,.preview-panel{position:relative;background:rgba(7,17,34,.80);border:2px solid rgba(203,157,91,.62);box-shadow:inset 0 0 0 2px rgba(255,232,178,.045),8px 8px 0 rgba(0,0,0,.22)}
+.panel:before,.preview-panel:before{left:10px;top:10px;border-width:2px 0 0 2px}.panel:after,.preview-panel:after{right:10px;bottom:10px;border-width:0 2px 2px 0}
+.preview-panel{min-height:660px;padding:24px 24px 28px}.panel{padding:24px 26px 26px}
+.title{display:flex;align-items:center;gap:10px;margin:0 0 22px;color:rgba(238,213,167,.94);font-size:19px;font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.36)}.title img{width:20px;height:20px;image-rendering:pixelated}
+.pixel-line{height:2px;width:100%;margin:0 0 34px;background:linear-gradient(90deg,rgba(203,157,91,.7),rgba(203,157,91,.22),transparent);position:relative}.pixel-line:after{content:"";position:absolute;left:48%;top:-7px;width:14px;height:14px;background:rgba(226,184,112,.75);transform:rotate(45deg);box-shadow:-22px 0 0 rgba(226,184,112,.45),22px 0 0 rgba(226,184,112,.45)}
+.scene{height:360px;position:relative;overflow:hidden;border:2px solid rgba(203,157,91,.42);background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px),radial-gradient(circle at 50% 8%,rgba(238,213,167,.13),transparent 22%),linear-gradient(#081327,#050c1a);background-size:5px 5px,5px 5px,auto,auto}
+.ground{position:absolute;left:-20px;right:-20px;bottom:0;height:74px;background:linear-gradient(90deg,transparent 0 12px,rgba(104,86,53,.34) 12px 18px,transparent 18px 30px),linear-gradient(rgba(35,54,38,.88),rgba(18,31,25,.96));background-size:30px 10px,auto;border-top:2px solid rgba(203,157,91,.32)}
+.stone{position:absolute;left:50%;top:64px;transform:translateX(-50%);width:178px;height:228px;background:linear-gradient(90deg,rgba(255,255,255,.08),transparent 16%,transparent 78%,rgba(0,0,0,.18)),#6f6c67;border:6px solid #3e3b37;border-bottom-width:12px;border-radius:82px 82px 8px 8px;box-shadow:8px 8px 0 rgba(0,0,0,.3),inset 0 0 0 3px rgba(224,214,190,.12)}
+.stone:before{content:"";position:absolute;left:28px;top:18px;width:12px;height:12px;background:rgba(53,50,47,.42);box-shadow:64px 12px 0 rgba(53,50,47,.35),92px 44px 0 rgba(53,50,47,.3),28px 92px 0 rgba(53,50,47,.25)}
+.base{position:absolute;left:50%;top:282px;width:240px;height:38px;transform:translateX(-50%);background:#4a4743;border:5px solid #302d2a;box-shadow:8px 8px 0 rgba(0,0,0,.24)}
+.stone-name{position:absolute;left:18px;right:18px;top:78px;text-align:center;color:rgba(33,30,28,.82);font-size:26px;font-weight:900;line-height:1.2;word-break:break-word}.stone-date{position:absolute;left:16px;right:16px;top:126px;text-align:center;color:rgba(39,36,33,.72);font-size:13px;font-weight:900;line-height:1.35}.stone-epitaph{position:absolute;left:18px;right:18px;bottom:30px;text-align:center;color:rgba(39,36,33,.68);font-size:13px;font-weight:900;line-height:1.35;max-height:54px;overflow:hidden}
+.note{margin:18px 0 0;color:rgba(232,213,178,.66);font-size:14px;line-height:1.8}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:grid;gap:8px}.full{grid-column:1/-1}
+label{color:rgba(232,213,178,.82);font-size:14px;font-weight:900;letter-spacing:.6px;text-shadow:0 2px 0 rgba(17,12,8,.24)}
+input,textarea,select{width:100%;color:rgba(249,228,186,.94);background:rgba(4,12,26,.82);border:2px solid rgba(203,157,91,.54);outline:0;padding:12px 13px;box-shadow:inset 0 0 0 2px rgba(255,232,178,.035),4px 4px 0 rgba(0,0,0,.18);border-radius:0;color-scheme:dark}input,select{height:48px}textarea{min-height:98px;resize:vertical;line-height:1.7}input::placeholder,textarea::placeholder{color:rgba(232,213,178,.34)}input:focus,textarea:focus,select:focus{border-color:rgba(236,191,116,.88);box-shadow:inset 0 0 0 2px rgba(255,232,178,.06),0 0 0 4px rgba(236,191,116,.08),4px 4px 0 rgba(0,0,0,.18)}
+.choice-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.choice{position:relative;display:block;min-height:76px;padding:14px;color:rgba(232,213,178,.78);background:rgba(4,12,26,.64);border:2px solid rgba(203,157,91,.44);box-shadow:4px 4px 0 rgba(0,0,0,.16);cursor:pointer}.choice input{position:absolute;opacity:0}.choice strong{display:block;margin-bottom:5px;color:rgba(238,213,167,.92);font-size:14px}.choice span{font-size:12px;line-height:1.5;opacity:.74}.choice:has(input:checked){border-color:rgba(236,191,116,.86);background:rgba(236,191,116,.10)}
+.upload-zone{display:grid;gap:12px;margin-top:8px}.upload-card{display:grid;grid-template-columns:170px 1fr;gap:14px;align-items:center;padding:13px;background:rgba(4,12,26,.60);border:2px solid rgba(203,157,91,.40);box-shadow:4px 4px 0 rgba(0,0,0,.14)}.upload-card input{height:auto;padding:9px}.upload-card strong{display:block;margin-bottom:5px;color:rgba(238,213,167,.90);font-size:14px}.upload-card span{display:block;color:rgba(232,213,178,.58);font-size:12px;line-height:1.5}
+.photo-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.thumb{width:58px;height:58px;object-fit:cover;border:2px solid rgba(203,157,91,.50);background:rgba(5,13,28,.54);image-rendering:pixelated}.hint{margin-top:14px;color:rgba(232,213,178,.50);font-size:12px;line-height:1.6}
+.footer-actions{display:flex;justify-content:flex-end;gap:14px;margin-top:24px}.main,.ghost{height:52px;min-width:168px;padding:0 22px;color:rgba(232,201,148,.92);background:rgba(11,22,43,.68);border:2px solid rgba(198,151,85,.68);font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.34);box-shadow:inset 0 0 0 2px rgba(255,231,174,.06),5px 5px 0 rgba(0,0,0,.20)}.main{border-color:rgba(226,176,102,.88);background:rgba(20,35,62,.78)}
+.toast{position:fixed;left:50%;bottom:28px;z-index:100;padding:12px 18px;color:#e8c994;background:rgba(9,16,31,.96);border:2px solid rgba(198,151,85,.58);box-shadow:5px 5px 0 rgba(0,0,0,.20);transform:translateX(-50%) translateY(16px);opacity:0;pointer-events:none;transition:.22s ease;font-weight:900}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:1100px){.page{padding:28px 20px 42px}.layout{grid-template-columns:1fr}.preview-panel{min-height:auto}.form-grid,.choice-row{grid-template-columns:1fr}.upload-card{grid-template-columns:1fr}.topbar{align-items:flex-start;gap:16px}.top-actions{flex-wrap:wrap;justify-content:flex-end}}
+</style>
 </head>
 <body>
-  <main class="page">
-    <header class="topbar">
-      <div class="brand">
-        <img src="assets/paw.png" alt="" />
-        <span id="brandName">星归园</span>
+<main class="page">
+<header class="topbar">
+  <div class="brand"><img src="assets/paw.png" alt=""><span id="brandName">星归园</span></div>
+  <div class="top-actions">
+    <a class="pixel-btn" href="index.html" id="backHome">返回首页</a>
+    <div class="language" id="languageBox">
+      <button class="pixel-btn lang-btn" type="button" id="languageButton"><span>◎</span><span id="languageLabel">简体中文</span><span>⌄</span></button>
+      <div class="language-menu">
+        <button type="button" data-lang="zh-CN">简体中文</button>
+        <button type="button" data-lang="zh-TW">繁體中文</button>
+        <button type="button" data-lang="en">English</button>
+        <button type="button" data-lang="ja">日本語</button>
       </div>
+    </div>
+  </div>
+</header>
 
-      <div class="top-actions">
-        <a class="quiet-link" href="index.html" id="backHome">返回首页</a>
+<section class="layout">
+  <aside class="preview-panel">
+    <h2 class="title"><img src="assets/paw.png" alt=""><span id="previewTitle">墓碑预览</span></h2>
+    <div class="pixel-line"></div>
+    <div class="scene">
+      <div class="ground"></div>
+      <div class="stone">
+        <div class="stone-name" id="previewName">Lucky</div>
+        <div class="stone-date" id="previewDate">2014.06.12<br>2025.11.03</div>
+        <div class="stone-epitaph" id="previewEpitaph">谢谢你把最温柔的日子留给我。</div>
+      </div>
+      <div class="base"></div>
+    </div>
+    <p class="note" id="previewNote">这里先展示基础墓碑预览。下一步会进入墓碑样式选择页面。</p>
+  </aside>
 
-        <div class="language" id="languageBox">
-          <button class="language-button" type="button" id="languageButton">
-            <span>◎</span>
-            <span id="languageLabel">简体中文</span>
-            <span>⌄</span>
-          </button>
-          <div class="language-menu">
-            <button type="button" data-lang="zh-CN">简体中文</button>
-            <button type="button" data-lang="zh-TW">繁體中文</button>
-            <button type="button" data-lang="en">English</button>
-            <button type="button" data-lang="ja">日本語</button>
+  <section class="panel">
+    <h2 class="title"><img src="assets/paw.png" alt=""><span id="formTitle">纪念信息</span></h2>
+    <form id="memorialForm">
+      <div class="form-grid">
+        <div class="field"><label for="petName" id="labelName">爱宠名字</label><input id="petName" required maxlength="40" placeholder="例如：Lucky" value="Lucky"></div>
+        <div class="field"><label for="petType" id="labelType">爱宠种类</label><select id="petType"><option value="cat">猫</option><option value="dog">狗</option><option value="bird">鸟</option><option value="rabbit">兔子</option><option value="hamster">仓鼠</option><option value="other">其他</option></select></div>
+        <div class="field"><label for="birthDate" id="labelBirth">出生日期</label><input id="birthDate" type="date" value="2014-06-12"></div>
+        <div class="field"><label for="deathDate" id="labelDeath">离开日期</label><input id="deathDate" type="date" value="2025-11-03"></div>
+        <div class="field full"><label for="epitaph" id="labelEpitaph">墓志铭</label><textarea id="epitaph" maxlength="120" placeholder="写一句最想刻在墓碑上的话。">谢谢你把最温柔的日子留给我。</textarea></div>
+        <div class="field full"><label for="story" id="labelStory">可公开的故事</label><textarea id="story" maxlength="1200" placeholder="写下它的性格、习惯，或者你最想记住的一天。"></textarea></div>
+        <div class="field full">
+          <label id="labelPrivacy">墓地可见范围</label>
+          <div class="choice-row">
+            <label class="choice"><input type="radio" name="visibility" value="public" checked><strong id="privacyPublic">公开</strong><span id="privacyPublicDesc">所有访客都可以看到。</span></label>
+            <label class="choice"><input type="radio" name="visibility" value="invite"><strong id="privacyInvite">邀请可见</strong><span id="privacyInviteDesc">只给拥有链接的人看。</span></label>
+            <label class="choice"><input type="radio" name="visibility" value="private"><strong id="privacyPrivate">仅自己</strong><span id="privacyPrivateDesc">只有自己可以查看。</span></label>
           </div>
+        </div>
+        <div class="field full">
+          <label id="labelPhotos">照片</label>
+          <div class="upload-zone">
+            <div class="upload-card"><div><strong id="stonePhotoTitle">墓碑展示照片</strong><span id="stonePhotoDesc">用于墓碑正面，只选择一张。</span></div><input id="stonePhoto" type="file" accept="image/*"></div>
+            <div class="upload-card"><div><strong id="publicPhotoTitle">公开相册</strong><span id="publicPhotoDesc">所有访客都可以看到。</span></div><input id="publicPhotos" type="file" accept="image/*" multiple></div>
+            <div class="upload-card"><div><strong id="privatePhotoTitle">私密相册</strong><span id="privatePhotoDesc">只保存在你的纪念页里。</span></div><input id="privatePhotos" type="file" accept="image/*" multiple></div>
+          </div>
+          <div class="photo-preview" id="photoPreview"></div>
+          <div class="hint" id="photoHint">当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。</div>
         </div>
       </div>
-    </header>
+      <div class="footer-actions"><button class="ghost" type="button" id="saveDraft">保存草稿</button><button class="main" type="submit" id="nextStep">继续选择墓碑</button></div>
+    </form>
+  </section>
+</section>
+</main>
+<div class="toast" id="toast"></div>
 
-    <section class="layout">
-      <aside class="intro">
-        <div class="ornament">
-          <img src="assets/paw.png" alt="" />
-        </div>
-
-        <h1 id="pageTitle">为它建立一处<br />安静的纪念</h1>
-        <p id="pageIntro">写下名字、日期和想说的话。照片和故事可以公开，也可以只留给自己。</p>
-
-        <div class="steps">
-          <div class="step-card">
-            <strong id="stepOne">1  填写纪念信息</strong>
-            <span id="stepOneDesc">名字、日期、墓志铭、故事。</span>
-          </div>
-          <div class="step-card">
-            <strong id="stepTwo">2  上传照片</strong>
-            <span id="stepTwoDesc">墓碑展示、公开相册、私密相册。</span>
-          </div>
-        </div>
-      </aside>
-
-      <section class="panel">
-        <h2 class="section-title">
-          <img src="assets/paw.png" alt="" />
-          <span id="formTitle">纪念信息</span>
-        </h2>
-
-        <form id="memorialForm">
-          <div class="form-grid">
-            <div class="field">
-              <label for="petName" id="labelName">爱宠名字</label>
-              <input id="petName" name="petName" required maxlength="40" placeholder="例如：Lucky" />
-            </div>
-
-            <div class="field">
-              <label for="petType" id="labelType">爱宠种类</label>
-              <select id="petType" name="petType">
-                <option value="cat">猫</option>
-                <option value="dog">狗</option>
-                <option value="bird">鸟</option>
-                <option value="rabbit">兔子</option>
-                <option value="hamster">仓鼠</option>
-                <option value="other">其他</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="birthDate" id="labelBirth">出生日期</label>
-              <input id="birthDate" name="birthDate" type="date" />
-            </div>
-
-            <div class="field">
-              <label for="deathDate" id="labelDeath">离开日期</label>
-              <input id="deathDate" name="deathDate" type="date" />
-            </div>
-
-            <div class="field full">
-              <label for="epitaph" id="labelEpitaph">墓志铭</label>
-              <textarea id="epitaph" name="epitaph" maxlength="120" placeholder="写一句最想刻在墓碑上的话。"></textarea>
-            </div>
-
-            <div class="field full">
-              <label for="story" id="labelStory">可公开的故事</label>
-              <textarea id="story" name="story" maxlength="1200" placeholder="写下它的性格、习惯，或者你最想记住的一天。"></textarea>
-            </div>
-
-            <div class="field full">
-              <label id="labelPrivacy">墓地可见范围</label>
-              <div class="choice-row">
-                <label class="choice">
-                  <input type="radio" name="visibility" value="public" checked />
-                  <strong id="privacyPublic">公开</strong>
-                  <span id="privacyPublicDesc">所有访客都可以看到。</span>
-                </label>
-                <label class="choice">
-                  <input type="radio" name="visibility" value="invite" />
-                  <strong id="privacyInvite">邀请可见</strong>
-                  <span id="privacyInviteDesc">只给拥有链接的人看。</span>
-                </label>
-                <label class="choice">
-                  <input type="radio" name="visibility" value="private" />
-                  <strong id="privacyPrivate">仅自己</strong>
-                  <span id="privacyPrivateDesc">只有自己可以查看。</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="field full">
-              <label id="labelPhotos">照片</label>
-
-              <div class="upload-zone">
-                <div class="upload-card">
-                  <div>
-                    <strong id="stonePhotoTitle">墓碑展示照片</strong>
-                    <span id="stonePhotoDesc">用于墓碑正面，只选择一张。</span>
-                  </div>
-                  <input id="stonePhoto" type="file" accept="image/*" />
-                </div>
-
-                <div class="upload-card">
-                  <div>
-                    <strong id="publicPhotoTitle">公开相册</strong>
-                    <span id="publicPhotoDesc">所有访客都可以看到。</span>
-                  </div>
-                  <input id="publicPhotos" type="file" accept="image/*" multiple />
-                </div>
-
-                <div class="upload-card">
-                  <div>
-                    <strong id="privatePhotoTitle">私密相册</strong>
-                    <span id="privatePhotoDesc">只保存在你的纪念页里。</span>
-                  </div>
-                  <input id="privatePhotos" type="file" accept="image/*" multiple />
-                </div>
-              </div>
-
-              <div class="preview" id="photoPreview"></div>
-              <div class="hint" id="photoHint">当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。</div>
-            </div>
-          </div>
-
-          <div class="footer-actions">
-            <button class="ghost-button" type="button" id="saveDraft">保存草稿</button>
-            <button class="main-button" type="submit" id="nextStep">继续选择墓碑</button>
-          </div>
-        </form>
-      </section>
-    </section>
-  </main>
-
-  <div class="toast" id="toast"></div>
-
-  <script>
-    const TEXTS = {
-      "zh-CN": {
-        brandName: "星归园",
-        backHome: "返回首页",
-        languageLabel: "简体中文",
-        pageTitle: "为它建立一处<br />安静的纪念",
-        pageIntro: "写下名字、日期和想说的话。照片和故事可以公开，也可以只留给自己。",
-        stepOne: "1  填写纪念信息",
-        stepOneDesc: "名字、日期、墓志铭、故事。",
-        stepTwo: "2  上传照片",
-        stepTwoDesc: "墓碑展示、公开相册、私密相册。",
-        formTitle: "纪念信息",
-        labelName: "爱宠名字",
-        labelType: "爱宠种类",
-        labelBirth: "出生日期",
-        labelDeath: "离开日期",
-        labelEpitaph: "墓志铭",
-        labelStory: "可公开的故事",
-        labelPrivacy: "墓地可见范围",
-        privacyPublic: "公开",
-        privacyPublicDesc: "所有访客都可以看到。",
-        privacyInvite: "邀请可见",
-        privacyInviteDesc: "只给拥有链接的人看。",
-        privacyPrivate: "仅自己",
-        privacyPrivateDesc: "只有自己可以查看。",
-        labelPhotos: "照片",
-        stonePhotoTitle: "墓碑展示照片",
-        stonePhotoDesc: "用于墓碑正面，只选择一张。",
-        publicPhotoTitle: "公开相册",
-        publicPhotoDesc: "所有访客都可以看到。",
-        privatePhotoTitle: "私密相册",
-        privatePhotoDesc: "只保存在你的纪念页里。",
-        photoHint: "当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。",
-        saveDraft: "保存草稿",
-        nextStep: "继续选择墓碑",
-        saved: "已保存草稿",
-        needName: "请先填写爱宠名字",
-        dateError: "离开日期不能早于出生日期"
-      },
-      "zh-TW": {
-        brandName: "星歸園",
-        backHome: "返回首頁",
-        languageLabel: "繁體中文",
-        pageTitle: "為牠建立一處<br />安靜的紀念",
-        pageIntro: "寫下名字、日期和想說的話。照片和故事可以公開，也可以只留給自己。",
-        stepOne: "1  填寫紀念資訊",
-        stepOneDesc: "名字、日期、墓誌銘、故事。",
-        stepTwo: "2  上傳照片",
-        stepTwoDesc: "墓碑展示、公開相簿、私密相簿。",
-        formTitle: "紀念資訊",
-        labelName: "愛寵名字",
-        labelType: "愛寵種類",
-        labelBirth: "出生日期",
-        labelDeath: "離開日期",
-        labelEpitaph: "墓誌銘",
-        labelStory: "可公開的故事",
-        labelPrivacy: "墓地可見範圍",
-        privacyPublic: "公開",
-        privacyPublicDesc: "所有訪客都可以看到。",
-        privacyInvite: "邀請可見",
-        privacyInviteDesc: "只給擁有連結的人看。",
-        privacyPrivate: "僅自己",
-        privacyPrivateDesc: "只有自己可以查看。",
-        labelPhotos: "照片",
-        stonePhotoTitle: "墓碑展示照片",
-        stonePhotoDesc: "用於墓碑正面，只選擇一張。",
-        publicPhotoTitle: "公開相簿",
-        publicPhotoDesc: "所有訪客都可以看到。",
-        privatePhotoTitle: "私密相簿",
-        privatePhotoDesc: "只保存在你的紀念頁裡。",
-        photoHint: "目前版本會把填寫內容暫存在瀏覽器本地，後續接入帳號和資料庫後再保存到伺服器。",
-        saveDraft: "保存草稿",
-        nextStep: "繼續選擇墓碑",
-        saved: "已保存草稿",
-        needName: "請先填寫愛寵名字",
-        dateError: "離開日期不能早於出生日期"
-      },
-      "en": {
-        brandName: "Starhome Garden",
-        backHome: "Home",
-        languageLabel: "English",
-        pageTitle: "Create a quiet<br />memorial for them",
-        pageIntro: "Write their name, dates, and the words you want to keep. Photos and stories can be public or private.",
-        stepOne: "1  Fill in memorial info",
-        stepOneDesc: "Name, dates, epitaph, and story.",
-        stepTwo: "2  Upload photos",
-        stepTwoDesc: "Tombstone, public album, private album.",
-        formTitle: "Memorial Information",
-        labelName: "Pet name",
-        labelType: "Pet type",
-        labelBirth: "Birth date",
-        labelDeath: "Passing date",
-        labelEpitaph: "Epitaph",
-        labelStory: "Public story",
-        labelPrivacy: "Visibility",
-        privacyPublic: "Public",
-        privacyPublicDesc: "Visible to all visitors.",
-        privacyInvite: "Invite only",
-        privacyInviteDesc: "Visible to people with the link.",
-        privacyPrivate: "Private",
-        privacyPrivateDesc: "Only you can view it.",
-        labelPhotos: "Photos",
-        stonePhotoTitle: "Tombstone photo",
-        stonePhotoDesc: "Shown on the tombstone. Choose one.",
-        publicPhotoTitle: "Public album",
-        publicPhotoDesc: "Visible to all visitors.",
-        privatePhotoTitle: "Private album",
-        privatePhotoDesc: "Kept only in your memorial page.",
-        photoHint: "This version stores the draft locally in your browser. Account and database storage can be added later.",
-        saveDraft: "Save Draft",
-        nextStep: "Choose Tombstone",
-        saved: "Draft saved",
-        needName: "Please enter the pet name",
-        dateError: "Passing date cannot be earlier than birth date"
-      },
-      "ja": {
-        brandName: "星帰園",
-        backHome: "ホームへ",
-        languageLabel: "日本語",
-        pageTitle: "静かな記念の<br />場所をつくる",
-        pageIntro: "名前、日付、残したい言葉を書いてください。写真と物語は公開にも非公開にもできます。",
-        stepOne: "1  記念情報を入力",
-        stepOneDesc: "名前、日付、墓誌銘、物語。",
-        stepTwo: "2  写真をアップロード",
-        stepTwoDesc: "墓碑表示、公開アルバム、非公開アルバム。",
-        formTitle: "記念情報",
-        labelName: "名前",
-        labelType: "種類",
-        labelBirth: "誕生日",
-        labelDeath: "旅立った日",
-        labelEpitaph: "墓誌銘",
-        labelStory: "公開できる物語",
-        labelPrivacy: "公開範囲",
-        privacyPublic: "公開",
-        privacyPublicDesc: "すべての訪問者が見られます。",
-        privacyInvite: "招待のみ",
-        privacyInviteDesc: "リンクを持つ人だけが見られます。",
-        privacyPrivate: "自分だけ",
-        privacyPrivateDesc: "自分だけが確認できます。",
-        labelPhotos: "写真",
-        stonePhotoTitle: "墓碑に表示する写真",
-        stonePhotoDesc: "墓碑正面に使用します。一枚だけ選択。",
-        publicPhotoTitle: "公開アルバム",
-        publicPhotoDesc: "すべての訪問者が見られます。",
-        privatePhotoTitle: "非公開アルバム",
-        privatePhotoDesc: "あなたの記念ページだけに保存します。",
-        photoHint: "現在のバージョンでは入力内容をブラウザ内に一時保存します。アカウントとデータベース保存は後で追加できます。",
-        saveDraft: "下書き保存",
-        nextStep: "墓碑を選ぶ",
-        saved: "下書きを保存しました",
-        needName: "名前を入力してください",
-        dateError: "旅立った日は誕生日より前にできません"
-      }
-    };
-
-    const ids = [
-      "brandName", "backHome", "languageLabel", "pageTitle", "pageIntro", "stepOne", "stepOneDesc",
-      "stepTwo", "stepTwoDesc", "formTitle", "labelName", "labelType", "labelBirth", "labelDeath",
-      "labelEpitaph", "labelStory", "labelPrivacy", "privacyPublic", "privacyPublicDesc",
-      "privacyInvite", "privacyInviteDesc", "privacyPrivate", "privacyPrivateDesc", "labelPhotos",
-      "stonePhotoTitle", "stonePhotoDesc", "publicPhotoTitle", "publicPhotoDesc", "privatePhotoTitle",
-      "privatePhotoDesc", "photoHint", "saveDraft", "nextStep"
-    ];
-
-    const languageBox = document.getElementById("languageBox");
-    const languageButton = document.getElementById("languageButton");
-    const toast = document.getElementById("toast");
-    const form = document.getElementById("memorialForm");
-    const preview = document.getElementById("photoPreview");
-
-    function currentLang() {
-      return localStorage.getItem("petMemorialLanguage") || "zh-CN";
-    }
-
-    function t(key) {
-      const lang = currentLang();
-      return (TEXTS[lang] && TEXTS[lang][key]) || TEXTS["zh-CN"][key] || "";
-    }
-
-    function applyLanguage(lang) {
-      const data = TEXTS[lang] || TEXTS["zh-CN"];
-      ids.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el && data[id]) {
-          if (id === "pageTitle") {
-            el.innerHTML = data[id];
-          } else {
-            el.textContent = data[id];
-          }
-        }
-      });
-
-      document.querySelectorAll(".language-menu button").forEach((button) => {
-        button.classList.toggle("active", button.dataset.lang === lang);
-      });
-    }
-
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1500);
-    }
-
-    function getFilesAsDataURLs(input) {
-      const files = Array.from(input.files || []);
-      return Promise.all(files.map((file) => {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve({ name: file.name, data: reader.result });
-          reader.readAsDataURL(file);
-        });
-      }));
-    }
-
-    async function collectData() {
-      const visibility = document.querySelector("input[name='visibility']:checked")?.value || "public";
-      const [stonePhotos, publicPhotos, privatePhotos] = await Promise.all([
-        getFilesAsDataURLs(document.getElementById("stonePhoto")),
-        getFilesAsDataURLs(document.getElementById("publicPhotos")),
-        getFilesAsDataURLs(document.getElementById("privatePhotos"))
-      ]);
-
-      return {
-        petName: document.getElementById("petName").value.trim(),
-        petType: document.getElementById("petType").value,
-        birthDate: document.getElementById("birthDate").value,
-        deathDate: document.getElementById("deathDate").value,
-        epitaph: document.getElementById("epitaph").value.trim(),
-        story: document.getElementById("story").value.trim(),
-        visibility,
-        stonePhoto: stonePhotos[0] || null,
-        publicPhotos,
-        privatePhotos,
-        savedAt: new Date().toISOString()
-      };
-    }
-
-    function validateData(data) {
-      if (!data.petName) {
-        showToast(t("needName"));
-        document.getElementById("petName").focus();
-        return false;
-      }
-
-      if (data.birthDate && data.deathDate && data.deathDate < data.birthDate) {
-        showToast(t("dateError"));
-        document.getElementById("deathDate").focus();
-        return false;
-      }
-
-      return true;
-    }
-
-    async function saveDraft() {
-      const data = await collectData();
-      if (!validateData(data)) return false;
-      localStorage.setItem("petMemorialDraft", JSON.stringify(data));
-      showToast(t("saved"));
-      return true;
-    }
-
-    function renderPreview() {
-      preview.innerHTML = "";
-      const inputs = [
-        document.getElementById("stonePhoto"),
-        document.getElementById("publicPhotos"),
-        document.getElementById("privatePhotos")
-      ];
-
-      inputs.forEach((input) => {
-        Array.from(input.files || []).forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const img = document.createElement("img");
-            img.className = "thumb";
-            img.src = reader.result;
-            preview.appendChild(img);
-          };
-          reader.readAsDataURL(file);
-        });
-      });
-    }
-
-    ["stonePhoto", "publicPhotos", "privatePhotos"].forEach((id) => {
-      document.getElementById(id).addEventListener("change", renderPreview);
-    });
-
-    document.getElementById("saveDraft").addEventListener("click", saveDraft);
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const saved = await saveDraft();
-      if (saved) {
-        setTimeout(() => {
-          window.location.href = "select-stone.html";
-        }, 500);
-      }
-    });
-
-    languageButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      languageBox.classList.toggle("open");
-    });
-
-    document.querySelectorAll(".language-menu button").forEach((button) => {
-      button.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const lang = button.dataset.lang;
-        localStorage.setItem("petMemorialLanguage", lang);
-        applyLanguage(lang);
-        languageBox.classList.remove("open");
-      });
-    });
-
-    document.addEventListener("click", () => languageBox.classList.remove("open"));
-    applyLanguage(currentLang());
-  </script>
+<script>
+const TEXTS={
+"zh-CN":{brandName:"星归园",backHome:"返回首页",languageLabel:"简体中文",previewTitle:"墓碑预览",previewNote:"这里先展示基础墓碑预览。下一步会进入墓碑样式选择页面。",formTitle:"纪念信息",labelName:"爱宠名字",labelType:"爱宠种类",labelBirth:"出生日期",labelDeath:"离开日期",labelEpitaph:"墓志铭",labelStory:"可公开的故事",labelPrivacy:"墓地可见范围",privacyPublic:"公开",privacyPublicDesc:"所有访客都可以看到。",privacyInvite:"邀请可见",privacyInviteDesc:"只给拥有链接的人看。",privacyPrivate:"仅自己",privacyPrivateDesc:"只有自己可以查看。",labelPhotos:"照片",stonePhotoTitle:"墓碑展示照片",stonePhotoDesc:"用于墓碑正面，只选择一张。",publicPhotoTitle:"公开相册",publicPhotoDesc:"所有访客都可以看到。",privatePhotoTitle:"私密相册",privatePhotoDesc:"只保存在你的纪念页里。",photoHint:"当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。",saveDraft:"保存草稿",nextStep:"继续选择墓碑",saved:"已保存草稿",needName:"请先填写爱宠名字",dateError:"离开日期不能早于出生日期"},
+"zh-TW":{brandName:"星歸園",backHome:"返回首頁",languageLabel:"繁體中文",previewTitle:"墓碑預覽",previewNote:"這裡先展示基礎墓碑預覽。下一步會進入墓碑樣式選擇頁面。",formTitle:"紀念資訊",labelName:"愛寵名字",labelType:"愛寵種類",labelBirth:"出生日期",labelDeath:"離開日期",labelEpitaph:"墓誌銘",labelStory:"可公開的故事",labelPrivacy:"墓地可見範圍",privacyPublic:"公開",privacyPublicDesc:"所有訪客都可以看到。",privacyInvite:"邀請可見",privacyInviteDesc:"只給擁有連結的人看。",privacyPrivate:"僅自己",privacyPrivateDesc:"只有自己可以查看。",labelPhotos:"照片",stonePhotoTitle:"墓碑展示照片",stonePhotoDesc:"用於墓碑正面，只選擇一張。",publicPhotoTitle:"公開相簿",publicPhotoDesc:"所有訪客都可以看到。",privatePhotoTitle:"私密相簿",privatePhotoDesc:"只保存在你的紀念頁裡。",photoHint:"目前版本會把填寫內容暫存在瀏覽器本地，後續接入帳號和資料庫後再保存到伺服器。",saveDraft:"保存草稿",nextStep:"繼續選擇墓碑",saved:"已保存草稿",needName:"請先填寫愛寵名字",dateError:"離開日期不能早於出生日期"},
+"en":{brandName:"Starhome Garden",backHome:"Home",languageLabel:"English",previewTitle:"Tombstone Preview",previewNote:"This shows a basic preview first. The next page will let you choose the tombstone style.",formTitle:"Memorial Information",labelName:"Pet name",labelType:"Pet type",labelBirth:"Birth date",labelDeath:"Passing date",labelEpitaph:"Epitaph",labelStory:"Public story",labelPrivacy:"Visibility",privacyPublic:"Public",privacyPublicDesc:"Visible to all visitors.",privacyInvite:"Invite only",privacyInviteDesc:"Visible to people with the link.",privacyPrivate:"Private",privacyPrivateDesc:"Only you can view it.",labelPhotos:"Photos",stonePhotoTitle:"Tombstone photo",stonePhotoDesc:"Shown on the tombstone. Choose one.",publicPhotoTitle:"Public album",publicPhotoDesc:"Visible to all visitors.",privatePhotoTitle:"Private album",privatePhotoDesc:"Kept only in your memorial page.",photoHint:"This version stores the draft locally in your browser. Account and database storage can be added later.",saveDraft:"Save Draft",nextStep:"Choose Tombstone",saved:"Draft saved",needName:"Please enter the pet name",dateError:"Passing date cannot be earlier than birth date"},
+"ja":{brandName:"星帰園",backHome:"ホームへ",languageLabel:"日本語",previewTitle:"墓碑プレビュー",previewNote:"まず基礎的な墓碑プレビューを表示します。次のページで墓碑の種類を選びます。",formTitle:"記念情報",labelName:"名前",labelType:"種類",labelBirth:"誕生日",labelDeath:"旅立った日",labelEpitaph:"墓誌銘",labelStory:"公開できる物語",labelPrivacy:"公開範囲",privacyPublic:"公開",privacyPublicDesc:"すべての訪問者が見られます。",privacyInvite:"招待のみ",privacyInviteDesc:"リンクを持つ人だけが見られます。",privacyPrivate:"自分だけ",privacyPrivateDesc:"自分だけが確認できます。",labelPhotos:"写真",stonePhotoTitle:"墓碑に表示する写真",stonePhotoDesc:"墓碑正面に使用します。一枚だけ選択。",publicPhotoTitle:"公開アルバム",publicPhotoDesc:"すべての訪問者が見られます。",privatePhotoTitle:"非公開アルバム",privatePhotoDesc:"あなたの記念ページだけに保存します。",photoHint:"現在のバージョンでは入力内容をブラウザ内に一時保存します。アカウントとデータベース保存は後で追加できます。",saveDraft:"下書き保存",nextStep:"墓碑を選ぶ",saved:"下書きを保存しました",needName:"名前を入力してください",dateError:"旅立った日は誕生日より前にできません"}
+};
+const ids=["brandName","backHome","languageLabel","previewTitle","previewNote","formTitle","labelName","labelType","labelBirth","labelDeath","labelEpitaph","labelStory","labelPrivacy","privacyPublic","privacyPublicDesc","privacyInvite","privacyInviteDesc","privacyPrivate","privacyPrivateDesc","labelPhotos","stonePhotoTitle","stonePhotoDesc","publicPhotoTitle","publicPhotoDesc","privatePhotoTitle","privatePhotoDesc","photoHint","saveDraft","nextStep"];
+const languageBox=document.getElementById("languageBox"),languageButton=document.getElementById("languageButton"),toast=document.getElementById("toast"),form=document.getElementById("memorialForm"),photoPreview=document.getElementById("photoPreview");
+const petName=document.getElementById("petName"),birthDate=document.getElementById("birthDate"),deathDate=document.getElementById("deathDate"),epitaph=document.getElementById("epitaph"),previewName=document.getElementById("previewName"),previewDate=document.getElementById("previewDate"),previewEpitaph=document.getElementById("previewEpitaph");
+function currentLang(){return localStorage.getItem("petMemorialLanguage")||"zh-CN"}function t(k){const l=currentLang();return(TEXTS[l]&&TEXTS[l][k])||TEXTS["zh-CN"][k]||""}function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}function updateStonePreview(){previewName.textContent=petName.value.trim()||"Lucky";previewDate.innerHTML=`${fmt(birthDate.value)}<br>${fmt(deathDate.value)}`;previewEpitaph.textContent=epitaph.value.trim()||"谢谢你把最温柔的日子留给我。"}function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];ids.forEach(id=>{const el=document.getElementById(id);if(el&&data[id])el.textContent=data[id]});document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}function showToast(msg){toast.textContent=msg;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),1500)}
+function getFiles(input){return Promise.all(Array.from(input.files||[]).map(file=>new Promise(resolve=>{const r=new FileReader();r.onload=()=>resolve({name:file.name,data:r.result});r.readAsDataURL(file)})))}async function collectData(){const visibility=document.querySelector("input[name='visibility']:checked")?.value||"public";const[stonePhotos,publicPhotos,privatePhotos]=await Promise.all([getFiles(document.getElementById("stonePhoto")),getFiles(document.getElementById("publicPhotos")),getFiles(document.getElementById("privatePhotos"))]);return{petName:petName.value.trim(),petType:document.getElementById("petType").value,birthDate:birthDate.value,deathDate:deathDate.value,epitaph:epitaph.value.trim(),story:document.getElementById("story").value.trim(),visibility,stonePhoto:stonePhotos[0]||null,publicPhotos,privatePhotos,savedAt:new Date().toISOString()}}function validate(data){if(!data.petName){showToast(t("needName"));petName.focus();return false}if(data.birthDate&&data.deathDate&&data.deathDate<data.birthDate){showToast(t("dateError"));deathDate.focus();return false}return true}async function saveDraft(){const data=await collectData();if(!validate(data))return false;localStorage.setItem("petMemorialDraft",JSON.stringify(data));showToast(t("saved"));return true}
+function renderPreview(){photoPreview.innerHTML="";["stonePhoto","publicPhotos","privatePhotos"].forEach(id=>{Array.from(document.getElementById(id).files||[]).forEach(file=>{const r=new FileReader();r.onload=()=>{const img=document.createElement("img");img.className="thumb";img.src=r.result;photoPreview.appendChild(img)};r.readAsDataURL(file)})})}
+["stonePhoto","publicPhotos","privatePhotos"].forEach(id=>document.getElementById(id).addEventListener("change",renderPreview));[petName,birthDate,deathDate,epitaph].forEach(el=>{el.addEventListener("input",updateStonePreview);el.addEventListener("change",updateStonePreview)});document.getElementById("saveDraft").addEventListener("click",saveDraft);form.addEventListener("submit",async e=>{e.preventDefault();const ok=await saveDraft();if(ok)setTimeout(()=>window.location.href="select-stone.html",500)});languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});document.querySelectorAll(".language-menu button").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();const lang=b.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open")}));document.addEventListener("click",()=>languageBox.classList.remove("open"));applyLanguage(currentLang());updateStonePreview();
+</script>
 </body>
 </html>
