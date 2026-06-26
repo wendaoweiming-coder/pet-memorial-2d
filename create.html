@@ -3,51 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>创建纪念｜宠物纪念园</title>
-
+  <title>创建纪念｜星归园</title>
   <style>
-    :root {
-      --night-1: #071326;
-      --night-2: #0d1d38;
-      --cream: #f6ead6;
-      --cream-2: #fff8ec;
-      --gold: #f4d7a6;
-      --lavender: #b8a7d8;
-      --pink: #e7a9b9;
-      --blue-soft: #94aeca;
-      --green-soft: #8fa88d;
-      --text: #f7efe2;
-      --muted: #b9c0d1;
-      --panel: rgba(9, 20, 39, 0.74);
-      --line: rgba(255, 236, 205, 0.22);
-      --paper: rgba(255, 248, 236, 0.96);
-      --paper-text: #27304a;
-    }
+    * { box-sizing: border-box; }
 
-    * {
-      box-sizing: border-box;
-    }
-
+    html,
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family:
-        "Microsoft YaHei",
-        "PingFang SC",
-        "Noto Sans SC",
-        system-ui,
-        sans-serif;
-      background:
-        radial-gradient(circle at 75% 18%, rgba(244, 215, 166, 0.18), transparent 12%),
-        linear-gradient(180deg, var(--night-1), var(--night-2) 52%, #101f32);
-      color: var(--text);
-      overflow-x: hidden;
+      width: 100%;
+      min-height: 100%;
+      background: #07111f;
+      color: rgba(238, 213, 167, .92);
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    body { overflow-x: hidden; }
 
     button,
     input,
@@ -56,346 +26,234 @@
       font: inherit;
     }
 
-    .page {
-      position: relative;
-      min-height: 100vh;
-      overflow: hidden;
-      padding-bottom: 50px;
+    button {
+      border: 0;
+      cursor: pointer;
     }
 
-    .stars {
-      position: absolute;
+    .page {
+      min-height: 100vh;
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(5, 10, 22, .72) 0%, rgba(5, 10, 22, .50) 45%, rgba(5, 10, 22, .30) 100%),
+        url("assets/bg.png") center center / cover fixed no-repeat;
+      padding: 42px 72px 56px;
+    }
+
+    .page::before {
+      content: "";
+      position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 1;
-    }
-
-    .star {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: #fff6d6;
-      box-shadow:
-        4px 0 #fff6d6,
-        0 4px #fff6d6,
-        4px 4px #fff6d6;
-      opacity: 0.65;
-      animation: twinkle 4s ease-in-out infinite;
-    }
-
-    @keyframes twinkle {
-      0%, 100% {
-        opacity: 0.28;
-        transform: scale(0.8);
-      }
-
-      50% {
-        opacity: 0.92;
-        transform: scale(1);
-      }
-    }
-
-    .moon {
-      position: absolute;
-      right: 9%;
-      top: 95px;
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
       background:
-        radial-gradient(circle at 35% 35%, #fff9d8 0 10%, transparent 11%),
-        radial-gradient(circle at 62% 42%, rgba(165, 150, 120, 0.28) 0 12%, transparent 13%),
-        radial-gradient(circle at 43% 68%, rgba(150, 139, 116, 0.23) 0 10%, transparent 11%),
-        #f6e8b6;
-      box-shadow:
-        0 0 32px rgba(255, 236, 180, 0.38),
-        0 0 80px rgba(194, 189, 255, 0.16);
-      z-index: 2;
+        radial-gradient(circle at 28% 16%, rgba(246, 218, 154, .11), transparent 22%),
+        radial-gradient(circle at 80% 82%, rgba(226, 172, 94, .09), transparent 28%);
     }
 
-    .header {
+    .topbar {
       position: relative;
-      z-index: 10;
+      z-index: 5;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 28px 7vw 0;
+      margin-bottom: 34px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 14px;
+      color: rgba(232, 201, 148, .88);
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 0 rgba(17, 12, 8, .34);
     }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
+    .brand img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      opacity: .92;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .quiet-link,
+    .language-button {
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 16px;
+      color: rgba(232, 201, 148, .86);
+      background: rgba(8, 17, 35, .50);
+      border: 2px solid rgba(198, 151, 85, .54);
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 232, 178, .05),
+        0 8px 20px rgba(0, 0, 0, .16);
+      text-decoration: none;
+      letter-spacing: 1px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .language { position: relative; z-index: 20; }
+
+    .language-menu {
+      position: absolute;
+      top: 48px;
+      right: 0;
+      width: 152px;
+      display: none;
+      padding: 6px;
+      background: rgba(8, 16, 32, .96);
+      border: 2px solid rgba(198, 151, 85, .54);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, .32);
+    }
+
+    .language.open .language-menu {
+      display: grid;
+      gap: 4px;
+    }
+
+    .language-menu button {
+      height: 34px;
+      color: rgba(232, 201, 148, .9);
+      background: transparent;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .8px;
+    }
+
+    .language-menu button:hover,
+    .language-menu button.active {
+      background: rgba(232, 191, 116, .12);
+    }
+
+    .layout {
       position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(380px, 500px) minmax(560px, 1fr);
+      gap: 34px;
+      align-items: start;
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .intro { padding-top: 40px; }
+
+    .ornament {
+      width: 430px;
+      height: 26px;
+      position: relative;
+      margin-bottom: 28px;
+      opacity: .70;
+    }
+
+    .ornament::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 13px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(202,150,84,.70), rgba(202,150,84,.50), rgba(202,150,84,.18));
+    }
+
+    .ornament img {
+      position: absolute;
+      left: 190px;
+      top: -4px;
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
       image-rendering: pixelated;
     }
 
-    .brand-mark::before {
-      content: "";
-      position: absolute;
-      left: 14px;
-      top: 16px;
-      width: 16px;
-      height: 14px;
-      background: var(--cream);
+    h1 {
+      margin: 0;
+      color: rgba(226, 199, 145, .94);
+      font-family: "STSong", "SimSun", "Noto Serif CJK SC", "Microsoft YaHei", serif;
+      font-size: 58px;
+      line-height: 1.04;
+      letter-spacing: 1px;
+      text-shadow:
+        4px 4px 0 rgba(30, 23, 17, .70),
+        2px 2px 0 rgba(66, 48, 30, .66);
+    }
+
+    .intro p {
+      width: 430px;
+      margin: 24px 0 0;
+      color: rgba(232, 213, 178, .78);
+      font-size: 18px;
+      line-height: 1.9;
+      letter-spacing: .5px;
+      text-shadow: 0 2px 0 rgba(12, 10, 8, .40);
+    }
+
+    .steps {
+      display: grid;
+      gap: 18px;
+      margin-top: 58px;
+      width: 420px;
+    }
+
+    .step-card {
+      padding: 18px 20px;
+      background: rgba(8, 18, 36, .48);
+      border: 1px solid rgba(198, 151, 85, .30);
+      box-shadow: inset 0 0 0 1px rgba(255, 232, 178, .04);
+    }
+
+    .step-card strong {
+      display: block;
+      color: rgba(232, 201, 148, .88);
+      font-size: 18px;
+      margin-bottom: 8px;
+      letter-spacing: .8px;
+    }
+
+    .step-card span {
+      color: rgba(232, 213, 178, .58);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .panel {
+      background: rgba(10, 20, 38, .64);
+      border: 1px solid rgba(218, 174, 106, .42);
       box-shadow:
-        -8px -10px 0 -2px var(--cream),
-        9px -10px 0 -2px var(--cream),
-        -14px 0 0 -3px var(--cream),
-        15px 0 0 -3px var(--cream),
-        0 12px 0 -5px var(--cream);
-      border-radius: 4px;
+        inset 0 0 0 1px rgba(255, 232, 178, .06),
+        0 24px 70px rgba(0, 0, 0, .34);
+      backdrop-filter: blur(12px);
+      padding: 26px;
     }
 
-    .brand-title {
-      display: block;
-      font-size: 24px;
-      letter-spacing: 2px;
-      color: var(--cream);
-      font-weight: 700;
-      text-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
-    }
-
-    .brand-subtitle {
-      display: block;
-      margin-top: 6px;
-      font-size: 12px;
-      letter-spacing: 2px;
-      color: rgba(246, 234, 214, 0.58);
-    }
-
-    .nav {
+    .section-title {
       display: flex;
       align-items: center;
-      gap: 26px;
-      color: rgba(255, 248, 236, 0.78);
-      font-size: 15px;
+      gap: 10px;
+      margin: 0 0 20px;
+      color: rgba(238, 213, 167, .94);
+      font-size: 19px;
+      font-weight: 900;
       letter-spacing: 1px;
     }
 
-    .nav a {
-      position: relative;
-      padding: 8px 0;
-    }
-
-    .nav a.active {
-      color: var(--cream);
-    }
-
-    .nav a.active::after {
-      content: "";
-      position: absolute;
-      left: 3px;
-      right: 3px;
-      bottom: -5px;
-      height: 3px;
-      background: var(--gold);
-    }
-
-    .shell {
-      position: relative;
-      z-index: 5;
-      width: min(1180px, calc(100% - 40px));
-      margin: 56px auto 0;
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 32px;
-      align-items: start;
-    }
-
-    .intro-card {
-      position: sticky;
-      top: 28px;
-      min-height: 640px;
-      padding: 36px 32px;
-      background: var(--panel);
-      border: 2px solid var(--line);
-      box-shadow:
-        0 22px 60px rgba(0, 0, 0, 0.26),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-    }
-
-    .intro-card h1 {
-      margin: 0;
-      font-size: clamp(34px, 4vw, 48px);
-      line-height: 1.25;
-      letter-spacing: 2px;
-      color: var(--cream);
-    }
-
-    .intro-card p {
-      margin: 22px 0 0;
-      color: rgba(247, 239, 226, 0.72);
-      line-height: 1.9;
-      font-size: 15px;
-    }
-
-    .mini-scene {
-      position: relative;
-      height: 360px;
-      margin-top: 42px;
-      overflow: hidden;
-      border: 2px solid rgba(246, 234, 214, 0.14);
-      background:
-        radial-gradient(circle at 58% 32%, rgba(244, 215, 166, 0.16), transparent 16%),
-        linear-gradient(180deg, rgba(17, 36, 68, 0.85), rgba(17, 45, 42, 0.9));
-    }
-
-    .mini-ground {
-      position: absolute;
-      left: -10%;
-      right: -10%;
-      bottom: 0;
-      height: 45%;
-      border-radius: 50% 50% 0 0;
-      background:
-        radial-gradient(ellipse at 62% 62%, rgba(244, 215, 166, 0.18), transparent 24%),
-        linear-gradient(180deg, #24443d, #122921);
-    }
-
-    .mini-tomb {
-      position: absolute;
-      right: 70px;
-      bottom: 76px;
-      width: 112px;
-      height: 150px;
-      background: linear-gradient(90deg, #696f82, #8d8d9a 48%, #5d6576);
-      border: 4px solid rgba(24, 30, 45, 0.65);
-      border-radius: 54px 54px 8px 8px;
-      box-shadow:
-        inset 7px 0 0 rgba(255,255,255,0.1),
-        10px 10px 0 rgba(0,0,0,0.24);
-    }
-
-    .mini-tomb::before {
-      content: "";
-      position: absolute;
-      left: 42px;
-      top: 32px;
-      width: 28px;
-      height: 22px;
-      background: rgba(36, 42, 60, 0.7);
-      border-radius: 10px;
-      box-shadow:
-        -12px -8px 0 -6px rgba(36,42,60,0.7),
-        12px -8px 0 -6px rgba(36,42,60,0.7),
-        -18px 4px 0 -7px rgba(36,42,60,0.7),
-        18px 4px 0 -7px rgba(36,42,60,0.7);
-    }
-
-    .mini-lantern {
-      position: absolute;
-      right: 192px;
-      bottom: 58px;
-      width: 42px;
-      height: 58px;
-      background: #2a2430;
-      border: 3px solid #171620;
-      box-shadow:
-        0 0 34px rgba(255, 196, 95, 0.55),
-        0 0 80px rgba(255, 196, 95, 0.18);
-    }
-
-    .mini-lantern::before {
-      content: "";
-      position: absolute;
-      left: 8px;
-      right: 8px;
-      top: 10px;
-      bottom: 10px;
-      background: radial-gradient(circle, #fff0aa 0 22%, #ffc05a 24% 52%, transparent 54%);
-    }
-
-    .mini-pet {
-      position: absolute;
-      left: 48px;
-      bottom: 63px;
-      width: 62px;
-      height: 50px;
-      opacity: 0.86;
-    }
-
-    .mini-pet::before {
-      content: "";
-      position: absolute;
-      left: 10px;
-      top: 10px;
-      width: 42px;
-      height: 34px;
-      background: #d8c0a8;
-      border-radius: 12px 12px 14px 14px;
-      box-shadow:
-        inset -8px 0 0 #7a5b52,
-        0 5px 0 rgba(0,0,0,0.18);
-    }
-
-    .mini-pet::after {
-      content: "";
-      position: absolute;
-      left: 25px;
-      top: 28px;
-      width: 5px;
-      height: 5px;
-      background: #1e2431;
-      box-shadow: 16px 0 0 #1e2431;
-    }
-
-    .form-card {
-      position: relative;
-      padding: 34px;
-      background: var(--paper);
-      color: var(--paper-text);
-      border: 4px solid rgba(255, 255, 255, 0.58);
-      box-shadow:
-        0 0 0 2px rgba(35, 43, 65, 0.22),
-        0 22px 60px rgba(0, 0, 0, 0.26);
-    }
-
-    .form-card::before,
-    .form-card::after {
-      content: "";
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      border-color: rgba(64, 59, 72, 0.25);
-      border-style: solid;
-    }
-
-    .form-card::before {
-      top: 16px;
-      left: 16px;
-      border-width: 3px 0 0 3px;
-    }
-
-    .form-card::after {
-      right: 16px;
-      bottom: 16px;
-      border-width: 0 3px 3px 0;
-    }
-
-    .form-head {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .form-head h2 {
-      margin: 0;
-      font-size: 32px;
-      letter-spacing: 2px;
-      color: #22283c;
-    }
-
-    .form-head p {
-      margin: 12px 0 0;
-      color: #77717a;
-      line-height: 1.7;
-      font-size: 14px;
+    .section-title img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      image-rendering: pixelated;
     }
 
     .form-grid {
@@ -409,215 +267,194 @@
       gap: 8px;
     }
 
-    .field.full {
-      grid-column: 1 / -1;
-    }
+    .field.full { grid-column: 1 / -1; }
 
     label {
-      font-weight: 700;
-      color: #333951;
+      color: rgba(232, 213, 178, .82);
       font-size: 14px;
-      letter-spacing: 1px;
-    }
-
-    .hint {
-      color: #8b8791;
-      font-size: 12px;
-      line-height: 1.6;
-      margin-top: -2px;
+      font-weight: 800;
+      letter-spacing: .6px;
     }
 
     input,
     textarea,
     select {
       width: 100%;
-      border: 2px solid rgba(47, 56, 84, 0.18);
-      background: rgba(255, 255, 255, 0.54);
-      color: #2f3854;
+      color: rgba(249, 228, 186, .94);
+      background: rgba(5, 13, 28, .62);
+      border: 1px solid rgba(198, 151, 85, .45);
       outline: none;
-      padding: 13px 14px;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.45);
+      padding: 12px 13px;
+      box-shadow: inset 0 0 0 1px rgba(255, 232, 178, .04);
+      border-radius: 0;
+    }
+
+    input,
+    select { height: 46px; }
+
+    textarea {
+      min-height: 98px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(232, 213, 178, .36);
     }
 
     input:focus,
     textarea:focus,
     select:focus {
-      border-color: rgba(130, 102, 164, 0.55);
+      border-color: rgba(236, 191, 116, .82);
       box-shadow:
-        inset 0 0 0 2px rgba(255,255,255,0.6),
-        0 0 0 4px rgba(184, 167, 216, 0.18);
+        inset 0 0 0 1px rgba(255, 232, 178, .08),
+        0 0 0 3px rgba(236, 191, 116, .08);
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 112px;
-      line-height: 1.8;
-    }
-
-    .photo-box {
-      border: 2px dashed rgba(47, 56, 84, 0.22);
-      padding: 18px;
-      background: rgba(255, 255, 255, 0.35);
-    }
-
-    .photo-preview {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .preview-item {
-      aspect-ratio: 1;
-      border: 2px solid rgba(47, 56, 84, 0.16);
-      background:
-        linear-gradient(135deg, rgba(184, 167, 216, 0.24), rgba(244, 215, 166, 0.22));
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      color: #7b7480;
-      font-size: 12px;
-      text-align: center;
-      padding: 8px;
-    }
-
-    .preview-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .privacy-options {
+    .choice-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
     }
 
-    .privacy-option {
+    .choice {
       position: relative;
+      display: block;
+      min-height: 68px;
+      padding: 13px 13px 12px;
+      color: rgba(232, 213, 178, .78);
+      background: rgba(5, 13, 28, .42);
+      border: 1px solid rgba(198, 151, 85, .36);
+      cursor: pointer;
     }
 
-    .privacy-option input {
+    .choice input {
       position: absolute;
       opacity: 0;
       pointer-events: none;
     }
 
-    .privacy-option span {
+    .choice strong {
       display: block;
-      min-height: 80px;
-      padding: 14px;
-      border: 2px solid rgba(47, 56, 84, 0.16);
-      background: rgba(255, 255, 255, 0.35);
-      cursor: pointer;
-      color: #4d5368;
-      line-height: 1.6;
+      margin-bottom: 5px;
+      color: rgba(238, 213, 167, .92);
+      font-size: 14px;
     }
 
-    .privacy-option strong {
-      display: block;
-      color: #2f3854;
-      margin-bottom: 4px;
+    .choice span {
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: .74;
     }
 
-    .privacy-option input:checked + span {
-      border-color: rgba(130, 102, 164, 0.6);
-      background: rgba(184, 167, 216, 0.28);
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.65);
+    .choice:has(input:checked) {
+      border-color: rgba(236, 191, 116, .78);
+      background: rgba(236, 191, 116, .10);
     }
 
-    .actions {
-      display: flex;
-      gap: 16px;
-      margin-top: 30px;
+    .upload-zone {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
     }
 
-    .pixel-button {
-      min-height: 56px;
-      border: 0;
-      cursor: pointer;
-      display: inline-flex;
+    .upload-card {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 14px;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 0 24px;
-      font-weight: 700;
+      padding: 13px;
+      background: rgba(5, 13, 28, .40);
+      border: 1px solid rgba(198, 151, 85, .36);
+    }
+
+    .upload-card input {
+      height: auto;
+      padding: 9px;
+    }
+
+    .upload-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: rgba(238, 213, 167, .90);
+      font-size: 14px;
+    }
+
+    .upload-card span {
+      display: block;
+      color: rgba(232, 213, 178, .58);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      min-height: 0;
+    }
+
+    .thumb {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border: 1px solid rgba(198, 151, 85, .42);
+      background: rgba(5, 13, 28, .54);
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .main-button,
+    .ghost-button {
+      position: relative;
+      height: 50px;
+      min-width: 168px;
+      padding: 0 22px;
+      color: rgba(232, 201, 148, .92);
+      background: rgba(11, 22, 43, .56);
+      border: 2px solid rgba(198, 151, 85, .62);
+      font-weight: 900;
       letter-spacing: 1px;
-      transition: transform 0.15s ease, filter 0.15s ease;
-    }
-
-    .pixel-button:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.04);
-    }
-
-    .pixel-button.primary {
-      flex: 1;
-      background: #152846;
-      color: var(--cream);
+      text-shadow: 0 2px 0 rgba(17, 12, 8, .34);
       box-shadow:
-        inset 0 0 0 3px rgba(255, 255, 255, 0.07),
-        6px 6px 0 rgba(19, 25, 42, 0.18);
+        inset 0 0 0 2px rgba(255, 231, 174, .06),
+        0 8px 20px rgba(0, 0, 0, .18);
     }
 
-    .pixel-button.secondary {
-      background: rgba(255, 255, 255, 0.45);
-      color: #2f3854;
-      box-shadow:
-        inset 0 0 0 3px rgba(47, 56, 84, 0.13),
-        6px 6px 0 rgba(47, 56, 84, 0.08);
+    .main-button {
+      border-color: rgba(226, 176, 102, .84);
+      background: rgba(20, 35, 62, .70);
     }
 
-    .petals {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 3;
-    }
-
-    .petal {
-      position: absolute;
-      width: 12px;
-      height: 7px;
-      background: #dd91aa;
-      opacity: 0.65;
-      border-radius: 10px 0 10px 0;
-      animation: fall linear infinite;
-      image-rendering: pixelated;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translate3d(0, -8vh, 0) rotate(0deg);
-        opacity: 0;
-      }
-
-      12% {
-        opacity: 0.75;
-      }
-
-      100% {
-        transform: translate3d(var(--drift), 105vh, 0) rotate(260deg);
-        opacity: 0;
-      }
+    .hint {
+      margin-top: 14px;
+      color: rgba(232, 213, 178, .54);
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 34px;
-      transform: translateX(-50%) translateY(20px);
-      padding: 14px 22px;
-      background: rgba(8, 17, 33, 0.94);
-      color: var(--cream);
-      border: 2px solid rgba(246, 234, 214, 0.22);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+      bottom: 28px;
+      z-index: 100;
+      padding: 12px 18px;
+      color: #e8c994;
+      background: rgba(9, 16, 31, .96);
+      border: 1px solid rgba(198, 151, 85, .45);
+      transform: translateX(-50%) translateY(16px);
       opacity: 0;
       pointer-events: none;
-      transition: 0.25s ease;
-      z-index: 99;
+      transition: .22s ease;
       letter-spacing: 1px;
+      font: 700 15px "Microsoft YaHei", "PingFang SC", sans-serif;
     }
 
     .toast.show {
@@ -626,185 +463,178 @@
     }
 
     @media (max-width: 980px) {
-      .header {
-        padding: 22px 22px 0;
-      }
-
-      .nav {
-        display: none;
-      }
-
-      .shell {
-        grid-template-columns: 1fr;
-        width: min(720px, calc(100% - 32px));
-        margin-top: 34px;
-      }
-
-      .intro-card {
-        position: relative;
-        top: auto;
-        min-height: auto;
-      }
-
-      .mini-scene {
-        height: 280px;
-      }
-
+      .page { padding: 28px 20px 42px; }
+      .layout { grid-template-columns: 1fr; }
+      .intro { padding-top: 10px; }
+      .intro p,
+      .ornament,
+      .steps { width: 100%; }
+      h1 { font-size: 42px; }
       .form-grid,
-      .privacy-options {
-        grid-template-columns: 1fr;
+      .choice-row { grid-template-columns: 1fr; }
+      .upload-card { grid-template-columns: 1fr; }
+      .topbar {
+        align-items: flex-start;
+        gap: 16px;
       }
-    }
-
-    @media (max-width: 620px) {
-      .form-card {
-        padding: 28px 22px;
-      }
-
-      .form-head h2 {
-        font-size: 26px;
-      }
-
-      .actions {
-        flex-direction: column;
+      .top-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
       }
     }
   </style>
 </head>
-
 <body>
   <main class="page">
-    <div class="stars" id="stars"></div>
-    <div class="moon" aria-hidden="true"></div>
-    <div class="petals" id="petals"></div>
+    <header class="topbar">
+      <div class="brand">
+        <img src="assets/paw.png" alt="" />
+        <span id="brandName">星归园</span>
+      </div>
 
-    <header class="header">
-      <a class="brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>
-          <span class="brand-title">宠物纪念园</span>
-          <span class="brand-subtitle">珍藏每一次相遇</span>
-        </span>
-      </a>
+      <div class="top-actions">
+        <a class="quiet-link" href="index.html" id="backHome">返回首页</a>
 
-      <nav class="nav" aria-label="主导航">
-        <a href="index.html">首页</a>
-        <a href="cemetery.html">纪念园</a>
-        <a class="active" href="create.html">创建纪念</a>
-        <a href="#" data-soon="故事页面后面制作">故事</a>
-      </nav>
+        <div class="language" id="languageBox">
+          <button class="language-button" type="button" id="languageButton">
+            <span>◎</span>
+            <span id="languageLabel">简体中文</span>
+            <span>⌄</span>
+          </button>
+          <div class="language-menu">
+            <button type="button" data-lang="zh-CN">简体中文</button>
+            <button type="button" data-lang="zh-TW">繁體中文</button>
+            <button type="button" data-lang="en">English</button>
+            <button type="button" data-lang="ja">日本語</button>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <section class="shell">
-      <aside class="intro-card">
-        <h1>为它建立一座小小纪念</h1>
-        <p>
-          先写下它的名字、时间和想对它说的话。<br />
-          这些内容之后会出现在它的纪念馆里，也会用于生成专属墓碑。
-        </p>
-
-        <div class="mini-scene" aria-hidden="true">
-          <div class="mini-ground"></div>
-          <div class="mini-pet"></div>
-          <div class="mini-lantern"></div>
-          <div class="mini-tomb"></div>
+    <section class="layout">
+      <aside class="intro">
+        <div class="ornament">
+          <img src="assets/paw.png" alt="" />
         </div>
 
-        <p>
-          当前只是前端版本，内容会先保存在浏览器里。后面接数据库后，就可以真正保存每一个纪念馆。
-        </p>
+        <h1 id="pageTitle">为它建立一处<br />安静的纪念</h1>
+        <p id="pageIntro">写下名字、日期和想说的话。照片和故事可以公开，也可以只留给自己。</p>
+
+        <div class="steps">
+          <div class="step-card">
+            <strong id="stepOne">1  填写纪念信息</strong>
+            <span id="stepOneDesc">名字、日期、墓志铭、故事。</span>
+          </div>
+          <div class="step-card">
+            <strong id="stepTwo">2  上传照片</strong>
+            <span id="stepTwoDesc">墓碑展示、公开相册、私密相册。</span>
+          </div>
+        </div>
       </aside>
 
-      <section class="form-card">
-        <div class="form-head">
-          <h2>创建纪念</h2>
-          <p>认真填写，不用一次写得很完美。以后还可以继续修改。</p>
-        </div>
+      <section class="panel">
+        <h2 class="section-title">
+          <img src="assets/paw.png" alt="" />
+          <span id="formTitle">纪念信息</span>
+        </h2>
 
         <form id="memorialForm">
           <div class="form-grid">
             <div class="field">
-              <label for="petName">宠物名字 *</label>
-              <input id="petName" name="petName" type="text" placeholder="例如：小橘" required />
+              <label for="petName" id="labelName">爱宠名字</label>
+              <input id="petName" name="petName" required maxlength="40" placeholder="例如：Lucky" />
             </div>
 
             <div class="field">
-              <label for="petType">宠物类型</label>
+              <label for="petType" id="labelType">爱宠种类</label>
               <select id="petType" name="petType">
                 <option value="cat">猫</option>
                 <option value="dog">狗</option>
-                <option value="rabbit">兔子</option>
                 <option value="bird">鸟</option>
-                <option value="turtle">乌龟</option>
-                <option value="fish">鱼</option>
+                <option value="rabbit">兔子</option>
+                <option value="hamster">仓鼠</option>
                 <option value="other">其他</option>
               </select>
             </div>
 
             <div class="field">
-              <label for="birthDate">出生日期</label>
+              <label for="birthDate" id="labelBirth">出生日期</label>
               <input id="birthDate" name="birthDate" type="date" />
             </div>
 
             <div class="field">
-              <label for="deathDate">离开日期</label>
+              <label for="deathDate" id="labelDeath">离开日期</label>
               <input id="deathDate" name="deathDate" type="date" />
             </div>
 
             <div class="field full">
-              <label for="epitaph">墓志铭 *</label>
-              <input id="epitaph" name="epitaph" type="text" placeholder="例如：谢谢你陪伴我的每一天" required />
-              <div class="hint">这句话会出现在墓碑或纪念馆的显眼位置。</div>
+              <label for="epitaph" id="labelEpitaph">墓志铭</label>
+              <textarea id="epitaph" name="epitaph" maxlength="120" placeholder="写一句最想刻在墓碑上的话。"></textarea>
             </div>
 
             <div class="field full">
-              <label for="story">它的故事</label>
-              <textarea id="story" name="story" placeholder="写下你们相遇、陪伴、分别的故事……"></textarea>
+              <label for="story" id="labelStory">可公开的故事</label>
+              <textarea id="story" name="story" maxlength="1200" placeholder="写下它的性格、习惯，或者你最想记住的一天。"></textarea>
             </div>
 
             <div class="field full">
-              <label>纪念馆可见范围</label>
-
-              <div class="privacy-options">
-                <label class="privacy-option">
-                  <input type="radio" name="privacy" value="public" checked />
-                  <span>
-                    <strong>公开</strong>
-                    所有人都可以看到
-                  </span>
+              <label id="labelPrivacy">墓地可见范围</label>
+              <div class="choice-row">
+                <label class="choice">
+                  <input type="radio" name="visibility" value="public" checked />
+                  <strong id="privacyPublic">公开</strong>
+                  <span id="privacyPublicDesc">所有访客都可以看到。</span>
                 </label>
-
-                <label class="privacy-option">
-                  <input type="radio" name="privacy" value="invite" />
-                  <span>
-                    <strong>邀请可见</strong>
-                    只有链接访问者可见
-                  </span>
+                <label class="choice">
+                  <input type="radio" name="visibility" value="invite" />
+                  <strong id="privacyInvite">邀请可见</strong>
+                  <span id="privacyInviteDesc">只给拥有链接的人看。</span>
                 </label>
-
-                <label class="privacy-option">
-                  <input type="radio" name="privacy" value="private" />
-                  <span>
-                    <strong>仅自己</strong>
-                    只有你自己可见
-                  </span>
+                <label class="choice">
+                  <input type="radio" name="visibility" value="private" />
+                  <strong id="privacyPrivate">仅自己</strong>
+                  <span id="privacyPrivateDesc">只有自己可以查看。</span>
                 </label>
               </div>
             </div>
 
             <div class="field full">
-              <label for="petPhotos">上传照片</label>
-              <div class="photo-box">
-                <input id="petPhotos" name="petPhotos" type="file" accept="image/*" multiple />
-                <div class="hint">现在先做预览效果。后面接数据库后，再做公开照片、隐私照片、墓碑展示照片的分类。</div>
-                <div class="photo-preview" id="photoPreview"></div>
+              <label id="labelPhotos">照片</label>
+
+              <div class="upload-zone">
+                <div class="upload-card">
+                  <div>
+                    <strong id="stonePhotoTitle">墓碑展示照片</strong>
+                    <span id="stonePhotoDesc">用于墓碑正面，只选择一张。</span>
+                  </div>
+                  <input id="stonePhoto" type="file" accept="image/*" />
+                </div>
+
+                <div class="upload-card">
+                  <div>
+                    <strong id="publicPhotoTitle">公开相册</strong>
+                    <span id="publicPhotoDesc">所有访客都可以看到。</span>
+                  </div>
+                  <input id="publicPhotos" type="file" accept="image/*" multiple />
+                </div>
+
+                <div class="upload-card">
+                  <div>
+                    <strong id="privatePhotoTitle">私密相册</strong>
+                    <span id="privatePhotoDesc">只保存在你的纪念页里。</span>
+                  </div>
+                  <input id="privatePhotos" type="file" accept="image/*" multiple />
+                </div>
               </div>
+
+              <div class="preview" id="photoPreview"></div>
+              <div class="hint" id="photoHint">当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。</div>
             </div>
           </div>
 
-          <div class="actions">
-            <button class="pixel-button secondary" type="button" id="backHome">返回首页</button>
-            <button class="pixel-button primary" type="submit">保存并继续选择墓碑 ›</button>
+          <div class="footer-actions">
+            <button class="ghost-button" type="button" id="saveDraft">保存草稿</button>
+            <button class="main-button" type="submit" id="nextStep">继续选择墓碑</button>
           </div>
         </form>
       </section>
@@ -814,161 +644,323 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    const stars = document.getElementById("stars");
-    const petals = document.getElementById("petals");
+    const TEXTS = {
+      "zh-CN": {
+        brandName: "星归园",
+        backHome: "返回首页",
+        languageLabel: "简体中文",
+        pageTitle: "为它建立一处<br />安静的纪念",
+        pageIntro: "写下名字、日期和想说的话。照片和故事可以公开，也可以只留给自己。",
+        stepOne: "1  填写纪念信息",
+        stepOneDesc: "名字、日期、墓志铭、故事。",
+        stepTwo: "2  上传照片",
+        stepTwoDesc: "墓碑展示、公开相册、私密相册。",
+        formTitle: "纪念信息",
+        labelName: "爱宠名字",
+        labelType: "爱宠种类",
+        labelBirth: "出生日期",
+        labelDeath: "离开日期",
+        labelEpitaph: "墓志铭",
+        labelStory: "可公开的故事",
+        labelPrivacy: "墓地可见范围",
+        privacyPublic: "公开",
+        privacyPublicDesc: "所有访客都可以看到。",
+        privacyInvite: "邀请可见",
+        privacyInviteDesc: "只给拥有链接的人看。",
+        privacyPrivate: "仅自己",
+        privacyPrivateDesc: "只有自己可以查看。",
+        labelPhotos: "照片",
+        stonePhotoTitle: "墓碑展示照片",
+        stonePhotoDesc: "用于墓碑正面，只选择一张。",
+        publicPhotoTitle: "公开相册",
+        publicPhotoDesc: "所有访客都可以看到。",
+        privatePhotoTitle: "私密相册",
+        privatePhotoDesc: "只保存在你的纪念页里。",
+        photoHint: "当前版本会把填写内容暂存在浏览器本地，后续接入账号和数据库后再保存到服务器。",
+        saveDraft: "保存草稿",
+        nextStep: "继续选择墓碑",
+        saved: "已保存草稿",
+        needName: "请先填写爱宠名字",
+        dateError: "离开日期不能早于出生日期"
+      },
+      "zh-TW": {
+        brandName: "星歸園",
+        backHome: "返回首頁",
+        languageLabel: "繁體中文",
+        pageTitle: "為牠建立一處<br />安靜的紀念",
+        pageIntro: "寫下名字、日期和想說的話。照片和故事可以公開，也可以只留給自己。",
+        stepOne: "1  填寫紀念資訊",
+        stepOneDesc: "名字、日期、墓誌銘、故事。",
+        stepTwo: "2  上傳照片",
+        stepTwoDesc: "墓碑展示、公開相簿、私密相簿。",
+        formTitle: "紀念資訊",
+        labelName: "愛寵名字",
+        labelType: "愛寵種類",
+        labelBirth: "出生日期",
+        labelDeath: "離開日期",
+        labelEpitaph: "墓誌銘",
+        labelStory: "可公開的故事",
+        labelPrivacy: "墓地可見範圍",
+        privacyPublic: "公開",
+        privacyPublicDesc: "所有訪客都可以看到。",
+        privacyInvite: "邀請可見",
+        privacyInviteDesc: "只給擁有連結的人看。",
+        privacyPrivate: "僅自己",
+        privacyPrivateDesc: "只有自己可以查看。",
+        labelPhotos: "照片",
+        stonePhotoTitle: "墓碑展示照片",
+        stonePhotoDesc: "用於墓碑正面，只選擇一張。",
+        publicPhotoTitle: "公開相簿",
+        publicPhotoDesc: "所有訪客都可以看到。",
+        privatePhotoTitle: "私密相簿",
+        privatePhotoDesc: "只保存在你的紀念頁裡。",
+        photoHint: "目前版本會把填寫內容暫存在瀏覽器本地，後續接入帳號和資料庫後再保存到伺服器。",
+        saveDraft: "保存草稿",
+        nextStep: "繼續選擇墓碑",
+        saved: "已保存草稿",
+        needName: "請先填寫愛寵名字",
+        dateError: "離開日期不能早於出生日期"
+      },
+      "en": {
+        brandName: "Starhome Garden",
+        backHome: "Home",
+        languageLabel: "English",
+        pageTitle: "Create a quiet<br />memorial for them",
+        pageIntro: "Write their name, dates, and the words you want to keep. Photos and stories can be public or private.",
+        stepOne: "1  Fill in memorial info",
+        stepOneDesc: "Name, dates, epitaph, and story.",
+        stepTwo: "2  Upload photos",
+        stepTwoDesc: "Tombstone, public album, private album.",
+        formTitle: "Memorial Information",
+        labelName: "Pet name",
+        labelType: "Pet type",
+        labelBirth: "Birth date",
+        labelDeath: "Passing date",
+        labelEpitaph: "Epitaph",
+        labelStory: "Public story",
+        labelPrivacy: "Visibility",
+        privacyPublic: "Public",
+        privacyPublicDesc: "Visible to all visitors.",
+        privacyInvite: "Invite only",
+        privacyInviteDesc: "Visible to people with the link.",
+        privacyPrivate: "Private",
+        privacyPrivateDesc: "Only you can view it.",
+        labelPhotos: "Photos",
+        stonePhotoTitle: "Tombstone photo",
+        stonePhotoDesc: "Shown on the tombstone. Choose one.",
+        publicPhotoTitle: "Public album",
+        publicPhotoDesc: "Visible to all visitors.",
+        privatePhotoTitle: "Private album",
+        privatePhotoDesc: "Kept only in your memorial page.",
+        photoHint: "This version stores the draft locally in your browser. Account and database storage can be added later.",
+        saveDraft: "Save Draft",
+        nextStep: "Choose Tombstone",
+        saved: "Draft saved",
+        needName: "Please enter the pet name",
+        dateError: "Passing date cannot be earlier than birth date"
+      },
+      "ja": {
+        brandName: "星帰園",
+        backHome: "ホームへ",
+        languageLabel: "日本語",
+        pageTitle: "静かな記念の<br />場所をつくる",
+        pageIntro: "名前、日付、残したい言葉を書いてください。写真と物語は公開にも非公開にもできます。",
+        stepOne: "1  記念情報を入力",
+        stepOneDesc: "名前、日付、墓誌銘、物語。",
+        stepTwo: "2  写真をアップロード",
+        stepTwoDesc: "墓碑表示、公開アルバム、非公開アルバム。",
+        formTitle: "記念情報",
+        labelName: "名前",
+        labelType: "種類",
+        labelBirth: "誕生日",
+        labelDeath: "旅立った日",
+        labelEpitaph: "墓誌銘",
+        labelStory: "公開できる物語",
+        labelPrivacy: "公開範囲",
+        privacyPublic: "公開",
+        privacyPublicDesc: "すべての訪問者が見られます。",
+        privacyInvite: "招待のみ",
+        privacyInviteDesc: "リンクを持つ人だけが見られます。",
+        privacyPrivate: "自分だけ",
+        privacyPrivateDesc: "自分だけが確認できます。",
+        labelPhotos: "写真",
+        stonePhotoTitle: "墓碑に表示する写真",
+        stonePhotoDesc: "墓碑正面に使用します。一枚だけ選択。",
+        publicPhotoTitle: "公開アルバム",
+        publicPhotoDesc: "すべての訪問者が見られます。",
+        privatePhotoTitle: "非公開アルバム",
+        privatePhotoDesc: "あなたの記念ページだけに保存します。",
+        photoHint: "現在のバージョンでは入力内容をブラウザ内に一時保存します。アカウントとデータベース保存は後で追加できます。",
+        saveDraft: "下書き保存",
+        nextStep: "墓碑を選ぶ",
+        saved: "下書きを保存しました",
+        needName: "名前を入力してください",
+        dateError: "旅立った日は誕生日より前にできません"
+      }
+    };
+
+    const ids = [
+      "brandName", "backHome", "languageLabel", "pageTitle", "pageIntro", "stepOne", "stepOneDesc",
+      "stepTwo", "stepTwoDesc", "formTitle", "labelName", "labelType", "labelBirth", "labelDeath",
+      "labelEpitaph", "labelStory", "labelPrivacy", "privacyPublic", "privacyPublicDesc",
+      "privacyInvite", "privacyInviteDesc", "privacyPrivate", "privacyPrivateDesc", "labelPhotos",
+      "stonePhotoTitle", "stonePhotoDesc", "publicPhotoTitle", "publicPhotoDesc", "privatePhotoTitle",
+      "privatePhotoDesc", "photoHint", "saveDraft", "nextStep"
+    ];
+
+    const languageBox = document.getElementById("languageBox");
+    const languageButton = document.getElementById("languageButton");
     const toast = document.getElementById("toast");
     const form = document.getElementById("memorialForm");
-    const photoInput = document.getElementById("petPhotos");
-    const photoPreview = document.getElementById("photoPreview");
+    const preview = document.getElementById("photoPreview");
 
-    function random(min, max) {
-      return Math.random() * (max - min) + min;
+    function currentLang() {
+      return localStorage.getItem("petMemorialLanguage") || "zh-CN";
     }
 
-    function createStars() {
-      for (let i = 0; i < 42; i += 1) {
-        const star = document.createElement("span");
-        star.className = "star";
-        star.style.left = `${random(4, 96)}%`;
-        star.style.top = `${random(8, 58)}%`;
-        star.style.animationDelay = `${random(0, 4)}s`;
-        star.style.transform = `scale(${random(0.55, 1.1)})`;
-        stars.appendChild(star);
-      }
+    function t(key) {
+      const lang = currentLang();
+      return (TEXTS[lang] && TEXTS[lang][key]) || TEXTS["zh-CN"][key] || "";
     }
 
-    function createPetals() {
-      for (let i = 0; i < 16; i += 1) {
-        const petal = document.createElement("span");
-        petal.className = "petal";
-        petal.style.left = `${random(8, 95)}%`;
-        petal.style.top = `${random(-30, 30)}%`;
-        petal.style.setProperty("--drift", `${random(-80, 80)}px`);
-        petal.style.animationDuration = `${random(13, 23)}s`;
-        petal.style.animationDelay = `${random(0, 15)}s`;
-        petals.appendChild(petal);
-      }
+    function applyLanguage(lang) {
+      const data = TEXTS[lang] || TEXTS["zh-CN"];
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && data[id]) {
+          if (id === "pageTitle") {
+            el.innerHTML = data[id];
+          } else {
+            el.textContent = data[id];
+          }
+        }
+      });
+
+      document.querySelectorAll(".language-menu button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.lang === lang);
+      });
     }
 
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add("show");
-
-      window.clearTimeout(showToast.timer);
-      showToast.timer = window.setTimeout(() => {
-        toast.classList.remove("show");
-      }, 1900);
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1500);
     }
 
-    function getPrivacyValue() {
-      const selected = document.querySelector("input[name='privacy']:checked");
-      return selected ? selected.value : "public";
+    function getFilesAsDataURLs(input) {
+      const files = Array.from(input.files || []);
+      return Promise.all(files.map((file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve({ name: file.name, data: reader.result });
+          reader.readAsDataURL(file);
+        });
+      }));
     }
 
-    function loadExistingDraft() {
-      try {
-        const draft = JSON.parse(localStorage.getItem("petMemorialDraft"));
+    async function collectData() {
+      const visibility = document.querySelector("input[name='visibility']:checked")?.value || "public";
+      const [stonePhotos, publicPhotos, privatePhotos] = await Promise.all([
+        getFilesAsDataURLs(document.getElementById("stonePhoto")),
+        getFilesAsDataURLs(document.getElementById("publicPhotos")),
+        getFilesAsDataURLs(document.getElementById("privatePhotos"))
+      ]);
 
-        if (!draft) {
-          return;
-        }
-
-        document.getElementById("petName").value = draft.petName || "";
-        document.getElementById("petType").value = draft.petType || "cat";
-        document.getElementById("birthDate").value = draft.birthDate || "";
-        document.getElementById("deathDate").value = draft.deathDate || "";
-        document.getElementById("epitaph").value = draft.epitaph || "";
-        document.getElementById("story").value = draft.story || "";
-
-        const privacy = draft.privacy || "public";
-        const privacyInput = document.querySelector(`input[name='privacy'][value='${privacy}']`);
-        if (privacyInput) {
-          privacyInput.checked = true;
-        }
-      } catch (error) {
-        return;
-      }
-    }
-
-    photoInput.addEventListener("change", () => {
-      photoPreview.innerHTML = "";
-
-      const files = Array.from(photoInput.files).slice(0, 6);
-
-      if (files.length === 0) {
-        return;
-      }
-
-      files.forEach((file) => {
-        const item = document.createElement("div");
-        item.className = "preview-item";
-
-        const img = document.createElement("img");
-        img.alt = "宠物照片预览";
-        img.src = URL.createObjectURL(file);
-
-        item.appendChild(img);
-        photoPreview.appendChild(item);
-      });
-
-      if (photoInput.files.length > 6) {
-        const item = document.createElement("div");
-        item.className = "preview-item";
-        item.textContent = `还有 ${photoInput.files.length - 6} 张`;
-        photoPreview.appendChild(item);
-      }
-    });
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      let oldDraft = {};
-
-      try {
-        oldDraft = JSON.parse(localStorage.getItem("petMemorialDraft")) || {};
-      } catch (error) {
-        oldDraft = {};
-      }
-
-      const data = {
-        ...oldDraft,
+      return {
         petName: document.getElementById("petName").value.trim(),
         petType: document.getElementById("petType").value,
         birthDate: document.getElementById("birthDate").value,
         deathDate: document.getElementById("deathDate").value,
         epitaph: document.getElementById("epitaph").value.trim(),
         story: document.getElementById("story").value.trim(),
-        privacy: getPrivacyValue(),
+        visibility,
+        stonePhoto: stonePhotos[0] || null,
+        publicPhotos,
+        privatePhotos,
         savedAt: new Date().toISOString()
       };
+    }
 
-      if (!data.petName || !data.epitaph) {
-        showToast("请先填写宠物名字和墓志铭");
-        return;
+    function validateData(data) {
+      if (!data.petName) {
+        showToast(t("needName"));
+        document.getElementById("petName").focus();
+        return false;
       }
 
+      if (data.birthDate && data.deathDate && data.deathDate < data.birthDate) {
+        showToast(t("dateError"));
+        document.getElementById("deathDate").focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    async function saveDraft() {
+      const data = await collectData();
+      if (!validateData(data)) return false;
       localStorage.setItem("petMemorialDraft", JSON.stringify(data));
-      showToast("已保存，正在进入墓碑选择页面。");
+      showToast(t("saved"));
+      return true;
+    }
 
-      setTimeout(() => {
-        window.location.href = "select-stone.html";
-      }, 700);
+    function renderPreview() {
+      preview.innerHTML = "";
+      const inputs = [
+        document.getElementById("stonePhoto"),
+        document.getElementById("publicPhotos"),
+        document.getElementById("privatePhotos")
+      ];
+
+      inputs.forEach((input) => {
+        Array.from(input.files || []).forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const img = document.createElement("img");
+            img.className = "thumb";
+            img.src = reader.result;
+            preview.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    }
+
+    ["stonePhoto", "publicPhotos", "privatePhotos"].forEach((id) => {
+      document.getElementById(id).addEventListener("change", renderPreview);
     });
 
-    document.getElementById("backHome").addEventListener("click", () => {
-      window.location.href = "index.html";
+    document.getElementById("saveDraft").addEventListener("click", saveDraft);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const saved = await saveDraft();
+      if (saved) {
+        setTimeout(() => {
+          window.location.href = "select-stone.html";
+        }, 500);
+      }
     });
 
-    document.querySelectorAll("[data-soon]").forEach((item) => {
-      item.addEventListener("click", (event) => {
-        event.preventDefault();
-        showToast(item.dataset.soon);
+    languageButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      languageBox.classList.toggle("open");
+    });
+
+    document.querySelectorAll(".language-menu button").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const lang = button.dataset.lang;
+        localStorage.setItem("petMemorialLanguage", lang);
+        applyLanguage(lang);
+        languageBox.classList.remove("open");
       });
     });
 
-    createStars();
-    createPetals();
-    loadExistingDraft();
+    document.addEventListener("click", () => languageBox.classList.remove("open"));
+    applyLanguage(currentLang());
   </script>
 </body>
 </html>
