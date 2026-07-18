@@ -9,61 +9,278 @@
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
 body{font-family:"SimSun","Courier New",monospace}
 button,input,textarea{font:inherit}
-.viewport{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:#050d19}
-.stage{position:relative;width:1672px;height:941px;transform-origin:center center;overflow:hidden;background:linear-gradient(90deg,rgba(5,10,22,.76),rgba(5,10,22,.56) 50%,rgba(5,10,22,.38)),url("assets/bg.png") center/cover no-repeat}
-.stage:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:4px 4px;opacity:.45;pointer-events:none}
-.pixel-panel{position:absolute;border:3px solid rgba(215,166,96,.70);background:rgba(4,15,35,.86);box-shadow:inset 0 0 0 2px rgba(255,232,178,.04),8px 8px 0 rgba(0,0,0,.24)}
-.pixel-panel:before,.pixel-panel:after,.px-btn:before,.px-btn:after{content:"";position:absolute;width:11px;height:11px;border-color:rgba(238,194,116,.86);border-style:solid;pointer-events:none}
-.pixel-panel:before,.px-btn:before{left:9px;top:9px;border-width:2px 0 0 2px}.pixel-panel:after,.px-btn:after{right:9px;bottom:9px;border-width:0 2px 2px 0}
-.header{position:absolute;left:96px;right:96px;top:42px;height:54px;display:flex;align-items:center;justify-content:space-between;z-index:5}
-.brand{display:flex;align-items:center;gap:14px}.paw{width:34px;height:34px;image-rendering:pixelated}.top-actions{display:flex;gap:16px}
-.px-btn{position:relative;height:48px;border:3px solid rgba(215,166,96,.72);background:rgba(4,15,35,.72);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center}
-.home{width:148px}.lang{width:184px;gap:8px}.globe{width:22px;height:22px}
-.lang-menu,.type-menu{position:absolute;z-index:60;display:none;padding:7px;border:3px solid rgba(215,166,96,.72);background:rgba(4,15,35,.98);box-shadow:6px 6px 0 rgba(0,0,0,.26)}
-.lang-menu.open,.type-menu.open{display:grid;gap:4px}.lang-menu{right:0;top:56px;width:184px}.type-menu{left:0;right:0;top:55px}
-.lang-menu button,.type-menu button{height:34px;border:0;background:transparent;color:#e3bd78;font:900 16px "SimSun","Courier New",monospace;cursor:pointer;text-align:left;padding-left:12px}
-.lang-menu button:hover,.type-menu button:hover{background:rgba(224,184,112,.12)}
-.preview-panel{left:96px;top:118px;width:548px;height:752px;padding:28px}.form-panel{left:676px;top:118px;width:900px;height:752px;padding:28px 30px}
-.panel-title{display:flex;align-items:center;gap:10px;height:34px;margin-bottom:18px}
-.preview-box{position:relative;width:488px;height:572px;border:3px solid rgba(215,166,96,.54);background:#07162e;box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)}
-#stoneCanvas{position:absolute;inset:0;width:488px;height:572px;image-rendering:pixelated}
-.preview-note{position:absolute;left:28px;bottom:28px;width:488px;height:52px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px 24px}.section{grid-column:1/-1;height:36px;background:rgba(221,176,106,.10);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px}.field{height:78px}.field.full{grid-column:1/-1}.field.tall{height:124px}.label{height:26px}
-.input-shell{position:relative;height:48px;border:3px solid rgba(215,166,96,.62);background:rgba(3,13,31,.92);box-shadow:inset 0 0 0 2px rgba(255,232,178,.035),4px 4px 0 rgba(0,0,0,.16)}
+.viewport{position:fixed;inset:0;display:grid;place-items:center;background:#050d19;overflow:hidden}
+.stage{
+  position:relative;width:1672px;height:941px;transform-origin:center center;overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(3,8,20,.76),rgba(3,8,20,.52) 52%,rgba(3,8,20,.42)),
+    url("assets/create_garden_bg.png") center/cover no-repeat;
+}
+.stage::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.42;
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:4px 4px;
+}
+.paw{width:34px;height:34px;image-rendering:pixelated}
+.header{position:absolute;left:88px;right:88px;top:34px;height:58px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+.brand{display:flex;align-items:center;gap:14px}
+.top-actions{display:flex;align-items:center;gap:16px}
+.pixel-button,.language-button{
+  position:relative;height:48px;border:3px solid rgba(219,171,97,.76);background:rgba(5,15,34,.72);
+  display:flex;align-items:center;justify-content:center;box-shadow:5px 5px 0 rgba(0,0,0,.24);cursor:pointer;text-decoration:none;
+}
+.pixel-button{width:148px}
+.language-button{width:190px;gap:9px}
+.pixel-button::before,.pixel-button::after,.language-button::before,.language-button::after,.panel::before,.panel::after{
+  content:"";position:absolute;width:11px;height:11px;border-color:rgba(241,197,119,.88);border-style:solid;pointer-events:none
+}
+.pixel-button::before,.language-button::before,.panel::before{left:9px;top:9px;border-width:2px 0 0 2px}
+.pixel-button::after,.language-button::after,.panel::after{right:9px;bottom:9px;border-width:0 2px 2px 0}
+.globe{width:22px;height:22px}
+.language{position:relative;z-index:20}
+.menu{
+  position:absolute;right:0;top:56px;display:none;width:190px;padding:7px;z-index:60;
+  background:rgba(5,15,34,.98);border:3px solid rgba(219,171,97,.76);box-shadow:6px 6px 0 rgba(0,0,0,.28)
+}
+.menu.open{display:grid;gap:4px}
+.menu button{height:34px;border:0;background:transparent;color:#e5bd78;cursor:pointer;font:900 16px "SimSun","Courier New",monospace;text-align:left;padding-left:12px}
+.menu button:hover{background:rgba(230,190,116,.12)}
+.panel{
+  position:absolute;background:rgba(4,15,36,.84);border:3px solid rgba(219,171,97,.70);
+  box-shadow:inset 0 0 0 2px rgba(255,232,178,.04),8px 8px 0 rgba(0,0,0,.25)
+}
+.preview-panel{left:80px;top:112px;width:620px;height:780px;padding:30px}
+.form-panel{left:730px;top:112px;width:860px;height:780px;padding:30px}
+.panel-title{height:36px;display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.preview-scene{
+  position:relative;width:560px;height:610px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
+  background:
+    linear-gradient(rgba(6,15,31,.12),rgba(6,15,31,.20)),
+    url("assets/create_garden_bg.png") center/cover no-repeat;
+  box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)
+}
+.preview-scene::after{
+  content:"";position:absolute;inset:0;background:
+  linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:4px 4px;pointer-events:none;opacity:.52
+}
+.tombstone-wrap{position:absolute;left:50%;bottom:38px;width:380px;height:470px;transform:translateX(-50%);z-index:2}
+.tombstone-img{position:absolute;left:50%;bottom:0;height:455px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.24))}
+#stoneText{position:absolute;left:50%;top:132px;width:190px;height:210px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
+.preview-note{position:absolute;left:30px;bottom:26px;width:560px;height:54px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
+.section{grid-column:1/-1;height:36px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:2px}
+.field{height:78px}
+.field.full{grid-column:1/-1}
+.field.tall{height:125px}
+.label{height:26px}
+.input-shell{
+  position:relative;height:48px;background:rgba(3,13,31,.92);border:3px solid rgba(219,171,97,.62);
+  box-shadow:inset 0 0 0 2px rgba(255,232,178,.035),4px 4px 0 rgba(0,0,0,.16)
+}
 .field.tall .input-shell{height:96px}
-.input-shell input,.input-shell textarea{position:absolute;inset:0;width:100%;height:100%;border:0;outline:0;background:transparent;color:transparent;caret-color:#e3bd78;z-index:5;padding:0 13px;resize:none}
-.input-shell textarea{padding-top:11px;line-height:1.5}.input-shell input::selection,.input-shell textarea::selection{background:rgba(224,184,112,.25);color:transparent}
-.display{position:absolute;left:13px;top:0;z-index:2;pointer-events:none;image-rendering:pixelated}.tall .display{top:9px}.counter{position:absolute;right:10px;bottom:6px;z-index:3;image-rendering:pixelated}
-.date input{opacity:0;cursor:pointer}.date-icon{position:absolute;right:12px;top:12px;width:22px;height:22px;pointer-events:none}.date-icon:before{content:"";position:absolute;left:3px;top:5px;width:16px;height:14px;border:2px solid rgba(230,190,116,.78);box-shadow:inset 0 4px 0 rgba(230,190,116,.18)}.date-icon:after{content:"";position:absolute;left:6px;top:2px;width:3px;height:6px;background:rgba(230,190,116,.82);box-shadow:8px 0 0 rgba(230,190,116,.82)}
-.select{cursor:pointer}.arrow{position:absolute;right:15px;top:19px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid rgba(230,190,116,.86)}
-.choice-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.choice{height:74px;border:3px solid rgba(215,166,96,.46);background:rgba(3,13,31,.78);position:relative;cursor:pointer;padding-left:48px;padding-top:12px;box-shadow:4px 4px 0 rgba(0,0,0,.14)}.choice.active{border-color:rgba(238,194,116,.90);background:rgba(230,190,116,.09)}.radio{position:absolute;left:14px;top:15px;width:21px;height:21px;border:3px solid rgba(230,190,116,.78);border-radius:50%}.choice.active .radio:after{content:"";position:absolute;left:4px;top:4px;width:7px;height:7px;border-radius:50%;background:#e3bd78}
-.upload-area{grid-column:1/-1;display:grid;grid-template-columns:320px repeat(5,1fr);gap:12px}.upload-main,.slot{height:84px;border:3px dashed rgba(215,166,96,.48);background:rgba(3,13,31,.62);box-shadow:4px 4px 0 rgba(0,0,0,.14);position:relative;cursor:pointer;overflow:hidden}.slot{border-style:solid;border-color:rgba(215,166,96,.34)}.slot:before{content:"";position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);background:url("assets/paw.png") center/contain no-repeat;image-rendering:pixelated;opacity:.18}.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}.slot.filled img{display:block}.slot.filled:before{display:none}.remove{position:absolute;right:5px;top:5px;width:20px;height:20px;display:none;z-index:3;border:1px solid #e3bd78;background:rgba(4,12,28,.92);color:#e3bd78;cursor:pointer}.slot.filled .remove{display:block}
-.submit-row{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:4px}.submit{width:236px;height:50px;border:3px solid rgba(215,166,96,.84);background:linear-gradient(#d7b270,#b78d51);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer}
-.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;background:rgba(5,15,34,.96);border:2px solid rgba(215,166,96,.78);color:#e3bd78;opacity:0;pointer-events:none;transition:opacity .18s;font:900 16px "SimSun","Courier New",monospace}.toast.show{opacity:1}
+.input-shell input,.input-shell textarea{
+  position:absolute;inset:0;width:100%;height:100%;border:0;outline:0;background:transparent;color:transparent;caret-color:#e5bd78;z-index:6;padding:0 13px;resize:none
+}
+.input-shell textarea{padding-top:11px;line-height:1.5}
+.input-shell input::selection,.input-shell textarea::selection{background:rgba(224,184,112,.25);color:transparent}
+.display{position:absolute;left:13px;top:0;z-index:3;pointer-events:none;image-rendering:pixelated}
+.tall .display{top:9px}
+.counter{position:absolute;right:10px;bottom:6px;z-index:4;image-rendering:pixelated}
+.date input{opacity:0;cursor:pointer}
+.date-icon{position:absolute;right:12px;top:12px;width:22px;height:22px;pointer-events:none;z-index:2}
+.date-icon::before{content:"";position:absolute;left:3px;top:5px;width:16px;height:14px;border:2px solid rgba(230,190,116,.78);box-shadow:inset 0 4px 0 rgba(230,190,116,.18)}
+.date-icon::after{content:"";position:absolute;left:6px;top:2px;width:3px;height:6px;background:rgba(230,190,116,.82);box-shadow:8px 0 0 rgba(230,190,116,.82)}
+.select{cursor:pointer}
+.arrow{position:absolute;right:15px;top:19px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid rgba(230,190,116,.86)}
+.type-menu{
+  position:absolute;left:-3px;right:-3px;top:51px;display:none;padding:7px;z-index:50;background:rgba(5,15,34,.98);
+  border:3px solid rgba(219,171,97,.76);box-shadow:6px 6px 0 rgba(0,0,0,.28)
+}
+.type-menu.open{display:grid;gap:4px}
+.type-menu button{height:34px;border:0;background:transparent;color:#e5bd78;cursor:pointer;font:900 16px "SimSun","Courier New",monospace;text-align:left;padding-left:12px}
+.type-menu button:hover{background:rgba(230,190,116,.12)}
+.choice-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.choice{height:74px;border:3px solid rgba(219,171,97,.46);background:rgba(3,13,31,.76);position:relative;cursor:pointer;padding-left:48px;padding-top:12px;box-shadow:4px 4px 0 rgba(0,0,0,.14)}
+.choice.active{border-color:rgba(241,197,119,.90);background:rgba(230,190,116,.09)}
+.radio{position:absolute;left:14px;top:15px;width:21px;height:21px;border:3px solid rgba(230,190,116,.78);border-radius:50%}
+.choice.active .radio::after{content:"";position:absolute;left:4px;top:4px;width:7px;height:7px;border-radius:50%;background:#e5bd78}
+.upload-area{grid-column:1/-1;display:grid;grid-template-columns:310px repeat(5,1fr);gap:11px}
+.upload-main,.slot{height:84px;border:3px dashed rgba(219,171,97,.50);background:rgba(3,13,31,.62);box-shadow:4px 4px 0 rgba(0,0,0,.14);position:relative;cursor:pointer;overflow:hidden}
+.slot{border-style:solid;border-color:rgba(219,171,97,.34)}
+.slot::before{content:"";position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);background:url("assets/paw.png") center/contain no-repeat;image-rendering:pixelated;opacity:.18}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.slot.filled img{display:block}
+.slot.filled::before{display:none}
+.remove{position:absolute;right:5px;top:5px;width:20px;height:20px;display:none;z-index:5;border:1px solid #e5bd78;background:rgba(4,12,28,.92);color:#e5bd78;cursor:pointer}
+.slot.filled .remove{display:block}
+.submit-row{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:3px}
+.submit{width:236px;height:50px;border:3px solid rgba(219,171,97,.84);background:linear-gradient(#d8b574,#b99052);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;background:rgba(5,15,34,.96);border:2px solid rgba(219,171,97,.78);color:#e5bd78;opacity:0;pointer-events:none;transition:opacity .18s;font:900 16px "SimSun","Courier New",monospace}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
-<main class="viewport"><section class="stage" id="stage">
-<header class="header"><div class="brand"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="pageTitle" data-w="170" data-h="34" data-size="24"></canvas></div><div class="top-actions"><a class="px-btn home" href="index.html"><canvas class="txt" data-k="backHome" data-w="112" data-h="25" data-size="17"></canvas></a><div class="px-btn lang" id="langButton"><svg class="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(230,190,116,.86)" stroke-width="2" shape-rendering="crispEdges"/><path d="M4 12H20M6 8H18M6 16H18M12 3C9 6 8 9 8 12C8 15 9 18 12 21M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="rgba(230,190,116,.76)" stroke-width="1.6" shape-rendering="crispEdges"/></svg><canvas class="txt" data-k="languageLabel" data-w="88" data-h="25" data-size="16"></canvas><span style="color:#e3bd78">⌄</span><div class="lang-menu" id="langMenu"><button data-lang="zh-CN">简体中文</button><button data-lang="zh-TW">繁體中文</button><button data-lang="en">English</button><button data-lang="ja">日本語</button></div></div></div></header>
-<aside class="pixel-panel preview-panel"><div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="previewTitle" data-w="160" data-h="30" data-size="20"></canvas></div><div class="preview-box"><canvas id="stoneCanvas" width="300" height="360"></canvas></div><canvas class="preview-note txt" data-k="previewNote" data-w="488" data-h="52" data-size="15"></canvas></aside>
-<section class="pixel-panel form-panel"><div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="formTitle" data-w="160" data-h="30" data-size="20"></canvas></div>
-<form class="form-grid" id="form">
-<div class="section"><canvas class="txt" data-k="basicSection" data-w="150" data-h="24" data-size="17"></canvas></div>
-<div class="field"><canvas class="label txt" data-k="petNameLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="nameDisplay"></canvas><input id="petName" maxlength="20"></div></div>
-<div class="field"><canvas class="label txt" data-k="petTypeLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell select" id="typeShell"><canvas class="display" id="typeDisplay"></canvas><span class="arrow"></span><div class="type-menu" id="typeMenu"><button data-v="cat" type="button">猫</button><button data-v="dog" type="button">狗</button><button data-v="rabbit" type="button">兔子</button><button data-v="bird" type="button">鸟</button><button data-v="other" type="button">其他</button></div></div></div>
-<div class="field"><canvas class="label txt" data-k="birthLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell date"><canvas class="display" id="birthDisplay"></canvas><span class="date-icon"></span><input id="birthDate" type="date"></div></div>
-<div class="field"><canvas class="label txt" data-k="deathLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell date"><canvas class="display" id="deathDisplay"></canvas><span class="date-icon"></span><input id="deathDate" type="date"></div></div>
-<div class="section"><canvas class="txt" data-k="wordsSection" data-w="150" data-h="24" data-size="17"></canvas></div>
-<div class="field full tall"><canvas class="label txt" data-k="epitaphLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="epitaphDisplay"></canvas><textarea id="epitaph" maxlength="120"></textarea><canvas class="counter" id="epiCount"></canvas></div></div>
-<div class="field full tall"><canvas class="label txt" data-k="storyLabel" data-w="220" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="storyDisplay"></canvas><textarea id="story" maxlength="300"></textarea><canvas class="counter" id="storyCount"></canvas></div></div>
-<div class="section"><canvas class="txt" data-k="visibilitySection" data-w="150" data-h="24" data-size="17"></canvas></div>
-<div class="choice-row"><div class="choice active" data-v="public"><span class="radio"></span><canvas class="txt" data-k="public" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="publicDesc" data-w="185" data-h="20" data-size="12"></canvas></div><div class="choice" data-v="invite"><span class="radio"></span><canvas class="txt" data-k="invite" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="inviteDesc" data-w="185" data-h="20" data-size="12"></canvas></div><div class="choice" data-v="private"><span class="radio"></span><canvas class="txt" data-k="private" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="privateDesc" data-w="185" data-h="20" data-size="12"></canvas></div></div>
-<div class="section"><canvas class="txt" data-k="photoSection" data-w="210" data-h="24" data-size="17"></canvas></div>
-<div class="upload-area"><div class="upload-main" id="uploadMain"><canvas class="txt" data-k="uploadMain" data-w="285" data-h="46" data-size="13" style="position:absolute;left:18px;top:20px"></canvas></div><div class="slot"><img alt=""><button class="remove" type="button">×</button></div><div class="slot"><img alt=""><button class="remove" type="button">×</button></div><div class="slot"><img alt=""><button class="remove" type="button">×</button></div><div class="slot"><img alt=""><button class="remove" type="button">×</button></div><div class="slot"><img alt=""><button class="remove" type="button">×</button></div><input id="photoInput" type="file" accept="image/*" multiple hidden></div>
-<div class="submit-row"><button class="submit" type="submit"><canvas class="txt" data-k="submit" data-w="190" data-h="28" data-size="18"></canvas></button></div>
-</form></section></section></main><div class="toast" id="toast"></div>
+<main class="viewport">
+<section class="stage" id="stage">
+  <header class="header">
+    <div class="brand"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="pageTitle" data-w="170" data-h="34" data-size="24"></canvas></div>
+    <div class="top-actions">
+      <a class="pixel-button" href="index.html"><canvas class="txt" data-k="backHome" data-w="112" data-h="25" data-size="17"></canvas></a>
+      <div class="language">
+        <button class="language-button" id="langButton" type="button">
+          <svg class="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(230,190,116,.86)" stroke-width="2" shape-rendering="crispEdges"/><path d="M4 12H20M6 8H18M6 16H18M12 3C9 6 8 9 8 12C8 15 9 18 12 21M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="rgba(230,190,116,.76)" stroke-width="1.6" shape-rendering="crispEdges"/></svg>
+          <canvas class="txt" data-k="languageLabel" data-w="88" data-h="25" data-size="16"></canvas><span style="color:#e5bd78">⌄</span>
+        </button>
+        <div class="menu" id="langMenu">
+          <button data-lang="zh-CN">简体中文</button><button data-lang="zh-TW">繁體中文</button><button data-lang="en">English</button><button data-lang="ja">日本語</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <aside class="panel preview-panel">
+    <div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="previewTitle" data-w="160" data-h="30" data-size="20"></canvas></div>
+    <div class="preview-scene">
+      <div class="tombstone-wrap">
+        <img class="tombstone-img" src="assets/blank_tombstone.png" alt="">
+        <canvas id="stoneText"></canvas>
+      </div>
+    </div>
+    <canvas class="preview-note txt" data-k="previewNote" data-w="560" data-h="54" data-size="15"></canvas>
+  </aside>
+
+  <section class="panel form-panel">
+    <div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="formTitle" data-w="160" data-h="30" data-size="20"></canvas></div>
+    <form class="form-grid" id="form">
+      <div class="section"><canvas class="txt" data-k="basicSection" data-w="150" data-h="24" data-size="17"></canvas></div>
+
+      <div class="field"><canvas class="label txt" data-k="petNameLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="nameDisplay"></canvas><input id="petName" maxlength="20"></div></div>
+
+      <div class="field"><canvas class="label txt" data-k="petTypeLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell select" id="typeShell"><canvas class="display" id="typeDisplay"></canvas><span class="arrow"></span><div class="type-menu" id="typeMenu"><button data-v="cat" type="button">猫</button><button data-v="dog" type="button">狗</button><button data-v="rabbit" type="button">兔子</button><button data-v="bird" type="button">鸟</button><button data-v="other" type="button">其他</button></div></div></div>
+
+      <div class="field"><canvas class="label txt" data-k="birthLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell date"><canvas class="display" id="birthDisplay"></canvas><span class="date-icon"></span><input id="birthDate" type="date"></div></div>
+
+      <div class="field"><canvas class="label txt" data-k="deathLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell date"><canvas class="display" id="deathDisplay"></canvas><span class="date-icon"></span><input id="deathDate" type="date"></div></div>
+
+      <div class="section"><canvas class="txt" data-k="wordsSection" data-w="150" data-h="24" data-size="17"></canvas></div>
+
+      <div class="field full tall"><canvas class="label txt" data-k="epitaphLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="epitaphDisplay"></canvas><textarea id="epitaph" maxlength="120"></textarea><canvas class="counter" id="epiCount"></canvas></div></div>
+
+      <div class="field full tall"><canvas class="label txt" data-k="storyLabel" data-w="220" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="storyDisplay"></canvas><textarea id="story" maxlength="300"></textarea><canvas class="counter" id="storyCount"></canvas></div></div>
+
+      <div class="section"><canvas class="txt" data-k="visibilitySection" data-w="150" data-h="24" data-size="17"></canvas></div>
+
+      <div class="choice-row">
+        <div class="choice active" data-v="public"><span class="radio"></span><canvas class="txt" data-k="public" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="publicDesc" data-w="185" data-h="20" data-size="12"></canvas></div>
+        <div class="choice" data-v="invite"><span class="radio"></span><canvas class="txt" data-k="invite" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="inviteDesc" data-w="185" data-h="20" data-size="12"></canvas></div>
+        <div class="choice" data-v="private"><span class="radio"></span><canvas class="txt" data-k="private" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="privateDesc" data-w="185" data-h="20" data-size="12"></canvas></div>
+      </div>
+
+      <div class="section"><canvas class="txt" data-k="photoSection" data-w="210" data-h="24" data-size="17"></canvas></div>
+
+      <div class="upload-area">
+        <div class="upload-main" id="uploadMain"><canvas class="txt" data-k="uploadMain" data-w="285" data-h="46" data-size="13" style="position:absolute;left:18px;top:20px"></canvas></div>
+        <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
+        <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
+        <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
+        <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
+        <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
+        <input id="photoInput" type="file" accept="image/*" multiple hidden>
+      </div>
+
+      <div class="submit-row"><button class="submit" type="submit"><canvas class="txt" data-k="submit" data-w="190" data-h="28" data-size="18"></canvas></button></div>
+    </form>
+  </section>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+
 <script>
-const T={"zh-CN":{pageTitle:"创建纪念",backHome:"返回首页",languageLabel:"简体中文",previewTitle:"墓碑预览",previewNote:"这里是您的墓碑预览效果。填写右侧信息，墓碑将实时更新。",formTitle:"纪念信息",basicSection:"基础信息",wordsSection:"文字纪念",visibilitySection:"可见范围",photoSection:"照片（最多5张）",petNameLabel:"爱宠名字",petTypeLabel:"爱宠种类",birthLabel:"出生日期",deathLabel:"离开日期",epitaphLabel:"墓志铭",storyLabel:"公开的故事（选填）",petNamePH:"请输入爱宠名字",petTypePH:"请选择爱宠种类",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"写下您想对爱宠说的话...",storyPH:"记录一段属于你们的故事，分享这份爱与回忆...",cat:"猫",dog:"狗",rabbit:"兔子",bird:"鸟",other:"其他",public:"公开",publicDesc:"所有访客都可以看到",invite:"邀请可见",inviteDesc:"只有拥有链接的人查看",private:"仅自己",privateDesc:"只有自己可以查看",uploadMain:"＋  点击上传照片\\n支持 JPG、PNG，单张不超过 5MB",submit:"创建纪念",needName:"请先填写爱宠名字",saved:"纪念信息已保存"}};
-T["zh-TW"]=T["zh-CN"];T.en=T["zh-CN"];T.ja=T["zh-CN"];
-const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",type:"",visibility:"public",photos:[]};const stage=document.getElementById("stage"),toast=document.getElementById("toast");const nameI=document.getElementById("petName"),birthI=document.getElementById("birthDate"),deathI=document.getElementById("deathDate"),epiI=document.getElementById("epitaph"),storyI=document.getElementById("story");const stone=document.getElementById("stoneCanvas"),sctx=stone.getContext("2d"),scene=new Image();scene.src="assets/preview_scene_blank.png";function tr(k){return(T[S.lang]&&T[S.lang][k])||T["zh-CN"][k]||k}function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();function setup(c,w,h,r=2){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}function px(c,text,opt={}){const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;const {ctx,r}=setup(c,w,h,opt.ratio||2);ctx.clearRect(0,0,c.width,c.height);ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";const color=opt.color||"rgba(230,196,126,.92)";String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})}function wrap(ctx,text,max){let out=[],line="";for(const ch of String(text||"")){let test=line+ch;if(ctx.measureText(test).width>max&&line){out.push(line);line=ch}else line=test}if(line)out.push(line);return out}function field(c,text,ph,multi=false){const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,2);ctx.font=`900 ${Math.round(18/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);const has=String(text||"").trim(),fill=has?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)",content=has?text:ph;if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*Math.round(18*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}else{let y=Math.round((c.height-Math.round(18/r))/2);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(String(content).slice(0,42),1,y+1);ctx.fillStyle=fill;ctx.fillText(String(content).slice(0,42),0,y)}}function drawStoneText(text,x,y,maxW,size,maxLines,color){sctx.font=`900 ${size}px "SimSun","Courier New",monospace`;sctx.textAlign="center";sctx.textBaseline="top";wrap(sctx,text,maxW).slice(0,maxLines).forEach((line,i)=>{let yy=y+i*Math.round(size*1.35);sctx.fillStyle="rgba(220,210,190,.20)";sctx.fillText(line,x+1,yy+1);sctx.fillStyle=color;sctx.fillText(line,x,yy)})}function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}function update(){field(document.getElementById("nameDisplay"),nameI.value,tr("petNamePH"));field(document.getElementById("typeDisplay"),S.type?tr(S.type):"",tr("petTypePH"));field(document.getElementById("birthDisplay"),birthI.value?birthI.value.replaceAll("-"," / "):"",tr("birthPH"));field(document.getElementById("deathDisplay"),deathI.value?deathI.value.replaceAll("-"," / "):"",tr("deathPH"));field(document.getElementById("epitaphDisplay"),epiI.value,tr("epitaphPH"),true);field(document.getElementById("storyDisplay"),storyI.value,tr("storyPH"),true);px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});if(scene.complete){sctx.clearRect(0,0,300,360);sctx.drawImage(scene,0,0);drawStoneText(nameI.value.trim()||"小布丁",150,170,92,16,2,"rgba(38,34,30,.86)");drawStoneText(fmt(birthI.value||"2014-06-12"),150,214,90,9,1,"rgba(42,38,34,.76)");drawStoneText("—",150,232,90,9,1,"rgba(42,38,34,.76)");drawStoneText(fmt(deathI.value||"2025-11-03"),150,250,90,9,1,"rgba(42,38,34,.76)");if(epiI.value.trim())drawStoneText(epiI.value.trim(),150,274,92,8,2,"rgba(42,38,34,.68)")}}scene.onload=update;[nameI,birthI,deathI,epiI,storyI].forEach(el=>{el.addEventListener("input",update);el.addEventListener("change",update)});[birthI,deathI].forEach(el=>el.parentElement.addEventListener("click",()=>{el.focus();if(el.showPicker)el.showPicker()}));const typeShell=document.getElementById("typeShell"),typeMenu=document.getElementById("typeMenu");typeShell.addEventListener("click",e=>{e.stopPropagation();typeMenu.classList.toggle("open")});typeMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();S.type=b.dataset.v;typeMenu.classList.remove("open");update()}));document.querySelectorAll(".choice").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));c.classList.add("active");S.visibility=c.dataset.v}));const langBtn=document.getElementById("langButton"),langMenu=document.getElementById("langMenu");langBtn.addEventListener("click",e=>{e.stopPropagation();langMenu.classList.toggle("open")});langMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();S.lang=b.dataset.lang;localStorage.setItem("petMemorialLanguage",S.lang);langMenu.classList.remove("open");updateStatic();update()}));document.addEventListener("click",()=>{langMenu.classList.remove("open");typeMenu.classList.remove("open")});const photoInput=document.getElementById("photoInput"),slots=[...document.querySelectorAll(".slot")];document.getElementById("uploadMain").addEventListener("click",()=>photoInput.click());slots.forEach(s=>s.addEventListener("click",()=>photoInput.click()));photoInput.addEventListener("change",()=>{S.photos=[...photoInput.files].slice(0,5);slots.forEach((slot,i)=>{const img=slot.querySelector("img"),f=S.photos[i];if(f){img.src=URL.createObjectURL(f);slot.classList.add("filled")}else{img.removeAttribute("src");slot.classList.remove("filled")}})});slots.forEach((slot,i)=>slot.querySelector(".remove").addEventListener("click",e=>{e.stopPropagation();S.photos.splice(i,1);slots.forEach((s,j)=>{const img=s.querySelector("img"),f=S.photos[j];if(f){img.src=URL.createObjectURL(f);s.classList.add("filled")}else{s.classList.remove("filled")}})}));document.getElementById("form").addEventListener("submit",e=>{e.preventDefault();if(!nameI.value.trim()){toast.textContent=tr("needName");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500);return}localStorage.setItem("petMemorialDraft",JSON.stringify({petName:nameI.value.trim(),petType:S.type,birthDate:birthI.value,deathDate:deathI.value,epitaph:epiI.value.trim(),story:storyI.value.trim(),visibility:S.visibility,photoCount:S.photos.length,savedAt:new Date().toISOString()}));toast.textContent=tr("saved");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500)});updateStatic();update();
-</script></body></html>
+const T={
+"zh-CN":{pageTitle:"创建纪念",backHome:"返回首页",languageLabel:"简体中文",previewTitle:"墓碑预览",previewNote:"这里是您的墓碑预览效果。填写右侧信息，墓碑将实时更新。",formTitle:"纪念信息",basicSection:"基础信息",wordsSection:"文字纪念",visibilitySection:"可见范围",photoSection:"照片（最多5张）",petNameLabel:"爱宠名字",petTypeLabel:"爱宠种类",birthLabel:"出生日期",deathLabel:"离开日期",epitaphLabel:"墓志铭",storyLabel:"公开的故事（选填）",petNamePH:"请输入爱宠名字",petTypePH:"请选择爱宠种类",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"写下您想对爱宠说的话...",storyPH:"记录一段属于你们的故事，分享这份爱与回忆...",cat:"猫",dog:"狗",rabbit:"兔子",bird:"鸟",other:"其他",public:"公开",publicDesc:"所有访客都可以看到",invite:"邀请可见",inviteDesc:"只有拥有链接的人查看",private:"仅自己",privateDesc:"只有自己可以查看",uploadMain:"＋  点击上传照片\\n支持 JPG、PNG，单张不超过 5MB",submit:"创建纪念",needName:"请先填写爱宠名字",saved:"纪念信息已保存"},
+"zh-TW":{pageTitle:"建立紀念",backHome:"返回首頁",languageLabel:"繁體中文",previewTitle:"墓碑預覽",previewNote:"這裡是您的墓碑預覽效果。填寫右側資訊，墓碑將即時更新。",formTitle:"紀念資訊",basicSection:"基礎資訊",wordsSection:"文字紀念",visibilitySection:"可見範圍",photoSection:"照片（最多5張）",petNameLabel:"愛寵名字",petTypeLabel:"愛寵種類",birthLabel:"出生日期",deathLabel:"離開日期",epitaphLabel:"墓誌銘",storyLabel:"公開的故事（選填）",petNamePH:"請輸入愛寵名字",petTypePH:"請選擇愛寵種類",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"寫下您想對愛寵說的話...",storyPH:"記錄一段屬於你們的故事，分享這份愛與回憶...",cat:"貓",dog:"狗",rabbit:"兔子",bird:"鳥",other:"其他",public:"公開",publicDesc:"所有訪客都可以看到",invite:"邀請可見",inviteDesc:"只有擁有連結的人查看",private:"僅自己",privateDesc:"只有自己可以查看",uploadMain:"＋  點擊上傳照片\\n支援 JPG、PNG，單張不超過 5MB",submit:"建立紀念",needName:"請先填寫愛寵名字",saved:"紀念資訊已保存"},
+"en":{pageTitle:"Create Memorial",backHome:"Home",languageLabel:"English",previewTitle:"Preview",previewNote:"This is the tombstone preview. Fill in the form and it updates in real time.",formTitle:"Memorial Info",basicSection:"Basic Info",wordsSection:"Memorial Words",visibilitySection:"Visibility",photoSection:"Photos (max 5)",petNameLabel:"Pet Name",petTypeLabel:"Pet Type",birthLabel:"Birth Date",deathLabel:"Passing Date",epitaphLabel:"Epitaph",storyLabel:"Public Story",petNamePH:"Enter pet name",petTypePH:"Choose type",birthPH:"yyyy / mm / dd",deathPH:"yyyy / mm / dd",epitaphPH:"Write what you want to say...",storyPH:"Record a story that belongs to you...",cat:"Cat",dog:"Dog",rabbit:"Rabbit",bird:"Bird",other:"Other",public:"Public",publicDesc:"Visible to all visitors",invite:"Invite only",inviteDesc:"Only people with link",private:"Private",privateDesc:"Only you can view",uploadMain:"＋  Upload photos\\nJPG, PNG, under 5MB each",submit:"Create Memorial",needName:"Please enter pet name",saved:"Memorial saved"},
+"ja":{pageTitle:"記念を作成",backHome:"ホームへ",languageLabel:"日本語",previewTitle:"墓碑プレビュー",previewNote:"ここに墓碑プレビューを表示します。右側に入力すると即時更新されます。",formTitle:"記念情報",basicSection:"基本情報",wordsSection:"記念の言葉",visibilitySection:"公開範囲",photoSection:"写真（最大5枚）",petNameLabel:"名前",petTypeLabel:"種類",birthLabel:"誕生日",deathLabel:"旅立った日",epitaphLabel:"墓誌銘",storyLabel:"公開する物語",petNamePH:"名前を入力",petTypePH:"種類を選択",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"伝えたい言葉を書く...",storyPH:"あなたたちの物語を書く...",cat:"猫",dog:"犬",rabbit:"うさぎ",bird:"鳥",other:"その他",public:"公開",publicDesc:"全ての訪問者が閲覧",invite:"招待のみ",inviteDesc:"リンクを持つ人だけ",private:"自分だけ",privateDesc:"自分だけが閲覧",uploadMain:"＋  写真をアップロード\\nJPG、PNG、1枚5MB以下",submit:"記念を作成",needName:"名前を入力してください",saved:"保存しました"}
+};
+
+const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",type:"",visibility:"public",photos:[]};
+const stage=document.getElementById("stage"),toast=document.getElementById("toast");
+const nameI=document.getElementById("petName"),birthI=document.getElementById("birthDate"),deathI=document.getElementById("deathDate"),epiI=document.getElementById("epitaph"),storyI=document.getElementById("story");
+const stoneC=document.getElementById("stoneText");
+function tr(k){return(T[S.lang]&&T[S.lang][k])||T["zh-CN"][k]||k}
+function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();
+
+function setup(c,w,h,r=2){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
+function px(c,text,opt={}){
+  const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;
+  const {ctx,r}=setup(c,w,h,opt.ratio||2);ctx.clearRect(0,0,c.width,c.height);
+  ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";
+  const color=opt.color||"rgba(230,196,126,.92)";
+  String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})
+}
+function wrap(ctx,text,max){let out=[],line="";for(const ch of String(text||"")){let test=line+ch;if(ctx.measureText(test).width>max&&line){out.push(line);line=ch}else line=test}if(line)out.push(line);return out}
+function field(c,text,ph,multi=false){
+  const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,2);
+  ctx.font=`900 ${Math.round(18/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
+  const has=String(text||"").trim(),fill=has?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)",content=has?text:ph;
+  if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*Math.round(18*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}
+  else{let y=Math.round((c.height-Math.round(18/r))/2);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(String(content).slice(0,42),1,y+1);ctx.fillStyle=fill;ctx.fillText(String(content).slice(0,42),0,y)}
+}
+function drawStoneText(ctx,text,x,y,maxW,size,maxLines,color){
+  ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;ctx.textAlign="center";ctx.textBaseline="top";
+  wrap(ctx,text,maxW).slice(0,maxLines).forEach((line,i)=>{let yy=y+i*Math.round(size*1.35);ctx.fillStyle="rgba(220,210,190,.22)";ctx.fillText(line,x+1,yy+1);ctx.fillStyle=color;ctx.fillText(line,x,yy)})
+}
+function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
+function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}
+function update(){
+  field(document.getElementById("nameDisplay"),nameI.value,tr("petNamePH"));
+  field(document.getElementById("typeDisplay"),S.type?tr(S.type):"",tr("petTypePH"));
+  field(document.getElementById("birthDisplay"),birthI.value?birthI.value.replaceAll("-"," / "):"",tr("birthPH"));
+  field(document.getElementById("deathDisplay"),deathI.value?deathI.value.replaceAll("-"," / "):"",tr("deathPH"));
+  field(document.getElementById("epitaphDisplay"),epiI.value,tr("epitaphPH"),true);
+  field(document.getElementById("storyDisplay"),storyI.value,tr("storyPH"),true);
+  px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
+  px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
+
+  const {ctx}=setup(stoneC,190,210,2);ctx.clearRect(0,0,stoneC.width,stoneC.height);
+  drawStoneText(ctx,nameI.value.trim()||"小布丁",95/2,18/2,78/2,13,2,"rgba(38,34,30,.86)");
+  drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),95/2,68/2,88/2,8,1,"rgba(42,38,34,.76)");
+  drawStoneText(ctx,"—",95/2,90/2,88/2,8,1,"rgba(42,38,34,.76)");
+  drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),95/2,112/2,88/2,8,1,"rgba(42,38,34,.76)");
+  if(epiI.value.trim()) drawStoneText(ctx,epiI.value.trim(),95/2,144/2,88/2,7,2,"rgba(42,38,34,.68)");
+}
+[nameI,birthI,deathI,epiI,storyI].forEach(el=>{el.addEventListener("input",update);el.addEventListener("change",update)});
+[birthI,deathI].forEach(el=>el.parentElement.addEventListener("click",()=>{el.focus();if(el.showPicker)el.showPicker()}));
+
+const typeShell=document.getElementById("typeShell"),typeMenu=document.getElementById("typeMenu");
+typeShell.addEventListener("click",e=>{e.stopPropagation();typeMenu.classList.toggle("open")});
+typeMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();S.type=b.dataset.v;typeMenu.classList.remove("open");update()}));
+
+document.querySelectorAll(".choice").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));c.classList.add("active");S.visibility=c.dataset.v}));
+
+const langBtn=document.getElementById("langButton"),langMenu=document.getElementById("langMenu");
+langBtn.addEventListener("click",e=>{e.stopPropagation();langMenu.classList.toggle("open")});
+langMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();S.lang=b.dataset.lang;localStorage.setItem("petMemorialLanguage",S.lang);langMenu.classList.remove("open");updateStatic();update()}));
+document.addEventListener("click",()=>{langMenu.classList.remove("open");typeMenu.classList.remove("open")});
+
+const photoInput=document.getElementById("photoInput"),slots=[...document.querySelectorAll(".slot")];
+document.getElementById("uploadMain").addEventListener("click",()=>photoInput.click());
+slots.forEach(s=>s.addEventListener("click",()=>photoInput.click()));
+photoInput.addEventListener("change",()=>{S.photos=[...photoInput.files].slice(0,5);renderPhotos()});
+function renderPhotos(){slots.forEach((slot,i)=>{const img=slot.querySelector("img"),f=S.photos[i];if(f){img.src=URL.createObjectURL(f);slot.classList.add("filled")}else{img.removeAttribute("src");slot.classList.remove("filled")}})}
+slots.forEach((slot,i)=>slot.querySelector(".remove").addEventListener("click",e=>{e.stopPropagation();S.photos.splice(i,1);renderPhotos()}));
+
+document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault();
+  if(!nameI.value.trim()){toast.textContent=tr("needName");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500);return}
+  localStorage.setItem("petMemorialDraft",JSON.stringify({petName:nameI.value.trim(),petType:S.type,birthDate:birthI.value,deathDate:deathI.value,epitaph:epiI.value.trim(),story:storyI.value.trim(),visibility:S.visibility,photoCount:S.photos.length,savedAt:new Date().toISOString()}));
+  toast.textContent=tr("saved");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500);
+});
+updateStatic();update();
+</script>
+</body>
+</html>
