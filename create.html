@@ -91,7 +91,7 @@ button,input,textarea{font:inherit}
 .input-shell textarea{padding:10px 14px 0 14px;line-height:1.35}
 .input-shell input::selection,.input-shell textarea::selection{background:rgba(224,184,112,.25);color:transparent}
 canvas{image-rendering:pixelated;display:block}
-.brand .txt,.panel-title .txt,.pixel-button .txt,.language-button .txt,.section .txt,.submit .txt{transform:none;display:block}
+.brand .txt,.panel-title .txt,.section .txt{display:block;transform:translateY(1px)}
 .choice .txt{display:block}
 .choice .txt + .txt{margin-top:1px}
 .display{position:absolute;left:13px;top:1px;z-index:3;pointer-events:none;image-rendering:pixelated}
@@ -116,8 +116,8 @@ canvas{image-rendering:pixelated;display:block}
 .choice.active{border-color:rgba(241,197,119,.90);background:rgba(230,190,116,.09)}
 .radio{position:absolute;left:13px;top:10px;width:20px;height:20px;border:3px solid rgba(230,190,116,.78);border-radius:50%}
 .choice.active .radio::after{content:"";position:absolute;left:4px;top:4px;width:7px;height:7px;border-radius:50%;background:#e5bd78}
-.upload-area{grid-column:1/-1;display:grid;grid-template-columns:290px repeat(5,1fr);gap:8px;margin-top:0}
-.upload-main,.slot{height:64px;border:3px dashed rgba(219,171,97,.50);background:rgba(3,13,31,.62);box-shadow:4px 4px 0 rgba(0,0,0,.14);position:relative;cursor:pointer;overflow:hidden}
+.upload-area{grid-column:1/-1;display:grid;grid-template-columns:300px repeat(5,1fr);gap:10px;margin-top:0}
+.upload-main,.slot{height:66px;border:3px dashed rgba(219,171,97,.50);background:rgba(3,13,31,.62);box-shadow:4px 4px 0 rgba(0,0,0,.14);position:relative;cursor:pointer;overflow:hidden}
 .slot{border-style:solid;border-color:rgba(219,171,97,.34)}
 .slot::before{content:"";position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);background:url("assets/paw.png") center/contain no-repeat;image-rendering:pixelated;opacity:.18}
 .slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
@@ -125,8 +125,49 @@ canvas{image-rendering:pixelated;display:block}
 .slot.filled::before{display:none}
 .remove{position:absolute;right:5px;top:5px;width:20px;height:20px;display:none;z-index:5;border:1px solid #e5bd78;background:rgba(4,12,28,.92);color:#e5bd78;cursor:pointer}
 .slot.filled .remove{display:block}
-.submit-row{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:4px;padding-bottom:0}
-.submit{width:230px;height:46px;border:3px solid rgba(219,171,97,.84);background:linear-gradient(#d8b574,#b99052);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.submit-row{grid-column:1/-1;display:flex;justify-content:center;margin-top:10px;padding-bottom:0}
+.submit{width:244px;height:48px;border:3px solid rgba(219,171,97,.84);background:linear-gradient(#d8b574,#b99052);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+.button-label{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  line-height:1;
+  color:#e6c17b;
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-shadow:1px 1px 0 rgba(25,16,10,.72);
+  transform:translateY(1px);
+  white-space:nowrap;
+}
+.language-button .button-label{font-size:16px}
+.upload-copy{
+  position:absolute;
+  left:20px;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#e6c17b;
+  text-shadow:1px 1px 0 rgba(25,16,10,.72);
+  line-height:1.25;
+  pointer-events:none;
+}
+.upload-copy .main{
+  display:block;
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.upload-copy .sub{
+  display:block;
+  margin-top:5px;
+  font-size:12px;
+  font-weight:900;
+  opacity:.88;
+}
+
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;background:rgba(5,15,34,.96);border:2px solid rgba(219,171,97,.78);color:#e5bd78;opacity:0;pointer-events:none;transition:opacity .18s;font:900 16px "SimSun","Courier New",monospace}
 .toast.show{opacity:1}
 </style>
@@ -137,11 +178,11 @@ canvas{image-rendering:pixelated;display:block}
   <header class="header">
     <div class="brand"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="pageTitle" data-w="170" data-h="34" data-size="24"></canvas></div>
     <div class="top-actions">
-      <a class="pixel-button" href="index.html"><canvas class="txt" data-k="backHome" data-w="112" data-h="25" data-size="17"></canvas></a>
+      <a class="pixel-button" href="index.html"><span class="button-label" data-k-text="backHome"></span></a>
       <div class="language">
         <button class="language-button" id="langButton" type="button">
           <svg class="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(230,190,116,.86)" stroke-width="2" shape-rendering="crispEdges"/><path d="M4 12H20M6 8H18M6 16H18M12 3C9 6 8 9 8 12C8 15 9 18 12 21M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="rgba(230,190,116,.76)" stroke-width="1.6" shape-rendering="crispEdges"/></svg>
-          <canvas class="txt" data-k="languageLabel" data-w="88" data-h="25" data-size="16"></canvas><span style="color:#e5bd78">⌄</span>
+          <span class="button-label" data-k-text="languageLabel"></span><span style="color:#e5bd78;line-height:1;transform:translateY(1px)">⌄</span>
         </button>
         <div class="menu" id="langMenu">
           <button data-lang="zh-CN">简体中文</button><button data-lang="zh-TW">繁體中文</button><button data-lang="en">English</button><button data-lang="ja">日本語</button>
@@ -164,7 +205,7 @@ canvas{image-rendering:pixelated;display:block}
   <section class="panel form-panel">
     <div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="formTitle" data-w="160" data-h="30" data-size="20"></canvas></div>
     <form class="form-grid" id="form">
-      <div class="section"><canvas class="txt" data-k="basicSection" data-w="150" data-h="24" data-size="17"></canvas></div>
+      <div class="section"><canvas class="txt" data-k="basicSection" data-w="150" data-h="28" data-size="17"></canvas></div>
 
       <div class="field"><canvas class="label txt" data-k="petNameLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="nameDisplay"></canvas><input id="petName" maxlength="20"></div></div>
 
@@ -174,13 +215,13 @@ canvas{image-rendering:pixelated;display:block}
 
       <div class="field"><canvas class="label txt" data-k="deathLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell date"><canvas class="display" id="deathDisplay"></canvas><span class="date-icon"></span><input id="deathDate" type="date"></div></div>
 
-      <div class="section"><canvas class="txt" data-k="wordsSection" data-w="150" data-h="24" data-size="17"></canvas></div>
+      <div class="section"><canvas class="txt" data-k="wordsSection" data-w="150" data-h="28" data-size="17"></canvas></div>
 
       <div class="field full tall"><canvas class="label txt" data-k="epitaphLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="epitaphDisplay"></canvas><textarea id="epitaph" maxlength="120"></textarea><canvas class="counter" id="epiCount"></canvas></div></div>
 
       <div class="field full tall"><canvas class="label txt" data-k="storyLabel" data-w="220" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="storyDisplay"></canvas><textarea id="story" maxlength="300"></textarea><canvas class="counter" id="storyCount"></canvas></div></div>
 
-      <div class="section"><canvas class="txt" data-k="visibilitySection" data-w="150" data-h="24" data-size="17"></canvas></div>
+      <div class="section"><canvas class="txt" data-k="visibilitySection" data-w="150" data-h="28" data-size="17"></canvas></div>
 
       <div class="choice-row">
         <div class="choice active" data-v="public"><span class="radio"></span><canvas class="txt" data-k="public" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="publicDesc" data-w="185" data-h="20" data-size="12"></canvas></div>
@@ -188,10 +229,10 @@ canvas{image-rendering:pixelated;display:block}
         <div class="choice" data-v="private"><span class="radio"></span><canvas class="txt" data-k="private" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="privateDesc" data-w="185" data-h="20" data-size="12"></canvas></div>
       </div>
 
-      <div class="section"><canvas class="txt" data-k="photoSection" data-w="210" data-h="24" data-size="17"></canvas></div>
+      <div class="section"><canvas class="txt" data-k="photoSection" data-w="210" data-h="28" data-size="17"></canvas></div>
 
       <div class="upload-area">
-        <div class="upload-main" id="uploadMain"><canvas class="txt" data-k="uploadMain" data-w="285" data-h="46" data-size="13" style="position:absolute;left:18px;top:20px"></canvas></div>
+        <div class="upload-main" id="uploadMain"><div class="upload-copy"><span class="main" id="uploadMainLine"></span><span class="sub" id="uploadSubLine"></span></div></div>
         <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
         <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
         <div class="slot"><img alt=""><button class="remove" type="button">×</button></div>
@@ -200,7 +241,7 @@ canvas{image-rendering:pixelated;display:block}
         <input id="photoInput" type="file" accept="image/*" multiple hidden>
       </div>
 
-      <div class="submit-row"><button class="submit" type="submit"><canvas class="txt" data-k="submit" data-w="190" data-h="28" data-size="18"></canvas></button></div>
+      <div class="submit-row"><button class="submit" type="submit"><span class="button-label" data-k-text="submit"></span></button></div>
     </form>
   </section>
 </section>
@@ -228,7 +269,7 @@ function px(c,text,opt={}){
   const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";
   const color=opt.color||"rgba(230,196,126,.92)";
-  const lines=String(text||"").split("\n");
+  const lines=String(text||"").split(/\\n|\n/);
   const lineH=Math.max(1,Math.round(size*1.38/r));
   const totalH=lines.length*lineH;
   const startY=Math.max(0,Math.round((c.height-totalH)/2)+1);
@@ -254,6 +295,12 @@ function drawStoneText(ctx,text,x,y,maxW,size,maxLines,color){
 function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
   document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
+  document.querySelectorAll("[data-k-text]").forEach(el=>{el.textContent=tr(el.dataset.kText)});
+  const uploadLines=String(tr("uploadMain")).split(/\\n|\n/);
+  const uploadMain=document.getElementById("uploadMainLine");
+  const uploadSub=document.getElementById("uploadSubLine");
+  if(uploadMain) uploadMain.textContent=uploadLines[0]||"";
+  if(uploadSub) uploadSub.textContent=uploadLines.slice(1).join(" ")||"";
   nameI.placeholder=tr("petNamePH");
   epiI.placeholder=tr("epitaphPH");
   storyI.placeholder=tr("storyPH");
