@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建纪念｜星归园</title>
+<!-- version: v16-preview-bg-integrated -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -57,8 +58,8 @@ button,input,textarea{font:inherit}
 .preview-scene{
   position:relative;width:532px;height:570px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
-    linear-gradient(rgba(6,15,31,.12),rgba(6,15,31,.20)),
-    url("assets/create_garden_bg.png") center/cover no-repeat;
+    linear-gradient(rgba(6,15,31,.10),rgba(6,15,31,.18)),
+    url("assets/preview_area_bg.png") center/cover no-repeat;
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)
 }
 .preview-scene::after{
@@ -67,9 +68,9 @@ button,input,textarea{font:inherit}
   linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
   background-size:4px 4px;pointer-events:none;opacity:.52
 }
-.tombstone-wrap{position:absolute;left:50%;bottom:28px;width:390px;height:482px;transform:translateX(-50%);z-index:2}
-.tombstone-img{position:absolute;left:50%;bottom:0;height:470px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.24))}
-#stoneText{position:absolute;left:50%;top:140px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
+.tombstone-wrap{position:absolute;left:50%;bottom:36px;width:370px;height:462px;transform:translateX(-50%);z-index:2}
+.tombstone-img{position:absolute;left:50%;bottom:0;height:450px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.24))}
+#stoneText{position:absolute;left:50%;top:132px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
 .preview-note{position:absolute;left:26px;bottom:28px;width:532px;height:54px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
 .section{grid-column:1/-1;height:28px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:0}
@@ -123,9 +124,13 @@ canvas{image-rendering:pixelated;display:block}
 .slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
 .slot.filled img{display:block}
 .slot.filled::before{display:none}
-.remove{position:absolute;right:4px;top:4px;width:14px;height:14px;display:none;z-index:5;border:2px solid rgba(219,171,97,.72);background:rgba(5,15,34,.76);box-shadow:inset 0 0 0 1px rgba(255,232,178,.04);color:#e6c17b;cursor:pointer;padding:0;line-height:1;font-size:10px;font-weight:900;display:none;align-items:center;justify-content:center;text-align:center;text-shadow:1px 1px 0 rgba(25,16,10,.72)}
+.remove{position:absolute;right:3px;top:3px;width:16px;height:16px;display:none;z-index:5;border:2px solid rgba(219,171,97,.78);background:linear-gradient(180deg,rgba(18,35,69,.96),rgba(7,17,38,.96));box-shadow:inset 0 0 0 1px rgba(255,232,178,.05),2px 2px 0 rgba(0,0,0,.18);color:transparent;cursor:pointer;padding:0;line-height:0;font-size:0;display:none;align-items:center;justify-content:center;text-align:center}
+.remove::before,.remove::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:2px;background:rgba(233,199,127,.96);transform-origin:center;box-shadow:0 0 0 1px rgba(63,39,14,.18)}
+.remove::before{transform:translate(-50%,-50%) rotate(45deg)}
+.remove::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .slot.filled .remove{display:flex}
-.slot.filled .remove:hover{background:rgba(8,20,44,.84);border-color:rgba(241,197,119,.88)}
+.slot.filled .remove:hover{background:linear-gradient(180deg,rgba(28,49,88,.98),rgba(10,23,51,.98));border-color:rgba(241,197,119,.92);box-shadow:inset 0 0 0 1px rgba(255,232,178,.09),2px 2px 0 rgba(0,0,0,.22)}
+.slot.filled .remove:hover::before,.slot.filled .remove:hover::after{background:rgba(250,218,150,.98)}
 .submit-row{grid-column:1/-1;display:flex;justify-content:center;margin-top:10px;padding-bottom:0}
 .submit{position:relative;width:244px;height:48px;border:3px solid rgba(219,171,97,.84);background:rgba(5,15,34,.78);box-shadow:5px 5px 0 rgba(0,0,0,.22), inset 0 0 0 2px rgba(255,232,178,.035);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .submit::before,.submit::after{content:"";position:absolute;width:11px;height:11px;border-color:rgba(241,197,119,.88);border-style:solid;pointer-events:none}
