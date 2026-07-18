@@ -69,7 +69,7 @@ button{font:inherit}
   background-size:4px 4px
 }
 #mainStone{position:absolute;left:50%;bottom:18px;height:520px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(12px 13px 0 rgba(0,0,0,.28));z-index:2}
-#stoneText{position:absolute;left:50%;top:185px;width:220px;height:190px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
+#stoneText{position:absolute;left:50%;top:196px;width:240px;height:220px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
 .note{position:absolute;left:30px;bottom:28px;width:660px;height:45px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .card{
@@ -149,8 +149,8 @@ const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",stone:"stone_
 const stage=document.getElementById("stage"),stoneText=document.getElementById("stoneText"),toast=document.getElementById("toast");
 function tr(k){return(T[S.lang]&&T[S.lang][k])||T["zh-CN"][k]||k}
 function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();
-function setup(c,w,h,r=2){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
-function px(c,text,opt={}){const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;const {ctx,r}=setup(c,w,h,opt.ratio||2);ctx.clearRect(0,0,c.width,c.height);ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";const color=opt.color||"rgba(230,196,126,.92)";String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})}
+function setup(c,w,h,r=1){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
+function px(c,text,opt={}){const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";const color=opt.color||"rgba(230,196,126,.92)";String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})}
 function wrap(ctx,text,max){let out=[],line="";for(const ch of String(text||"")){let test=line+ch;if(ctx.measureText(test).width>max&&line){out.push(line);line=ch}else line=test}if(line)out.push(line);return out}
 function drawStoneText(){
   const draft=JSON.parse(localStorage.getItem("petMemorialDraft")||"{}");
@@ -158,15 +158,15 @@ function drawStoneText(){
   const birth=draft.birthDate?draft.birthDate.replaceAll("-","."):"2014.06.12";
   const death=draft.deathDate?draft.deathDate.replaceAll("-","."):"2025.11.03";
   const epi=draft.epitaph||"";
-  const {ctx}=setup(stoneText,220,190,2);
+  const {ctx}=setup(stoneText,240,220,1);
   ctx.clearRect(0,0,stoneText.width,stoneText.height);
   ctx.font='900 13px "SimSun","Courier New",monospace';ctx.textAlign="center";ctx.textBaseline="top";
   function line(text,y,size,maxW,maxLines,color){ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;wrap(ctx,text,maxW).slice(0,maxLines).forEach((ln,i)=>{let yy=y+i*Math.round(size*1.35);ctx.fillStyle="rgba(220,210,190,.22)";ctx.fillText(ln,110/2+1,yy+1);ctx.fillStyle=color;ctx.fillText(ln,110/2,yy)})}
-  line(name,12,14,80,2,"rgba(38,34,30,.86)");
-  line(birth,58,8,86,1,"rgba(42,38,34,.76)");
-  line("—",77,8,86,1,"rgba(42,38,34,.76)");
-  line(death,96,8,86,1,"rgba(42,38,34,.76)");
-  if(epi) line(epi,124,7,86,2,"rgba(42,38,34,.68)");
+  line(name,22,24,150,2,"rgba(38,34,30,.86)");
+  line(birth,78,15,150,1,"rgba(42,38,34,.76)");
+  line("—",106,15,150,1,"rgba(42,38,34,.76)");
+  line(death,134,15,150,1,"rgba(42,38,34,.76)");
+  if(epi) line(epi,168,13,150,2,"rgba(42,38,34,.68)");
 }
 function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}
 updateStatic();drawStoneText();

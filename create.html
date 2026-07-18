@@ -51,11 +51,11 @@ button,input,textarea{font:inherit}
   position:absolute;background:rgba(4,15,36,.84);border:3px solid rgba(219,171,97,.70);
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.04),8px 8px 0 rgba(0,0,0,.25)
 }
-.preview-panel{left:80px;top:112px;width:620px;height:780px;padding:30px}
-.form-panel{left:730px;top:112px;width:860px;height:780px;padding:30px}
+.preview-panel{left:82px;top:108px;width:590px;height:760px;padding:26px}
+.form-panel{left:710px;top:108px;width:880px;height:760px;padding:26px 30px}
 .panel-title{height:36px;display:flex;align-items:center;gap:10px;margin-bottom:18px}
 .preview-scene{
-  position:relative;width:560px;height:610px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
+  position:relative;width:532px;height:584px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
     linear-gradient(rgba(6,15,31,.12),rgba(6,15,31,.20)),
     url("assets/create_garden_bg.png") center/cover no-repeat;
@@ -67,26 +67,27 @@ button,input,textarea{font:inherit}
   linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
   background-size:4px 4px;pointer-events:none;opacity:.52
 }
-.tombstone-wrap{position:absolute;left:50%;bottom:38px;width:380px;height:470px;transform:translateX(-50%);z-index:2}
-.tombstone-img{position:absolute;left:50%;bottom:0;height:455px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.24))}
-#stoneText{position:absolute;left:50%;top:132px;width:190px;height:210px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
-.preview-note{position:absolute;left:30px;bottom:26px;width:560px;height:54px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
-.section{grid-column:1/-1;height:36px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:2px}
-.field{height:78px}
+.tombstone-wrap{position:absolute;left:50%;bottom:28px;width:390px;height:482px;transform:translateX(-50%);z-index:2}
+.tombstone-img{position:absolute;left:50%;bottom:0;height:470px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.24))}
+#stoneText{position:absolute;left:50%;top:140px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
+.preview-note{position:absolute;left:26px;bottom:24px;width:532px;height:54px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px 24px}
+.section{grid-column:1/-1;height:33px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:2px}
+.field{height:73px}
 .field.full{grid-column:1/-1}
-.field.tall{height:125px}
+.field.tall{height:112px}
 .label{height:26px}
 .input-shell{
   position:relative;height:48px;background:rgba(3,13,31,.92);border:3px solid rgba(219,171,97,.62);
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035),4px 4px 0 rgba(0,0,0,.16)
 }
-.field.tall .input-shell{height:96px}
+.field.tall .input-shell{height:84px}
 .input-shell input,.input-shell textarea{
   position:absolute;inset:0;width:100%;height:100%;border:0;outline:0;background:transparent;color:transparent;caret-color:#e5bd78;z-index:6;padding:0 13px;resize:none
 }
 .input-shell textarea{padding-top:11px;line-height:1.5}
 .input-shell input::selection,.input-shell textarea::selection{background:rgba(224,184,112,.25);color:transparent}
+canvas{image-rendering:pixelated}
 .display{position:absolute;left:13px;top:0;z-index:3;pointer-events:none;image-rendering:pixelated}
 .tall .display{top:9px}
 .counter{position:absolute;right:10px;bottom:6px;z-index:4;image-rendering:pixelated}
@@ -214,21 +215,21 @@ const stoneC=document.getElementById("stoneText");
 function tr(k){return(T[S.lang]&&T[S.lang][k])||T["zh-CN"][k]||k}
 function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();
 
-function setup(c,w,h,r=2){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
+function setup(c,w,h,r=1){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
 function px(c,text,opt={}){
   const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;
-  const {ctx,r}=setup(c,w,h,opt.ratio||2);ctx.clearRect(0,0,c.width,c.height);
+  const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";
   const color=opt.color||"rgba(230,196,126,.92)";
   String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})
 }
 function wrap(ctx,text,max){let out=[],line="";for(const ch of String(text||"")){let test=line+ch;if(ctx.measureText(test).width>max&&line){out.push(line);line=ch}else line=test}if(line)out.push(line);return out}
 function field(c,text,ph,multi=false){
-  const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,2);
-  ctx.font=`900 ${Math.round(18/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
+  const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,1);
+  ctx.font=`900 ${Math.round(17/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
   const has=String(text||"").trim(),fill=has?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)",content=has?text:ph;
   if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*Math.round(18*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}
-  else{let y=Math.round((c.height-Math.round(18/r))/2);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(String(content).slice(0,42),1,y+1);ctx.fillStyle=fill;ctx.fillText(String(content).slice(0,42),0,y)}
+  else{let y=Math.round((c.height-Math.round(17/r))/2);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(String(content).slice(0,42),1,y+1);ctx.fillStyle=fill;ctx.fillText(String(content).slice(0,42),0,y)}
 }
 function drawStoneText(ctx,text,x,y,maxW,size,maxLines,color){
   ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;ctx.textAlign="center";ctx.textBaseline="top";
@@ -246,12 +247,12 @@ function update(){
   px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
   px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
 
-  const {ctx}=setup(stoneC,190,210,2);ctx.clearRect(0,0,stoneC.width,stoneC.height);
-  drawStoneText(ctx,nameI.value.trim()||"小布丁",95/2,18/2,78/2,13,2,"rgba(38,34,30,.86)");
-  drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),95/2,68/2,88/2,8,1,"rgba(42,38,34,.76)");
-  drawStoneText(ctx,"—",95/2,90/2,88/2,8,1,"rgba(42,38,34,.76)");
-  drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),95/2,112/2,88/2,8,1,"rgba(42,38,34,.76)");
-  if(epiI.value.trim()) drawStoneText(ctx,epiI.value.trim(),95/2,144/2,88/2,7,2,"rgba(42,38,34,.68)");
+  const {ctx}=setup(stoneC,220,230,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
+  drawStoneText(ctx,nameI.value.trim()||"小布丁",110,26,150,24,2,"rgba(38,34,30,.86)");
+  drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),110,82,150,15,1,"rgba(42,38,34,.76)");
+  drawStoneText(ctx,"—",110,108,150,15,1,"rgba(42,38,34,.76)");
+  drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),110,134,150,15,1,"rgba(42,38,34,.76)");
+  if(epiI.value.trim()) drawStoneText(ctx,epiI.value.trim(),110,168,150,13,2,"rgba(42,38,34,.68)");
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{el.addEventListener("input",update);el.addEventListener("change",update)});
 [birthI,deathI].forEach(el=>el.parentElement.addEventListener("click",()=>{el.focus();if(el.showPicker)el.showPicker()}));
@@ -278,7 +279,7 @@ document.getElementById("form").addEventListener("submit",e=>{
   e.preventDefault();
   if(!nameI.value.trim()){toast.textContent=tr("needName");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500);return}
   localStorage.setItem("petMemorialDraft",JSON.stringify({petName:nameI.value.trim(),petType:S.type,birthDate:birthI.value,deathDate:deathI.value,epitaph:epiI.value.trim(),story:storyI.value.trim(),visibility:S.visibility,photoCount:S.photos.length,savedAt:new Date().toISOString()}));
-  toast.textContent=tr("saved");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500);
+  toast.textContent=tr("saved");toast.classList.add("show");setTimeout(()=>{toast.classList.remove("show");location.href="select-stone.html"},650);
 });
 updateStatic();update();
 </script>
