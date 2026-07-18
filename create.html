@@ -359,11 +359,11 @@ function update(){
   px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
 
   const {ctx}=setup(stoneC,220,230,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
-  drawStoneBlock(ctx,nameI.value.trim()||"小布丁",110,30,160,52,22,11,3,"rgba(38,34,30,.86)");
-  drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),110,86,150,14,1,"rgba(42,38,34,.76)");
-  drawStoneText(ctx,"—",110,108,150,13,1,"rgba(42,38,34,.76)");
-  drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),110,129,150,14,1,"rgba(42,38,34,.76)");
-  if(epiI.value.trim()) drawStoneBlock(ctx,epiI.value.trim(),110,149,156,73,12,7,7,"rgba(42,38,34,.68)");
+  drawStoneBlock(ctx,nameI.value.trim()||"小布丁",110,36,118,42,19,10,2,"rgba(38,34,30,.86)");
+  drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),110,88,150,15,1,"rgba(42,38,34,.76)");
+  drawStoneText(ctx,"—",110,105,150,13,1,"rgba(42,38,34,.76)");
+  drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),110,121,150,15,1,"rgba(42,38,34,.76)");
+  if(epiI.value.trim()) drawStoneBlock(ctx,epiI.value.trim(),110,140,156,82,12,7,7,"rgba(42,38,34,.68)");
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{el.addEventListener("input",update);el.addEventListener("change",update)});
 [birthI,deathI].forEach(el=>el.parentElement.addEventListener("click",()=>{el.focus();if(el.showPicker)el.showPicker()}));
