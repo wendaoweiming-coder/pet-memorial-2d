@@ -24,15 +24,15 @@ button,input,textarea{font:inherit}
   background-size:4px 4px;
 }
 .paw{width:34px;height:34px;image-rendering:pixelated}
-.header{position:absolute;left:88px;right:96px;top:42px;height:58px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+.header{position:absolute;left:88px;right:88px;top:46px;height:58px;display:flex;align-items:center;justify-content:space-between;z-index:5}
 .brand{display:flex;align-items:center;gap:14px}
-.top-actions{display:flex;align-items:center;gap:28px}
+.top-actions{display:flex;align-items:center;gap:18px}
 .pixel-button,.language-button{
   position:relative;height:48px;border:3px solid rgba(219,171,97,.76);background:rgba(5,15,34,.72);
   display:flex;align-items:center;justify-content:center;box-shadow:5px 5px 0 rgba(0,0,0,.24);cursor:pointer;text-decoration:none;
 }
-.pixel-button{width:148px}
-.language-button{width:190px;gap:9px}
+.pixel-button{width:152px}
+.language-button{width:194px;gap:10px}
 .pixel-button::before,.pixel-button::after,.language-button::before,.language-button::after,.panel::before,.panel::after{
   content:"";position:absolute;width:11px;height:11px;border-color:rgba(241,197,119,.88);border-style:solid;pointer-events:none
 }
@@ -52,7 +52,7 @@ button,input,textarea{font:inherit}
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.04),8px 8px 0 rgba(0,0,0,.25)
 }
 .preview-panel{left:82px;top:116px;width:590px;height:760px;padding:26px}
-.form-panel{left:710px;top:116px;width:880px;height:790px;padding:24px 30px}
+.form-panel{left:710px;top:116px;width:880px;height:798px;padding:24px 30px}
 .panel-title{height:34px;display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .preview-scene{
   position:relative;width:532px;height:570px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
@@ -71,28 +71,32 @@ button,input,textarea{font:inherit}
 .tombstone-img{position:absolute;left:50%;bottom:0;height:470px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.24))}
 #stoneText{position:absolute;left:50%;top:140px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
 .preview-note{position:absolute;left:26px;bottom:28px;width:532px;height:54px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 24px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}
 .section{grid-column:1/-1;height:30px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:2px}
-.field{height:66px}
+.field{height:74px}
 .field.full{grid-column:1/-1}
-.field.tall{height:100px}
-.label{height:26px}
+.field.tall{height:122px}
+.label{height:28px;display:block;margin-bottom:5px}
 .input-shell{
-  position:relative;height:48px;background:rgba(3,13,31,.92);border:3px solid rgba(219,171,97,.62);
+  position:relative;height:50px;background:rgba(3,13,31,.92);border:3px solid rgba(219,171,97,.62);
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035),4px 4px 0 rgba(0,0,0,.16)
 }
-.field.tall .input-shell{height:74px}
+.field.tall .input-shell{height:90px}
 .input-shell input,.input-shell textarea{
-  position:absolute;inset:0;width:100%;height:100%;border:0;outline:0;background:transparent;color:transparent;caret-color:#e5bd78;z-index:6;padding:0 13px;resize:none;font-size:17px;font-weight:900
+  position:absolute;inset:0;width:100%;height:100%;border:0;outline:0;background:transparent;color:transparent;caret-color:#e5bd78;z-index:6;padding:0 14px;resize:none;font-size:17px;font-weight:900;line-height:1.25;text-align:left
 }
-.input-shell textarea{padding-top:9px;line-height:1.45}
+#petName,#epitaph,#story{color:#e9c77f}
+#petName::placeholder,#epitaph::placeholder,#story::placeholder{color:rgba(211,166,97,.72)}
+#petName::selection,#epitaph::selection,#story::selection{background:rgba(224,184,112,.25);color:#f3dba1}
+.input-shell textarea{padding:12px 14px 0 14px;line-height:1.45}
 .input-shell input::selection,.input-shell textarea::selection{background:rgba(224,184,112,.25);color:transparent}
 canvas{image-rendering:pixelated}
 .display{position:absolute;left:13px;top:1px;z-index:3;pointer-events:none;image-rendering:pixelated}
 .tall .display{top:8px}
 .counter{position:absolute;right:10px;bottom:6px;z-index:4;image-rendering:pixelated}
+#nameDisplay,#epitaphDisplay,#storyDisplay{display:none !important}
 .date input{opacity:0;cursor:pointer;position:absolute;inset:0;width:100%;height:100%;z-index:8}
-.date-icon{position:absolute;right:12px;top:12px;width:22px;height:22px;pointer-events:none;z-index:2}
+.date-icon{position:absolute;right:12px;top:13px;width:22px;height:22px;pointer-events:none;z-index:2}
 .date-icon::before{content:"";position:absolute;left:3px;top:5px;width:16px;height:14px;border:2px solid rgba(230,190,116,.78);box-shadow:inset 0 4px 0 rgba(230,190,116,.18)}
 .date-icon::after{content:"";position:absolute;left:6px;top:2px;width:3px;height:6px;background:rgba(230,190,116,.82);box-shadow:8px 0 0 rgba(230,190,116,.82)}
 .select{cursor:pointer}
@@ -104,12 +108,12 @@ canvas{image-rendering:pixelated}
 .type-menu.open{display:grid;gap:4px}
 .type-menu button{height:34px;border:0;background:transparent;color:#e5bd78;cursor:pointer;font:900 16px "SimSun","Courier New",monospace;text-align:left;padding-left:12px}
 .type-menu button:hover{background:rgba(230,190,116,.12)}
-.choice-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.choice-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2px}
 .choice{height:64px;border:3px solid rgba(219,171,97,.46);background:rgba(3,13,31,.76);position:relative;cursor:pointer;padding-left:46px;padding-top:9px;box-shadow:4px 4px 0 rgba(0,0,0,.14)}
 .choice.active{border-color:rgba(241,197,119,.90);background:rgba(230,190,116,.09)}
 .radio{position:absolute;left:14px;top:12px;width:21px;height:21px;border:3px solid rgba(230,190,116,.78);border-radius:50%}
 .choice.active .radio::after{content:"";position:absolute;left:4px;top:4px;width:7px;height:7px;border-radius:50%;background:#e5bd78}
-.upload-area{grid-column:1/-1;display:grid;grid-template-columns:300px repeat(5,1fr);gap:10px}
+.upload-area{grid-column:1/-1;display:grid;grid-template-columns:300px repeat(5,1fr);gap:10px;margin-top:2px}
 .upload-main,.slot{height:70px;border:3px dashed rgba(219,171,97,.50);background:rgba(3,13,31,.62);box-shadow:4px 4px 0 rgba(0,0,0,.14);position:relative;cursor:pointer;overflow:hidden}
 .slot{border-style:solid;border-color:rgba(219,171,97,.34)}
 .slot::before{content:"";position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);background:url("assets/paw.png") center/contain no-repeat;image-rendering:pixelated;opacity:.18}
@@ -118,8 +122,8 @@ canvas{image-rendering:pixelated}
 .slot.filled::before{display:none}
 .remove{position:absolute;right:5px;top:5px;width:20px;height:20px;display:none;z-index:5;border:1px solid #e5bd78;background:rgba(4,12,28,.92);color:#e5bd78;cursor:pointer}
 .slot.filled .remove{display:block}
-.submit-row{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:0}
-.submit{width:230px;height:46px;border:3px solid rgba(219,171,97,.84);background:linear-gradient(#d8b574,#b99052);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer}
+.submit-row{grid-column:1/-1;display:flex;justify-content:center;margin-top:8px;padding-bottom:2px}
+.submit{width:250px;height:50px;border:3px solid rgba(219,171,97,.84);background:linear-gradient(#d8b574,#b99052);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;background:rgba(5,15,34,.96);border:2px solid rgba(219,171,97,.78);color:#e5bd78;opacity:0;pointer-events:none;transition:opacity .18s;font:900 16px "SimSun","Courier New",monospace}
 .toast.show{opacity:1}
 </style>
@@ -236,19 +240,21 @@ function drawStoneText(ctx,text,x,y,maxW,size,maxLines,color){
   wrap(ctx,text,maxW).slice(0,maxLines).forEach((line,i)=>{let yy=y+i*Math.round(size*1.35);ctx.fillStyle="rgba(220,210,190,.22)";ctx.fillText(line,x+1,yy+1);ctx.fillStyle=color;ctx.fillText(line,x,yy)})
 }
 function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
-function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}
+function updateStatic(){
+  document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
+  nameI.placeholder=tr("petNamePH");
+  epiI.placeholder=tr("epitaphPH");
+  storyI.placeholder=tr("storyPH");
+}
 function update(){
-  field(document.getElementById("nameDisplay"),nameI.value,tr("petNamePH"));
   field(document.getElementById("typeDisplay"),S.type?tr(S.type):"",tr("petTypePH"));
   field(document.getElementById("birthDisplay"),birthI.value?birthI.value.replaceAll("-"," / "):"",tr("birthPH"));
   field(document.getElementById("deathDisplay"),deathI.value?deathI.value.replaceAll("-"," / "):"",tr("deathPH"));
-  field(document.getElementById("epitaphDisplay"),epiI.value,tr("epitaphPH"),true);
-  field(document.getElementById("storyDisplay"),storyI.value,tr("storyPH"),true);
   px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
   px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
 
   const {ctx}=setup(stoneC,220,230,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
-  drawStoneText(ctx,nameI.value.trim()||"小布丁",110,34,150,22,2,"rgba(38,34,30,.86)");
+  drawStoneText(ctx,nameI.value.trim()||"小布丁",110,40,150,22,2,"rgba(38,34,30,.86)");
   drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),110,92,150,14,1,"rgba(42,38,34,.76)");
   drawStoneText(ctx,"—",110,118,150,14,1,"rgba(42,38,34,.76)");
   drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),110,144,150,14,1,"rgba(42,38,34,.76)");
