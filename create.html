@@ -1,1074 +1,268 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>创建纪念｜星归园</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    :root {
-      --gold: #e6c47e;
-      --gold-soft: rgba(230,196,126,.78);
-      --gold-dim: rgba(230,196,126,.45);
-      --panel: rgba(6,17,36,.86);
-      --field: rgba(3,12,28,.92);
-      --dark: rgba(0,0,0,.30);
-      --stage-w: 1672px;
-      --stage-h: 941px;
-    }
-
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #050d19;
-      color: var(--gold);
-      font-family: "Courier New", "SimSun", monospace;
-    }
-
-    button, input, textarea { font: inherit; }
-
-    .viewport {
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background: #050d19;
-    }
-
-    .stage {
-      position: relative;
-      width: var(--stage-w);
-      height: var(--stage-h);
-      transform-origin: center center;
-      background:
-        linear-gradient(90deg, rgba(5,10,22,.74), rgba(5,10,22,.54) 48%, rgba(5,10,22,.36)),
-        url("assets/bg.png") center center / cover no-repeat;
-      overflow: hidden;
-    }
-
-    .stage::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px);
-      background-size: 4px 4px;
-      opacity: .55;
-      z-index: 1;
-    }
-
-    .topbar {
-      position: absolute;
-      left: 72px;
-      right: 72px;
-      top: 38px;
-      height: 52px;
-      z-index: 5;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand img {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
-      image-rendering: pixelated;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .pixel-btn, .language-button {
-      position: relative;
-      width: 140px;
-      height: 46px;
-      padding: 0;
-      border: 2px solid rgba(230,196,126,.72);
-      background: rgba(6,17,36,.78);
-      color: var(--gold);
-      box-shadow:
-        inset 0 0 0 2px rgba(255,232,178,.055),
-        5px 5px 0 rgba(0,0,0,.22);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .language-button { width: 178px; gap: 8px; cursor: pointer; }
-
-    .pixel-btn::before, .pixel-btn::after,
-    .language-button::before, .language-button::after,
-    .panel::before, .panel::after {
-      content: "";
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      pointer-events: none;
-      border-color: rgba(244,203,126,.82);
-      border-style: solid;
-    }
-
-    .pixel-btn::before, .language-button::before, .panel::before {
-      left: 8px;
-      top: 8px;
-      border-width: 2px 0 0 2px;
-    }
-
-    .pixel-btn::after, .language-button::after, .panel::after {
-      right: 8px;
-      bottom: 8px;
-      border-width: 0 2px 2px 0;
-    }
-
-    .globe-svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .language {
-      position: relative;
-      z-index: 20;
-    }
-
-    .language-menu {
-      position: absolute;
-      top: 54px;
-      right: 0;
-      width: 178px;
-      display: none;
-      padding: 6px;
-      border: 2px solid rgba(230,196,126,.72);
-      background: rgba(6,17,36,.98);
-      box-shadow: 5px 5px 0 rgba(0,0,0,.28);
-    }
-
-    .language.open .language-menu { display: grid; gap: 4px; }
-
-    .language-menu button {
-      height: 34px;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    .language-menu button:hover { background: rgba(230,196,126,.10); }
-
-    .layout {
-      position: absolute;
-      left: 96px;
-      right: 96px;
-      top: 102px;
-      bottom: 54px;
-      z-index: 4;
-      display: grid;
-      grid-template-columns: 540px 1fr;
-      gap: 26px;
-    }
-
-    .panel {
-      position: relative;
-      border: 2px solid rgba(230,196,126,.62);
-      background: var(--panel);
-      box-shadow:
-        inset 0 0 0 2px rgba(255,232,178,.04),
-        8px 8px 0 rgba(0,0,0,.24);
-    }
-
-    .preview-panel { padding: 24px; }
-    .form-panel { padding: 24px 28px; }
-
-    .panel-title {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      height: 36px;
-      margin-bottom: 16px;
-    }
-
-    .panel-title img {
-      width: 22px;
-      height: 22px;
-      object-fit: contain;
-      image-rendering: pixelated;
-    }
-
-    .preview-frame {
-      position: relative;
-      width: 480px;
-      height: 560px;
-      margin: 14px auto 18px;
-      border: 2px solid rgba(230,196,126,.54);
-      background: rgba(2,10,22,.82);
-      box-shadow: inset 0 0 0 2px rgba(255,232,178,.035);
-    }
-
-    #stoneCanvas {
-      display: block;
-      width: 480px;
-      height: 560px;
-      image-rendering: pixelated;
-    }
-
-    .preview-note {
-      width: 480px;
-      margin: 0 auto;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 26px;
-      row-gap: 16px;
-    }
-
-    .section-bar {
-      grid-column: 1 / -1;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      background: rgba(230,196,126,.09);
-      border-left: 4px solid rgba(230,196,126,.78);
-      padding-left: 14px;
-      margin-top: 2px;
-    }
-
-    .field {
-      min-height: 78px;
-      display: grid;
-      grid-template-rows: 24px 48px;
-      gap: 6px;
-    }
-
-    .field.full { grid-column: 1 / -1; }
-
-    .field.tall {
-      min-height: 128px;
-      grid-template-rows: 24px 98px;
-    }
-
-    .pixel-field {
-      position: relative;
-      height: 48px;
-      border: 2px solid rgba(230,196,126,.58);
-      background: var(--field);
-      box-shadow:
-        inset 0 0 0 2px rgba(255,232,178,.03),
-        4px 4px 0 rgba(0,0,0,.16);
-    }
-
-    .field.tall .pixel-field { height: 98px; }
-
-    .real-input {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      outline: 0;
-      color: transparent;
-      caret-color: var(--gold);
-      background: transparent;
-      padding: 0 14px;
-      resize: none;
-    }
-
-    textarea.real-input {
-      padding-top: 12px;
-      line-height: 1.55;
-    }
-
-    .real-input::selection { background: rgba(230,196,126,.30); color: transparent; }
-
-    input[type="date"].real-input {
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .pixel-display {
-      position: absolute;
-      left: 12px;
-      top: 0;
-      z-index: 2;
-      pointer-events: none;
-      image-rendering: pixelated;
-    }
-
-    .field.tall .pixel-display { top: 8px; }
-
-    .count-canvas {
-      position: absolute;
-      right: 10px;
-      bottom: 6px;
-      z-index: 4;
-      image-rendering: pixelated;
-      pointer-events: none;
-    }
-
-    .select-field { cursor: pointer; }
-
-    .select-menu {
-      position: absolute;
-      left: -2px;
-      right: -2px;
-      top: 50px;
-      display: none;
-      padding: 6px;
-      border: 2px solid rgba(230,196,126,.65);
-      background: rgba(5,15,33,.98);
-      box-shadow: 5px 5px 0 rgba(0,0,0,.22);
-      z-index: 30;
-    }
-
-    .select-field.open .select-menu { display: grid; gap: 4px; }
-
-    .select-menu button {
-      height: 32px;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    .select-menu button:hover { background: rgba(230,196,126,.12); }
-
-    .select-arrow {
-      position: absolute;
-      right: 14px;
-      top: 18px;
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid rgba(230,196,126,.86);
-      z-index: 4;
-      pointer-events: none;
-    }
-
-    .date-icon {
-      position: absolute;
-      right: 12px;
-      top: 12px;
-      width: 22px;
-      height: 22px;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .date-icon::before {
-      content: "";
-      position: absolute;
-      left: 3px;
-      top: 5px;
-      width: 16px;
-      height: 14px;
-      border: 2px solid rgba(230,196,126,.75);
-      box-shadow: inset 0 4px 0 rgba(230,196,126,.18);
-    }
-
-    .date-icon::after {
-      content: "";
-      position: absolute;
-      left: 6px;
-      top: 2px;
-      width: 3px;
-      height: 6px;
-      background: rgba(230,196,126,.78);
-      box-shadow: 8px 0 0 rgba(230,196,126,.78);
-    }
-
-    .visibility-row {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .choice {
-      position: relative;
-      height: 74px;
-      border: 2px solid rgba(230,196,126,.46);
-      background: rgba(3,12,28,.78);
-      box-shadow: 4px 4px 0 rgba(0,0,0,.14);
-      cursor: pointer;
-      padding: 12px 14px 10px 48px;
-    }
-
-    .choice.active {
-      border-color: rgba(244,203,126,.88);
-      background: rgba(230,196,126,.09);
-    }
-
-    .choice .radio {
-      position: absolute;
-      left: 15px;
-      top: 16px;
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(230,196,126,.78);
-      border-radius: 50%;
-    }
-
-    .choice.active .radio::after {
-      content: "";
-      position: absolute;
-      left: 4px;
-      top: 4px;
-      width: 8px;
-      height: 8px;
-      background: rgba(230,196,126,.90);
-      border-radius: 50%;
-    }
-
-    .upload-area {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: 320px repeat(5, 1fr);
-      gap: 12px;
-    }
-
-    .upload-main,
-    .upload-slot {
-      position: relative;
-      height: 84px;
-      border: 2px dashed rgba(230,196,126,.48);
-      background: rgba(3,12,28,.62);
-      box-shadow: 4px 4px 0 rgba(0,0,0,.12);
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .upload-slot {
-      border-style: solid;
-      border-color: rgba(230,196,126,.32);
-    }
-
-    .upload-slot::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 28px;
-      height: 28px;
-      transform: translate(-50%, -50%);
-      background: url("assets/paw.png") center / contain no-repeat;
-      image-rendering: pixelated;
-      opacity: .18;
-    }
-
-    .upload-slot img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
-    }
-
-    .upload-slot.filled img { display: block; }
-    .upload-slot.filled::before { display: none; }
-
-    .remove {
-      position: absolute;
-      right: 5px;
-      top: 5px;
-      width: 20px;
-      height: 20px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(230,196,126,.72);
-      background: rgba(4,12,28,.92);
-      color: var(--gold);
-      font-size: 15px;
-      z-index: 3;
-      cursor: pointer;
-    }
-
-    .upload-slot.filled .remove { display: flex; }
-
-    .submit-row {
-      grid-column: 1 / -1;
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 8px;
-    }
-
-    .submit-button {
-      width: 236px;
-      height: 50px;
-      border: 2px solid rgba(230,196,126,.80);
-      background: linear-gradient(#d3b06f, #b89054);
-      color: #081225;
-      box-shadow: 5px 5px 0 rgba(0,0,0,.22);
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 26px;
-      transform: translateX(-50%);
-      z-index: 100;
-      padding: 12px 18px;
-      background: rgba(5,14,30,.96);
-      border: 2px solid rgba(230,196,126,.65);
-      color: var(--gold);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .18s ease;
-    }
-
-    .toast.show { opacity: 1; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>创建纪念｜星归园</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
+  body{font-family:"SimSun","Courier New",monospace}
+  .viewport{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:#050d19}
+  .stage{position:relative;width:1672px;height:941px;transform-origin:center center;overflow:hidden}
+  #uiCanvas{position:absolute;inset:0;width:1672px;height:941px;image-rendering:pixelated}
+  .hit,.home-link{position:absolute;z-index:30;background:transparent;border:0;cursor:pointer;text-decoration:none}
+  .home-link{left:1270px;top:38px;width:142px;height:50px}
+  .lang-hit{left:1430px;top:38px;width:178px;height:50px}
+  .field{position:absolute;z-index:25}
+  .field input,.field textarea{
+    position:absolute;inset:0;width:100%;height:100%;border:0;outline:0;background:transparent;
+    color:transparent;caret-color:#e4bf78;resize:none;font:20px "SimSun","Courier New",monospace;
+  }
+  .field input::selection,.field textarea::selection{background:rgba(224,184,112,.25);color:transparent}
+  .field textarea{line-height:1.5}
+  #petNameWrap{left:672px;top:190px;width:438px;height:38px}
+  #typeWrap{left:1168px;top:190px;width:356px;height:38px}
+  #birthWrap{left:672px;top:285px;width:386px;height:38px}
+  #deathWrap{left:1168px;top:285px;width:354px;height:38px}
+  #epitaphWrap{left:672px;top:374px;width:862px;height:72px}
+  #storyWrap{left:672px;top:501px;width:862px;height:72px}
+  .date-input{opacity:0;cursor:pointer}
+  .type-menu,.lang-menu{
+    position:absolute;z-index:70;display:none;padding:6px;
+    background:rgba(5,15,34,.98);border:2px solid rgba(211,165,96,.78);
+    box-shadow:6px 6px 0 rgba(0,0,0,.28)
+  }
+  .type-menu.open,.lang-menu.open{display:grid;gap:4px}
+  .type-menu{left:1168px;top:232px;width:356px}
+  .lang-menu{left:1430px;top:92px;width:178px}
+  .type-menu button,.lang-menu button{height:34px;border:0;background:transparent;color:#e4bf78;cursor:pointer;font:900 16px "SimSun","Courier New",monospace;text-align:left;padding:0 12px}
+  .type-menu button:hover,.lang-menu button:hover{background:rgba(224,184,112,.12)}
+  .vis{position:absolute;z-index:25;background:transparent;border:0;cursor:pointer}
+  .vis.public{left:678px;top:613px;width:276px;height:74px}
+  .vis.invite{left:970px;top:613px;width:276px;height:74px}
+  .vis.private{left:1262px;top:613px;width:276px;height:74px}
+  .upload-main{position:absolute;left:679px;top:730px;width:324px;height:85px;z-index:25;background:transparent;border:0;cursor:pointer}
+  .slot{position:absolute;top:730px;width:103px;height:85px;z-index:28;cursor:pointer;overflow:hidden}
+  .slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+  .slot.filled img{display:block}
+  .slot .remove{display:none;position:absolute;right:4px;top:4px;width:20px;height:20px;z-index:5;border:1px solid rgba(224,184,112,.75);background:rgba(4,12,28,.95);color:#e3bd78;cursor:pointer}
+  .slot.filled .remove{display:block}
+  .slot1{left:1018px}.slot2{left:1128px}.slot3{left:1238px}.slot4{left:1348px}.slot5{left:1458px}
+  .submit-hit{position:absolute;left:1342px;top:843px;width:226px;height:48px;z-index:30;background:transparent;border:0;cursor:pointer}
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;
+    background:rgba(5,15,34,.96);border:2px solid rgba(211,165,96,.78);color:#e3bd78;
+    opacity:0;pointer-events:none;transition:opacity .18s ease;font:900 16px "SimSun","Courier New",monospace;
+  }
+  .toast.show{opacity:1}
+</style>
 </head>
-
 <body>
-  <main class="viewport">
-    <section class="stage" id="stage">
-      <header class="topbar">
-        <div class="brand">
-          <img src="assets/paw.png" alt="" />
-          <canvas class="pixel-text" data-key="pageTitle" data-w="180" data-h="34" data-size="24"></canvas>
-        </div>
+<main class="viewport">
+  <section class="stage" id="stage">
+    <canvas id="uiCanvas" width="1672" height="941"></canvas>
 
-        <div class="top-actions">
-          <a class="pixel-btn" href="index.html">
-            <canvas class="pixel-text" data-key="backHome" data-w="112" data-h="24" data-size="17"></canvas>
-          </a>
+    <a class="home-link" href="index.html" aria-label="返回首页"></a>
+    <button class="hit lang-hit" type="button" id="langButton" aria-label="选择语言"></button>
+    <div class="lang-menu" id="langMenu">
+      <button type="button" data-lang="zh-CN">简体中文</button>
+      <button type="button" data-lang="zh-TW">繁體中文</button>
+      <button type="button" data-lang="en">English</button>
+      <button type="button" data-lang="ja">日本語</button>
+    </div>
 
-          <div class="language" id="languageBox">
-            <button class="language-button" type="button" id="languageButton">
-              <svg class="globe-svg" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="9" fill="none" stroke="rgba(232,201,148,.86)" stroke-width="2" shape-rendering="crispEdges"/>
-                <path d="M4 12H20" fill="none" stroke="rgba(232,201,148,.82)" stroke-width="2" shape-rendering="crispEdges"/>
-                <path d="M6 8H18" fill="none" stroke="rgba(232,201,148,.58)" stroke-width="1.5" shape-rendering="crispEdges"/>
-                <path d="M6 16H18" fill="none" stroke="rgba(232,201,148,.58)" stroke-width="1.5" shape-rendering="crispEdges"/>
-                <path d="M12 3C9 6 8 9 8 12C8 15 9 18 12 21" fill="none" stroke="rgba(232,201,148,.76)" stroke-width="1.6" shape-rendering="crispEdges"/>
-                <path d="M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="rgba(232,201,148,.76)" stroke-width="1.6" shape-rendering="crispEdges"/>
-              </svg>
-              <canvas class="pixel-text" data-key="languageLabel" data-w="88" data-h="24" data-size="16"></canvas>
-              <span>⌄</span>
-            </button>
+    <div class="field" id="petNameWrap"><input id="petName" maxlength="20" value="小布丁" autocomplete="off"></div>
+    <div class="field" id="typeWrap"><input id="typeFake" readonly tabindex="-1"></div>
+    <div class="type-menu" id="typeMenu">
+      <button type="button" data-value="猫">猫</button>
+      <button type="button" data-value="狗">狗</button>
+      <button type="button" data-value="兔子">兔子</button>
+      <button type="button" data-value="鸟">鸟</button>
+      <button type="button" data-value="其他">其他</button>
+    </div>
+    <div class="field" id="birthWrap"><input class="date-input" id="birthDate" type="date" value="2014-06-12"></div>
+    <div class="field" id="deathWrap"><input class="date-input" id="deathDate" type="date" value="2025-11-03"></div>
+    <div class="field" id="epitaphWrap"><textarea id="epitaph" maxlength="120"></textarea></div>
+    <div class="field" id="storyWrap"><textarea id="story" maxlength="300"></textarea></div>
 
-            <div class="language-menu">
-              <button type="button" data-lang="zh-CN"><canvas class="pixel-text" data-text="简体中文" data-w="120" data-h="24" data-size="15"></canvas></button>
-              <button type="button" data-lang="zh-TW"><canvas class="pixel-text" data-text="繁體中文" data-w="120" data-h="24" data-size="15"></canvas></button>
-              <button type="button" data-lang="en"><canvas class="pixel-text" data-text="English" data-w="120" data-h="24" data-size="15"></canvas></button>
-              <button type="button" data-lang="ja"><canvas class="pixel-text" data-text="日本語" data-w="120" data-h="24" data-size="15"></canvas></button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <button class="vis public" data-value="public"></button>
+    <button class="vis invite" data-value="invite"></button>
+    <button class="vis private" data-value="private"></button>
 
-      <section class="layout">
-        <aside class="panel preview-panel">
-          <div class="panel-title">
-            <img src="assets/paw.png" alt="" />
-            <canvas class="pixel-text" data-key="previewTitle" data-w="160" data-h="28" data-size="20"></canvas>
-          </div>
+    <button class="upload-main" id="uploadMain" type="button"></button>
+    <div class="slot slot1"><img alt=""><button class="remove" type="button">×</button></div>
+    <div class="slot slot2"><img alt=""><button class="remove" type="button">×</button></div>
+    <div class="slot slot3"><img alt=""><button class="remove" type="button">×</button></div>
+    <div class="slot slot4"><img alt=""><button class="remove" type="button">×</button></div>
+    <div class="slot slot5"><img alt=""><button class="remove" type="button">×</button></div>
+    <input id="photoInput" type="file" accept="image/*" multiple hidden>
 
-          <div class="preview-frame">
-            <canvas id="stoneCanvas" width="240" height="280"></canvas>
-          </div>
+    <button class="submit-hit" type="button" id="submitBtn" aria-label="创建纪念"></button>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
 
-          <canvas class="preview-note pixel-text" data-key="previewNote" data-w="480" data-h="54" data-size="15"></canvas>
-        </aside>
+<script>
+const stage=document.getElementById("stage");
+const canvas=document.getElementById("uiCanvas");
+const ctx=canvas.getContext("2d");
+ctx.imageSmoothingEnabled=false;
+const base=new Image();
+base.src="assets/create-ui-base.png";
 
-        <section class="panel form-panel">
-          <div class="panel-title">
-            <img src="assets/paw.png" alt="" />
-            <canvas class="pixel-text" data-key="formTitle" data-w="160" data-h="28" data-size="20"></canvas>
-          </div>
+const state={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",type:"",visibility:"public",photos:[]};
+const TEXT={
+  "zh-CN":{namePH:"请输入爱宠名字",typePH:"请选择爱宠种类",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epiPH:"写下您想对爱宠说的话...",storyPH:"记录一段属于你们的故事，分享这份爱与回忆...",upload:"点击上传照片\\n支持 JPG、PNG 格式，单张不超过 5MB",needName:"请先填写爱宠名字",saved:"纪念信息已保存"},
+  "zh-TW":{namePH:"請輸入愛寵名字",typePH:"請選擇愛寵種類",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epiPH:"寫下您想對愛寵說的話...",storyPH:"記錄一段屬於你們的故事，分享這份愛與回憶...",upload:"點擊上傳照片\\n支援 JPG、PNG 格式，單張不超過 5MB",needName:"請先填寫愛寵名字",saved:"紀念資訊已保存"},
+  "en":{namePH:"Enter pet name",typePH:"Choose pet type",birthPH:"yyyy / mm / dd",deathPH:"yyyy / mm / dd",epiPH:"Write what you want to say...",storyPH:"Record a story that belongs to you...",upload:"Upload photos\\nJPG, PNG, under 5MB each",needName:"Please enter pet name",saved:"Memorial saved"},
+  "ja":{namePH:"名前を入力",typePH:"種類を選択",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epiPH:"伝えたい言葉を書く...",storyPH:"あなたたちの物語を書く...",upload:"写真をアップロード\\nJPG、PNG、1枚5MB以下",needName:"名前を入力してください",saved:"保存しました"}
+};
+const t=k=>(TEXT[state.lang]&&TEXT[state.lang][k])||TEXT["zh-CN"][k]||k;
 
-          <form class="form-grid" id="memorialForm">
-            <div class="section-bar"><canvas class="pixel-text" data-key="basicSection" data-w="160" data-h="24" data-size="17"></canvas></div>
+const petName=document.getElementById("petName");
+const birth=document.getElementById("birthDate");
+const death=document.getElementById("deathDate");
+const epitaph=document.getElementById("epitaph");
+const story=document.getElementById("story");
+const toast=document.getElementById("toast");
 
-            <div class="field">
-              <canvas class="pixel-text" data-key="petNameLabel" data-w="160" data-h="24" data-size="15"></canvas>
-              <div class="pixel-field">
-                <canvas class="pixel-display" id="petNameDisplay"></canvas>
-                <input class="real-input" id="petName" maxlength="20" autocomplete="off" />
-              </div>
-            </div>
+function resize(){
+  const scale=Math.min(window.innerWidth/1672,window.innerHeight/941);
+  stage.style.transform=`scale(${scale})`;
+}
+window.addEventListener("resize",resize);resize();
 
-            <div class="field">
-              <canvas class="pixel-text" data-key="petTypeLabel" data-w="160" data-h="24" data-size="15"></canvas>
-              <div class="pixel-field select-field" id="petTypeField">
-                <canvas class="pixel-display" id="petTypeDisplay"></canvas>
-                <span class="select-arrow"></span>
-                <div class="select-menu" id="petTypeMenu">
-                  <button type="button" data-value="cat"><canvas class="pixel-text" data-key="cat" data-w="110" data-h="24" data-size="15"></canvas></button>
-                  <button type="button" data-value="dog"><canvas class="pixel-text" data-key="dog" data-w="110" data-h="24" data-size="15"></canvas></button>
-                  <button type="button" data-value="rabbit"><canvas class="pixel-text" data-key="rabbit" data-w="110" data-h="24" data-size="15"></canvas></button>
-                  <button type="button" data-value="bird"><canvas class="pixel-text" data-key="bird" data-w="110" data-h="24" data-size="15"></canvas></button>
-                  <button type="button" data-value="other"><canvas class="pixel-text" data-key="other" data-w="110" data-h="24" data-size="15"></canvas></button>
-                </div>
-              </div>
-            </div>
+function showToast(msg){
+  toast.textContent=msg;toast.classList.add("show");
+  clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),1500);
+}
 
-            <div class="field">
-              <canvas class="pixel-text" data-key="birthLabel" data-w="160" data-h="24" data-size="15"></canvas>
-              <div class="pixel-field">
-                <canvas class="pixel-display" id="birthDisplay"></canvas>
-                <span class="date-icon"></span>
-                <input class="real-input" id="birthDate" type="date" />
-              </div>
-            </div>
+function drawPxText(text,x,y,size,opt={}){
+  const scale=opt.scale||2;
+  const off=document.createElement("canvas");
+  const maxW=opt.maxW||420, maxH=opt.maxH||120;
+  off.width=Math.ceil(maxW/scale); off.height=Math.ceil(maxH/scale);
+  const c=off.getContext("2d"); c.imageSmoothingEnabled=false;
+  c.font=`900 ${Math.round(size/scale)}px "SimSun","Courier New",monospace`;
+  c.textBaseline="top"; c.textAlign=opt.align||"left";
+  const color=opt.color||"rgba(226,189,116,.92)";
+  const shadow=opt.shadow!==false;
+  const lines=String(text||"").split("\\n");
+  const lineH=Math.round(size*1.48/scale);
+  lines.forEach((line,i)=>{
+    const yy=i*lineH;
+    if(shadow){c.fillStyle="rgba(24,16,10,.55)";c.fillText(line,(opt.align==="center"?off.width/2:0)+1,yy+1);}
+    c.fillStyle=color;c.fillText(line,opt.align==="center"?off.width/2:0,yy);
+  });
+  ctx.imageSmoothingEnabled=false;
+  if(opt.align==="center") ctx.drawImage(off,Math.round(x-maxW/2),y,maxW,maxH);
+  else ctx.drawImage(off,x,y,maxW,maxH);
+}
+function drawWrapped(text,x,y,maxW,size,maxLines,color){
+  const scale=2;
+  const off=document.createElement("canvas");
+  off.width=Math.ceil(maxW/scale);off.height=100;
+  const c=off.getContext("2d");
+  c.font=`900 ${Math.round(size/scale)}px "SimSun","Courier New",monospace`;
+  const chars=String(text||"").split("");let line="",lines=[];
+  for(const ch of chars){
+    const test=line+ch;
+    if(c.measureText(test).width>off.width-4&&line){lines.push(line);line=ch;}else line=test;
+  }
+  if(line)lines.push(line);
+  lines.slice(0,maxLines).forEach((line,i)=>{
+    drawPxText(line,x,y+i*Math.round(size*1.5),size,{maxW,maxH:size*2,color});
+  });
+}
+function fmtDate(v){return v?v.replaceAll("-","."):"----.--.--"}
+function fmtFieldDate(v){return v?v.replaceAll("-"," / "):""}
 
-            <div class="field">
-              <canvas class="pixel-text" data-key="deathLabel" data-w="160" data-h="24" data-size="15"></canvas>
-              <div class="pixel-field">
-                <canvas class="pixel-display" id="deathDisplay"></canvas>
-                <span class="date-icon"></span>
-                <input class="real-input" id="deathDate" type="date" />
-              </div>
-            </div>
+function render(){
+  if(!base.complete)return;
+  ctx.clearRect(0,0,1672,941);
+  ctx.drawImage(base,0,0,1672,941);
 
-            <div class="section-bar"><canvas class="pixel-text" data-key="wordsSection" data-w="160" data-h="24" data-size="17"></canvas></div>
+  const name=petName.value.trim();
+  const type=state.type;
+  const b=fmtFieldDate(birth.value), de=fmtFieldDate(death.value);
+  const epi=epitaph.value.trim(), st=story.value.trim();
 
-            <div class="field full tall">
-              <canvas class="pixel-text" data-key="epitaphLabel" data-w="160" data-h="24" data-size="15"></canvas>
-              <div class="pixel-field">
-                <canvas class="pixel-display" id="epitaphDisplay"></canvas>
-                <textarea class="real-input" id="epitaph" maxlength="120"></textarea>
-                <canvas class="count-canvas" id="epitaphCount"></canvas>
-              </div>
-            </div>
+  drawPxText(name||t("namePH"),690,202,18,{maxW:390,maxH:36,color:name?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)"});
+  drawPxText(type||t("typePH"),1170,202,18,{maxW:320,maxH:36,color:type?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)"});
+  drawPxText(b||t("birthPH"),690,297,20,{maxW:330,maxH:36,color:b?"rgba(230,196,126,.94)":"rgba(226,189,116,.88)"});
+  drawPxText(de||t("deathPH"),1170,297,20,{maxW:320,maxH:36,color:de?"rgba(230,196,126,.94)":"rgba(226,189,116,.88)"});
+  drawWrapped(epi||t("epiPH"),686,392,740,17,3,epi?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)");
+  drawWrapped(st||t("storyPH"),686,519,740,17,3,st?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)");
+  drawPxText(`${epitaph.value.length}/120`,1496,418,13,{maxW:55,maxH:20,color:"rgba(226,189,116,.86)",shadow:false});
+  drawPxText(`${story.value.length}/300`,1496,545,13,{maxW:55,maxH:20,color:"rgba(226,189,116,.86)",shadow:false});
 
-            <div class="field full tall">
-              <canvas class="pixel-text" data-key="storyLabel" data-w="220" data-h="24" data-size="15"></canvas>
-              <div class="pixel-field">
-                <canvas class="pixel-display" id="storyDisplay"></canvas>
-                <textarea class="real-input" id="story" maxlength="300"></textarea>
-                <canvas class="count-canvas" id="storyCount"></canvas>
-              </div>
-            </div>
+  const ringX={public:693,invite:985,private:1277}[state.visibility];
+  ctx.fillStyle="rgba(226,189,116,.92)";
+  ctx.beginPath();ctx.arc(ringX+10,633+10,5,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(226,189,116,.55)";
+  ctx.lineWidth=2;
+  const outline={public:[678,613,276,74],invite:[970,613,276,74],private:[1262,613,276,74]}[state.visibility];
+  ctx.strokeRect(outline[0]+2,outline[1]+2,outline[2]-4,outline[3]-4);
 
-            <div class="section-bar"><canvas class="pixel-text" data-key="visibilitySection" data-w="160" data-h="24" data-size="17"></canvas></div>
+  drawPxText(t("upload"),772,756,13,{maxW:220,maxH:46,color:"rgba(211,166,97,.78)"});
 
-            <div class="visibility-row" id="visibilityRow">
-              <div class="choice active" data-value="public">
-                <span class="radio"></span>
-                <canvas class="pixel-text" data-key="public" data-w="120" data-h="22" data-size="15"></canvas>
-                <canvas class="pixel-text" data-key="publicDesc" data-w="190" data-h="22" data-size="12"></canvas>
-              </div>
-              <div class="choice" data-value="invite">
-                <span class="radio"></span>
-                <canvas class="pixel-text" data-key="invite" data-w="120" data-h="22" data-size="15"></canvas>
-                <canvas class="pixel-text" data-key="inviteDesc" data-w="190" data-h="22" data-size="12"></canvas>
-              </div>
-              <div class="choice" data-value="private">
-                <span class="radio"></span>
-                <canvas class="pixel-text" data-key="private" data-w="120" data-h="22" data-size="15"></canvas>
-                <canvas class="pixel-text" data-key="privateDesc" data-w="190" data-h="22" data-size="12"></canvas>
-              </div>
-            </div>
+  const xs=[1018,1128,1238,1348,1458];
+  state.photos.forEach((p,i)=>{if(p.img&&p.img.complete)ctx.drawImage(p.img,xs[i],730,103,85);});
 
-            <div class="section-bar"><canvas class="pixel-text" data-key="photoSection" data-w="200" data-h="24" data-size="17"></canvas></div>
+  const stoneName=name||"小布丁";
+  const stoneBirth=fmtDate(birth.value||"2014-06-12");
+  const stoneDeath=fmtDate(death.value||"2025-11-03");
+  drawPxText(stoneName,388,386,22,{maxW:130,maxH:42,color:"rgba(40,35,30,.86)",align:"center",shadow:true});
+  drawPxText(stoneBirth,388,430,14,{maxW:126,maxH:22,color:"rgba(42,38,34,.78)",align:"center",shadow:true});
+  drawPxText("—",388,456,14,{maxW:126,maxH:22,color:"rgba(42,38,34,.76)",align:"center",shadow:true});
+  drawPxText(stoneDeath,388,482,14,{maxW:126,maxH:22,color:"rgba(42,38,34,.78)",align:"center",shadow:true});
+  if(epi) drawWrapped(epi,330,522,116,12,2,"rgba(42,38,34,.68)");
+}
+base.onload=render;
 
-            <div class="upload-area">
-              <div class="upload-main" id="uploadMain">
-                <canvas class="pixel-text" data-key="uploadMain" data-w="290" data-h="34" data-size="15" style="position:absolute;left:18px;top:24px;"></canvas>
-              </div>
-              <div class="upload-slot"><img alt=""><button type="button" class="remove">×</button></div>
-              <div class="upload-slot"><img alt=""><button type="button" class="remove">×</button></div>
-              <div class="upload-slot"><img alt=""><button type="button" class="remove">×</button></div>
-              <div class="upload-slot"><img alt=""><button type="button" class="remove">×</button></div>
-              <div class="upload-slot"><img alt=""><button type="button" class="remove">×</button></div>
-              <input id="photoInput" type="file" accept="image/*" multiple hidden />
-            </div>
+[petName,birth,death,epitaph,story].forEach(el=>{el.addEventListener("input",render);el.addEventListener("change",render);});
+[birth,death].forEach(el=>el.parentElement.addEventListener("click",()=>{el.focus();if(el.showPicker)el.showPicker();}));
 
-            <div class="submit-row">
-              <button class="submit-button" type="submit">
-                <canvas class="pixel-text" data-key="submit" data-w="190" data-h="28" data-size="18"></canvas>
-              </button>
-            </div>
-          </form>
-        </section>
-      </section>
-    </section>
-  </main>
+const typeWrap=document.getElementById("typeWrap"),typeMenu=document.getElementById("typeMenu");
+typeWrap.addEventListener("click",e=>{e.stopPropagation();typeMenu.classList.toggle("open");});
+typeMenu.querySelectorAll("button").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();state.type=btn.dataset.value;typeMenu.classList.remove("open");render();}));
 
-  <div class="toast" id="toast"></div>
+document.querySelectorAll(".vis").forEach(btn=>btn.addEventListener("click",()=>{state.visibility=btn.dataset.value;render();}));
 
-  <script>
-    const TEXTS = {
-      "zh-CN": {
-        pageTitle: "创建纪念", backHome: "返回首页", languageLabel: "简体中文",
-        previewTitle: "墓碑预览", previewNote: "这里是您的墓碑预览效果。填写右侧信息，墓碑将实时更新。",
-        formTitle: "纪念信息", basicSection: "基础信息", wordsSection: "文字纪念", visibilitySection: "可见范围", photoSection: "照片（最多5张）",
-        petNameLabel: "爱宠名字", petTypeLabel: "爱宠种类", birthLabel: "出生日期", deathLabel: "离开日期",
-        epitaphLabel: "墓志铭", storyLabel: "公开的故事（选填）",
-        petNamePlaceholder: "请输入爱宠名字", petTypePlaceholder: "请选择爱宠种类", birthPlaceholder: "年 / 月 / 日", deathPlaceholder: "年 / 月 / 日",
-        epitaphPlaceholder: "写下您想对爱宠说的话...", storyPlaceholder: "记录一段属于你们的故事，分享这份爱与回忆...",
-        cat: "猫", dog: "狗", rabbit: "兔子", bird: "鸟", other: "其他",
-        public: "公开", publicDesc: "所有访客都可以看到", invite: "邀请可见", inviteDesc: "只有拥有链接的人查看", private: "仅自己", privateDesc: "只有自己可以查看",
-        uploadMain: "＋  点击上传照片\\n支持 JPG、PNG，单张不超过 5MB", submit: "创建纪念",
-        needName: "请先填写爱宠名字", saved: "纪念信息已保存"
-      },
-      "zh-TW": {
-        pageTitle: "建立紀念", backHome: "返回首頁", languageLabel: "繁體中文",
-        previewTitle: "墓碑預覽", previewNote: "這裡是您的墓碑預覽效果。填寫右側資訊，墓碑將即時更新。",
-        formTitle: "紀念資訊", basicSection: "基礎資訊", wordsSection: "文字紀念", visibilitySection: "可見範圍", photoSection: "照片（最多5張）",
-        petNameLabel: "愛寵名字", petTypeLabel: "愛寵種類", birthLabel: "出生日期", deathLabel: "離開日期",
-        epitaphLabel: "墓誌銘", storyLabel: "公開的故事（選填）",
-        petNamePlaceholder: "請輸入愛寵名字", petTypePlaceholder: "請選擇愛寵種類", birthPlaceholder: "年 / 月 / 日", deathPlaceholder: "年 / 月 / 日",
-        epitaphPlaceholder: "寫下您想對愛寵說的話...", storyPlaceholder: "記錄一段屬於你們的故事，分享這份愛與回憶...",
-        cat: "貓", dog: "狗", rabbit: "兔子", bird: "鳥", other: "其他",
-        public: "公開", publicDesc: "所有訪客都可以看到", invite: "邀請可見", inviteDesc: "只有擁有連結的人查看", private: "僅自己", privateDesc: "只有自己可以查看",
-        uploadMain: "＋  點擊上傳照片\\n支援 JPG、PNG，單張不超過 5MB", submit: "建立紀念",
-        needName: "請先填寫愛寵名字", saved: "紀念資訊已保存"
-      },
-      "en": {
-        pageTitle: "Create Memorial", backHome: "Home", languageLabel: "English",
-        previewTitle: "Preview", previewNote: "This is the tombstone preview. Fill in the form and it updates in real time.",
-        formTitle: "Memorial Info", basicSection: "Basic Info", wordsSection: "Memorial Words", visibilitySection: "Visibility", photoSection: "Photos (max 5)",
-        petNameLabel: "Pet Name", petTypeLabel: "Pet Type", birthLabel: "Birth Date", deathLabel: "Passing Date",
-        epitaphLabel: "Epitaph", storyLabel: "Public Story",
-        petNamePlaceholder: "Enter pet name", petTypePlaceholder: "Choose type", birthPlaceholder: "yyyy / mm / dd", deathPlaceholder: "yyyy / mm / dd",
-        epitaphPlaceholder: "Write what you want to say...", storyPlaceholder: "Record a story that belongs to you...",
-        cat: "Cat", dog: "Dog", rabbit: "Rabbit", bird: "Bird", other: "Other",
-        public: "Public", publicDesc: "Visible to all visitors", invite: "Invite only", inviteDesc: "Only people with link", private: "Private", privateDesc: "Only you can view",
-        uploadMain: "＋  Upload photos\\nJPG, PNG, under 5MB each", submit: "Create Memorial",
-        needName: "Please enter pet name", saved: "Memorial saved"
-      },
-      "ja": {
-        pageTitle: "記念を作成", backHome: "ホームへ", languageLabel: "日本語",
-        previewTitle: "墓碑プレビュー", previewNote: "ここに墓碑プレビューを表示します。右側に入力すると即時更新されます。",
-        formTitle: "記念情報", basicSection: "基本情報", wordsSection: "記念の言葉", visibilitySection: "公開範囲", photoSection: "写真（最大5枚）",
-        petNameLabel: "名前", petTypeLabel: "種類", birthLabel: "誕生日", deathLabel: "旅立った日",
-        epitaphLabel: "墓誌銘", storyLabel: "公開する物語",
-        petNamePlaceholder: "名前を入力", petTypePlaceholder: "種類を選択", birthPlaceholder: "年 / 月 / 日", deathPlaceholder: "年 / 月 / 日",
-        epitaphPlaceholder: "伝えたい言葉を書く...", storyPlaceholder: "あなたたちの物語を書く...",
-        cat: "猫", dog: "犬", rabbit: "うさぎ", bird: "鳥", other: "その他",
-        public: "公開", publicDesc: "全ての訪問者が閲覧", invite: "招待のみ", inviteDesc: "リンクを持つ人だけ", private: "自分だけ", privateDesc: "自分だけが閲覧",
-        uploadMain: "＋  写真をアップロード\\nJPG、PNG、1枚5MB以下", submit: "記念を作成",
-        needName: "名前を入力してください", saved: "保存しました"
-      }
-    };
+const langButton=document.getElementById("langButton"),langMenu=document.getElementById("langMenu");
+langButton.addEventListener("click",e=>{e.stopPropagation();langMenu.classList.toggle("open");});
+langMenu.querySelectorAll("button").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();state.lang=btn.dataset.lang;localStorage.setItem("petMemorialLanguage",state.lang);langMenu.classList.remove("open");render();}));
+document.addEventListener("click",()=>{langMenu.classList.remove("open");typeMenu.classList.remove("open");});
 
-    const state = {
-      lang: localStorage.getItem("petMemorialLanguage") || "zh-CN",
-      petType: "",
-      visibility: "public",
-      photos: []
-    };
+const input=document.getElementById("photoInput"),slots=[...document.querySelectorAll(".slot")];
+document.getElementById("uploadMain").addEventListener("click",()=>input.click());
+slots.forEach(slot=>slot.addEventListener("click",()=>input.click()));
+input.addEventListener("change",()=>{
+  state.photos=[];
+  [...input.files].slice(0,5).forEach(file=>{
+    const img=new Image();
+    const obj={file,img};
+    img.onload=render;
+    img.src=URL.createObjectURL(file);
+    state.photos.push(obj);
+  });
+  updateSlots();
+  render();
+});
+function updateSlots(){
+  slots.forEach((slot,i)=>{
+    if(state.photos[i])slot.classList.add("filled");else slot.classList.remove("filled");
+  });
+}
+slots.forEach((slot,i)=>slot.querySelector(".remove").addEventListener("click",e=>{e.stopPropagation();state.photos.splice(i,1);updateSlots();render();}));
 
-    const stage = document.getElementById("stage");
-    const toast = document.getElementById("toast");
-    const stoneCanvas = document.getElementById("stoneCanvas");
-    const stoneCtx = stoneCanvas.getContext("2d");
-    const sceneImage = new Image();
-    sceneImage.src = "assets/preview_scene_blank.png";
-
-    const fields = {
-      petName: document.getElementById("petName"),
-      birthDate: document.getElementById("birthDate"),
-      deathDate: document.getElementById("deathDate"),
-      epitaph: document.getElementById("epitaph"),
-      story: document.getElementById("story")
-    };
-
-    const displays = {
-      petName: document.getElementById("petNameDisplay"),
-      birthDate: document.getElementById("birthDisplay"),
-      deathDate: document.getElementById("deathDisplay"),
-      epitaph: document.getElementById("epitaphDisplay"),
-      story: document.getElementById("storyDisplay"),
-      petType: document.getElementById("petTypeDisplay"),
-      epitaphCount: document.getElementById("epitaphCount"),
-      storyCount: document.getElementById("storyCount")
-    };
-
-    function resizeStage() {
-      const scale = Math.min(window.innerWidth / 1672, window.innerHeight / 941);
-      stage.style.transform = `scale(${scale})`;
-    }
-    window.addEventListener("resize", resizeStage);
-    resizeStage();
-
-    function currentText(key) {
-      return (TEXTS[state.lang] && TEXTS[state.lang][key]) || TEXTS["zh-CN"][key] || key;
-    }
-
-    function setupCanvas(canvas, width, height, scale = 2) {
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
-      canvas.width = Math.max(1, Math.floor(width / scale));
-      canvas.height = Math.max(1, Math.floor(height / scale));
-      const ctx = canvas.getContext("2d");
-      ctx.imageSmoothingEnabled = false;
-      return { ctx, scale, w: canvas.width, h: canvas.height };
-    }
-
-    function drawPixelText(canvas, text, options = {}) {
-      const w = Number(canvas.dataset.w) || options.width || canvas.parentElement.clientWidth || 120;
-      const h = Number(canvas.dataset.h) || options.height || canvas.parentElement.clientHeight || 28;
-      const scale = options.scale || 2;
-      const { ctx } = setupCanvas(canvas, w, h, scale);
-      const size = Math.max(6, Math.round((Number(canvas.dataset.size) || options.size || 16) / scale));
-      const color = options.color || "rgba(230,196,126,.92)";
-      const shadow = options.shadow ?? true;
-      const x = Math.round((options.x ?? 0) / scale);
-      let y = Math.round((options.y ?? (h * .68)) / scale);
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.font = `900 ${size}px "SimSun", "Courier New", monospace`;
-      ctx.textBaseline = "alphabetic";
-      ctx.fillStyle = color;
-
-      const lines = String(text || "").split("\\n");
-      lines.forEach((line, idx) => {
-        const yy = y + idx * Math.round(size * 1.55);
-        if (shadow) {
-          ctx.fillStyle = "rgba(28,18,10,.55)";
-          ctx.fillText(line, x + 1, yy + 1);
-        }
-        ctx.fillStyle = color;
-        ctx.fillText(line, x, yy);
-      });
-    }
-
-    function wrapText(ctx, text, maxWidth) {
-      const result = [];
-      let line = "";
-      const chars = String(text || "").split("");
-      chars.forEach(char => {
-        const test = line + char;
-        if (ctx.measureText(test).width > maxWidth && line) {
-          result.push(line);
-          line = char;
-        } else {
-          line = test;
-        }
-      });
-      if (line) result.push(line);
-      return result;
-    }
-
-    function drawPixelField(canvas, text, placeholder, options = {}) {
-      const parent = canvas.parentElement;
-      const width = parent.clientWidth - 24;
-      const height = parent.clientHeight - (parent.clientHeight > 60 ? 14 : 0);
-      const { ctx } = setupCanvas(canvas, width, height, 2);
-      const hasValue = Boolean(String(text || "").trim());
-      const content = hasValue ? text : placeholder;
-      const size = Math.round((options.size || 18) / 2);
-      const color = hasValue ? "rgba(238,205,141,.95)" : "rgba(214,173,105,.62)";
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.font = `900 ${size}px "SimSun", "Courier New", monospace`;
-      ctx.textBaseline = "top";
-      ctx.fillStyle = color;
-
-      if (options.multiline) {
-        const lines = wrapText(ctx, content, canvas.width - 12).slice(0, options.maxLines || 3);
-        lines.forEach((line, i) => {
-          ctx.fillStyle = "rgba(28,18,10,.55)";
-          ctx.fillText(line, 1, 1 + i * Math.round(size * 1.6));
-          ctx.fillStyle = color;
-          ctx.fillText(line, 0, i * Math.round(size * 1.6));
-        });
-      } else {
-        const line = String(content || "").slice(0, 38);
-        ctx.fillStyle = "rgba(28,18,10,.55)";
-        ctx.fillText(line, 1, Math.round((canvas.height - size) / 2) + 2);
-        ctx.fillStyle = color;
-        ctx.fillText(line, 0, Math.round((canvas.height - size) / 2) + 1);
-      }
-    }
-
-    function drawAllStaticTexts() {
-      document.querySelectorAll(".pixel-text").forEach(canvas => {
-        const text = canvas.dataset.text || currentText(canvas.dataset.key);
-        drawPixelText(canvas, text);
-      });
-    }
-
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1500);
-    }
-
-    function formatDate(value) {
-      return value ? value.replaceAll("-", ".") : "----.--.--";
-    }
-
-    function drawStoneText(ctx, text, x, y, maxWidth, size, color = "rgba(39,34,30,.86)", maxLines = 1) {
-      ctx.font = `900 ${size}px "SimSun", "Courier New", monospace`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "top";
-      const lines = wrapText(ctx, text, maxWidth).slice(0, maxLines);
-      lines.forEach((line, i) => {
-        const yy = y + i * Math.round(size * 1.35);
-        ctx.fillStyle = "rgba(210,202,184,.22)";
-        ctx.fillText(line, x + 1, yy + 1);
-        ctx.fillStyle = color;
-        ctx.fillText(line, x, yy);
-      });
-    }
-
-    function updatePreview() {
-      stoneCtx.clearRect(0, 0, 240, 280);
-      stoneCtx.imageSmoothingEnabled = false;
-      if (sceneImage.complete) stoneCtx.drawImage(sceneImage, 0, 0, 240, 280);
-
-      const name = fields.petName.value.trim() || currentText("petNamePlaceholder");
-      const birth = formatDate(fields.birthDate.value);
-      const death = formatDate(fields.deathDate.value);
-      const epi = fields.epitaph.value.trim() || currentText("epitaphPlaceholder");
-
-      drawStoneText(stoneCtx, name, 120, 137, 76, 12, "rgba(38,34,30,.86)", 2);
-      drawStoneText(stoneCtx, `${birth}\\n${death}`, 120, 168, 82, 7, "rgba(42,38,34,.76)", 2);
-      drawStoneText(stoneCtx, epi, 120, 196, 82, 7, "rgba(42,38,34,.68)", 2);
-
-      drawPixelField(displays.petName, fields.petName.value, currentText("petNamePlaceholder"));
-      drawPixelField(displays.birthDate, fields.birthDate.value ? fields.birthDate.value.replaceAll("-", " / ") : "", currentText("birthPlaceholder"));
-      drawPixelField(displays.deathDate, fields.deathDate.value ? fields.deathDate.value.replaceAll("-", " / ") : "", currentText("deathPlaceholder"));
-      drawPixelField(displays.epitaph, fields.epitaph.value, currentText("epitaphPlaceholder"), { multiline: true, maxLines: 3, size: 18 });
-      drawPixelField(displays.story, fields.story.value, currentText("storyPlaceholder"), { multiline: true, maxLines: 3, size: 18 });
-      drawPixelField(displays.petType, state.petType ? currentText(state.petType) : "", currentText("petTypePlaceholder"));
-
-      drawPixelText(displays.epitaphCount, `${fields.epitaph.value.length}/120`, { width: 62, height: 20, size: 12, x: 0, y: 14, shadow: false });
-      drawPixelText(displays.storyCount, `${fields.story.value.length}/300`, { width: 62, height: 20, size: 12, x: 0, y: 14, shadow: false });
-    }
-
-    sceneImage.onload = updatePreview;
-
-    Object.values(fields).forEach(field => {
-      field.addEventListener("input", updatePreview);
-      field.addEventListener("change", updatePreview);
-    });
-
-    ["birthDate", "deathDate"].forEach(id => {
-      const input = fields[id];
-      input.parentElement.addEventListener("click", () => {
-        input.focus();
-        if (typeof input.showPicker === "function") input.showPicker();
-      });
-    });
-
-    const petTypeField = document.getElementById("petTypeField");
-    petTypeField.addEventListener("click", event => {
-      event.stopPropagation();
-      petTypeField.classList.toggle("open");
-    });
-    document.querySelectorAll("#petTypeMenu button").forEach(btn => {
-      btn.addEventListener("click", event => {
-        event.stopPropagation();
-        state.petType = btn.dataset.value;
-        petTypeField.classList.remove("open");
-        updatePreview();
-      });
-    });
-
-    document.querySelectorAll(".choice").forEach(choice => {
-      choice.addEventListener("click", () => {
-        document.querySelectorAll(".choice").forEach(el => el.classList.remove("active"));
-        choice.classList.add("active");
-        state.visibility = choice.dataset.value;
-      });
-    });
-
-    const languageBox = document.getElementById("languageBox");
-    document.getElementById("languageButton").addEventListener("click", event => {
-      event.stopPropagation();
-      languageBox.classList.toggle("open");
-    });
-    document.querySelectorAll(".language-menu button").forEach(btn => {
-      btn.addEventListener("click", event => {
-        event.stopPropagation();
-        state.lang = btn.dataset.lang;
-        localStorage.setItem("petMemorialLanguage", state.lang);
-        languageBox.classList.remove("open");
-        drawAllStaticTexts();
-        updatePreview();
-      });
-    });
-    document.addEventListener("click", () => {
-      languageBox.classList.remove("open");
-      petTypeField.classList.remove("open");
-    });
-
-    const photoInput = document.getElementById("photoInput");
-    const uploadMain = document.getElementById("uploadMain");
-    const uploadSlots = Array.from(document.querySelectorAll(".upload-slot"));
-    uploadMain.addEventListener("click", () => photoInput.click());
-    uploadSlots.forEach(slot => slot.addEventListener("click", () => photoInput.click()));
-
-    function renderPhotos() {
-      uploadSlots.forEach((slot, index) => {
-        const img = slot.querySelector("img");
-        const file = state.photos[index];
-        if (file) {
-          img.src = URL.createObjectURL(file);
-          slot.classList.add("filled");
-        } else {
-          img.removeAttribute("src");
-          slot.classList.remove("filled");
-        }
-      });
-    }
-
-    photoInput.addEventListener("change", () => {
-      state.photos = Array.from(photoInput.files || []).slice(0, 5);
-      renderPhotos();
-    });
-
-    uploadSlots.forEach((slot, index) => {
-      slot.querySelector(".remove").addEventListener("click", event => {
-        event.stopPropagation();
-        state.photos.splice(index, 1);
-        renderPhotos();
-      });
-    });
-
-    document.getElementById("memorialForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const petName = fields.petName.value.trim();
-      if (!petName) {
-        showToast(currentText("needName"));
-        fields.petName.focus();
-        return;
-      }
-      const draft = {
-        petName,
-        petType: state.petType,
-        birthDate: fields.birthDate.value,
-        deathDate: fields.deathDate.value,
-        epitaph: fields.epitaph.value.trim(),
-        story: fields.story.value.trim(),
-        visibility: state.visibility,
-        photoCount: state.photos.length,
-        savedAt: new Date().toISOString()
-      };
-      localStorage.setItem("petMemorialDraft", JSON.stringify(draft));
-      showToast(currentText("saved"));
-    });
-
-    drawAllStaticTexts();
-    updatePreview();
-  </script>
+document.getElementById("submitBtn").addEventListener("click",()=>{
+  if(!petName.value.trim()){showToast(t("needName"));petName.focus();return;}
+  localStorage.setItem("petMemorialDraft",JSON.stringify({petName:petName.value.trim(),petType:state.type,birthDate:birth.value,deathDate:death.value,epitaph:epitaph.value.trim(),story:story.value.trim(),visibility:state.visibility,photoCount:state.photos.length,savedAt:new Date().toISOString()}));
+  showToast(t("saved"));
+});
+setTimeout(render,100);
+</script>
 </body>
 </html>
