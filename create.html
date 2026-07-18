@@ -363,7 +363,7 @@ function update(){
   drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),110,88,150,15,1,"rgba(42,38,34,.76)");
   drawStoneText(ctx,"—",110,105,150,13,1,"rgba(42,38,34,.76)");
   drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),110,121,150,15,1,"rgba(42,38,34,.76)");
-  if(epiI.value.trim()) drawStoneBlock(ctx,epiI.value.trim(),110,140,156,82,12,7,7,"rgba(42,38,34,.68)");
+  if(epiI.value.trim()) drawStoneBlock(ctx,epiI.value.trim(),110,140,132,84,12,6,8,"rgba(42,38,34,.68)");
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{el.addEventListener("input",update);el.addEventListener("change",update)});
 [birthI,deathI].forEach(el=>el.parentElement.addEventListener("click",()=>{el.focus();if(el.showPicker)el.showPicker()}));
