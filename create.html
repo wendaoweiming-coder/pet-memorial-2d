@@ -29,7 +29,7 @@ button,input,textarea{font:inherit}
 .top-actions{display:flex;align-items:center;gap:16px}
 .pixel-button,.language-button{
   position:relative;height:48px;border:3px solid rgba(219,171,97,.76);background:rgba(5,15,34,.72);
-  display:flex;align-items:center;justify-content:center;box-shadow:5px 5px 0 rgba(0,0,0,.24);cursor:pointer;text-decoration:none;padding-top:2px;
+  display:flex;align-items:center;justify-content:center;box-shadow:5px 5px 0 rgba(0,0,0,.24);cursor:pointer;text-decoration:none;padding-top:0;
 }
 .pixel-button{width:152px}
 .language-button{width:194px;gap:10px}
@@ -53,7 +53,7 @@ button,input,textarea{font:inherit}
 }
 .preview-panel{left:82px;top:116px;width:590px;height:760px;padding:26px}
 .form-panel{left:710px;top:116px;width:880px;height:798px;padding:24px 28px}
-.panel-title{height:34px;display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-top:2px}
+.panel-title{height:34px;display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-top:0}
 .preview-scene{
   position:relative;width:532px;height:570px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
@@ -91,7 +91,9 @@ button,input,textarea{font:inherit}
 .input-shell textarea{padding:10px 14px 0 14px;line-height:1.35}
 .input-shell input::selection,.input-shell textarea::selection{background:rgba(224,184,112,.25);color:transparent}
 canvas{image-rendering:pixelated;display:block}
-.brand .txt,.panel-title .txt,.pixel-button .txt,.language-button .txt{transform:translateY(2px)}
+.brand .txt,.panel-title .txt,.pixel-button .txt,.language-button .txt,.section .txt,.submit .txt{transform:none;display:block}
+.choice .txt{display:block}
+.choice .txt + .txt{margin-top:1px}
 .display{position:absolute;left:13px;top:1px;z-index:3;pointer-events:none;image-rendering:pixelated}
 .tall .display{top:8px}
 .counter{position:absolute;right:10px;bottom:6px;z-index:4;image-rendering:pixelated}
@@ -124,7 +126,7 @@ canvas{image-rendering:pixelated;display:block}
 .remove{position:absolute;right:5px;top:5px;width:20px;height:20px;display:none;z-index:5;border:1px solid #e5bd78;background:rgba(4,12,28,.92);color:#e5bd78;cursor:pointer}
 .slot.filled .remove{display:block}
 .submit-row{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:4px;padding-bottom:0}
-.submit{width:230px;height:46px;border:3px solid rgba(219,171,97,.84);background:linear-gradient(#d8b574,#b99052);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer}
+.submit{width:230px;height:46px;border:3px solid rgba(219,171,97,.84);background:linear-gradient(#d8b574,#b99052);box-shadow:5px 5px 0 rgba(0,0,0,.22);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;background:rgba(5,15,34,.96);border:2px solid rgba(219,171,97,.78);color:#e5bd78;opacity:0;pointer-events:none;transition:opacity .18s;font:900 16px "SimSun","Courier New",monospace}
 .toast.show{opacity:1}
 </style>
@@ -226,7 +228,16 @@ function px(c,text,opt={}){
   const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";
   const color=opt.color||"rgba(230,196,126,.92)";
-  String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})
+  const lines=String(text||"").split("\n");
+  const lineH=Math.max(1,Math.round(size*1.38/r));
+  const totalH=lines.length*lineH;
+  const startY=Math.max(0,Math.round((c.height-totalH)/2)+1);
+  lines.forEach((line,i)=>{
+    const y=startY+i*lineH;
+    const x=opt.align==="center"?c.width/2:0;
+    ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,x+1,y+1);
+    ctx.fillStyle=color;ctx.fillText(line,x,y);
+  })
 }
 function wrap(ctx,text,max){let out=[],line="";for(const ch of String(text||"")){let test=line+ch;if(ctx.measureText(test).width>max&&line){out.push(line);line=ch}else line=test}if(line)out.push(line);return out}
 function field(c,text,ph,multi=false){
