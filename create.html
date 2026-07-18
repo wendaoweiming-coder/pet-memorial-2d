@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>创建纪念 - 星归园</title>
+  <title>创建纪念 - 星归园｜修正版</title>
   <style>
     :root{
       --stage-w: 1672;
@@ -62,30 +62,40 @@
     .field textarea{
       width:100%;height:100%;
       color:var(--gold);
-      background:var(--input-bg);
-      border:1px solid rgba(224,184,112,.16);
+      background:rgba(3,13,31,.96);
+      border:0;
       outline:none;
       padding:0 18px;
       font-size:19px;
+      font-weight:700;
       line-height:1.2;
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+      box-shadow:none;
     }
     .field input::placeholder,
     .field textarea::placeholder,
     .field select.placeholder{color:rgba(212,173,105,.66)}
-    .field textarea{padding:14px 18px;resize:none;line-height:1.55}
+    .field textarea{padding:13px 18px;resize:none;line-height:1.55}
     .field input:focus,
     .field select:focus,
     .field textarea:focus{
-      border-color:rgba(224,184,112,.42);
-      box-shadow:0 0 0 1px rgba(224,184,112,.22), inset 0 0 0 1px rgba(255,255,255,.02)
+      background:rgba(4,16,39,.98);
+      box-shadow:inset 0 0 0 1px rgba(224,184,112,.30)
     }
     select{
       appearance:none;-webkit-appearance:none;-moz-appearance:none;
       background-image:none;
       padding-right:46px;
+      cursor:pointer;
     }
-    input[type="date"]::-webkit-calendar-picker-indicator{opacity:0;cursor:pointer}
+    input[type="date"]{
+      cursor:pointer;
+      color-scheme:dark;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator{
+      opacity:.95;
+      cursor:pointer;
+      filter: sepia(1) saturate(3) hue-rotate(350deg) brightness(1.25);
+    }
 
     .counter{
       position:absolute;right:12px;bottom:8px;font-size:14px;color:rgba(224,184,112,.82);
@@ -135,12 +145,74 @@
     .toast.show{opacity:1}
 
     /* absolute coordinates for form fields */
-    #petNameWrap{left:643px;top:175px;width:462px;height:44px}
-    #speciesWrap{left:1138px;top:175px;width:425px;height:44px}
-    #birthWrap{left:643px;top:272px;width:462px;height:44px}
-    #deathWrap{left:1138px;top:272px;width:425px;height:44px}
-    #epitaphWrap{left:643px;top:365px;width:920px;height:79px}
-    #storyWrap{left:643px;top:492px;width:920px;height:79px}
+    #petNameWrap{left:668px;top:188px;width:438px;height:42px}
+    #speciesWrap{left:1141px;top:188px;width:419px;height:42px}
+    #birthWrap{left:668px;top:283px;width:438px;height:42px}
+    #deathWrap{left:1141px;top:283px;width:419px;height:42px}
+    #epitaphWrap{left:668px;top:372px;width:898px;height:74px}
+    #storyWrap{left:668px;top:496px;width:898px;height:74px}
+
+
+    .preview-sync-layer{
+      position:absolute;
+      left:0;top:0;
+      z-index:12;
+      pointer-events:none;
+      font-family:"Noto Serif CJK SC","SimSun","Microsoft YaHei",serif;
+      color:rgba(42,36,31,.88);
+      text-align:center;
+      font-weight:800;
+      text-shadow:1px 1px 0 rgba(220,210,190,.24);
+    }
+    .stone-cover{
+      position:absolute;
+      left:318px;
+      top:382px;
+      width:128px;
+      height:132px;
+      background:rgba(118,114,105,.86);
+      border-radius:4px;
+      box-shadow:inset 0 0 0 1px rgba(170,160,140,.12);
+    }
+    .sync-name{
+      position:absolute;
+      left:312px;
+      top:386px;
+      width:140px;
+      font-size:23px;
+      line-height:1.2;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .sync-date{
+      position:absolute;
+      left:318px;
+      top:428px;
+      width:128px;
+      font-size:14px;
+      line-height:1.45;
+    }
+    .sync-epitaph{
+      position:absolute;
+      left:316px;
+      top:486px;
+      width:132px;
+      height:40px;
+      font-size:13px;
+      line-height:1.35;
+      overflow:hidden;
+    }
+    .x-mask{
+      position:absolute;
+      top:728px;
+      width:20px;
+      height:20px;
+      background:rgba(5,14,33,.96);
+      z-index:18;
+      pointer-events:none;
+    }
+    .x1{left:1085px}.x2{left:1194px}.x3{left:1303px}.x4{left:1412px}.x5{left:1522px}
 
     @media (max-width: 900px){
       body{overflow:auto}
@@ -151,6 +223,15 @@
 <body>
   <main class="viewport">
     <section class="stage" id="stage" aria-label="创建纪念页面">
+
+      <div class="preview-sync-layer" aria-hidden="true">
+        <div class="stone-cover"></div>
+        <div class="sync-name" id="syncName">请输入名字</div>
+        <div class="sync-date" id="syncDate">----.--.--<br>----.--.--</div>
+        <div class="sync-epitaph" id="syncEpitaph">写下想说的话</div>
+      </div>
+      <div class="x-mask x1"></div><div class="x-mask x2"></div><div class="x-mask x3"></div><div class="x-mask x4"></div><div class="x-mask x5"></div>
+
       <a class="ghost-link home-hit" href="index.html" aria-label="返回首页"></a>
       <button class="ghost-button lang-hit" id="langButton" aria-label="选择语言"></button>
       <div class="lang-menu" id="langMenu">
@@ -316,6 +397,34 @@
         renderSlots();
       });
     });
+
+
+    const petNameInput = document.getElementById('petName');
+    const birthInput = document.getElementById('birthDate');
+    const deathInput = document.getElementById('deathDate');
+    const epitaphInput = document.getElementById('epitaph');
+    const syncName = document.getElementById('syncName');
+    const syncDate = document.getElementById('syncDate');
+    const syncEpitaph = document.getElementById('syncEpitaph');
+
+    function formatDateForStone(value){
+      return value ? value.replaceAll('-', '.') : '----.--.--';
+    }
+    function syncPreview(){
+      syncName.textContent = petNameInput.value.trim() || '请输入名字';
+      syncDate.innerHTML = `${formatDateForStone(birthInput.value)}<br>${formatDateForStone(deathInput.value)}`;
+      syncEpitaph.textContent = epitaphInput.value.trim() || '写下想说的话';
+    }
+    [petNameInput, birthInput, deathInput, epitaphInput].forEach(el=>{
+      el.addEventListener('input', syncPreview);
+      el.addEventListener('change', syncPreview);
+    });
+    [birthInput, deathInput].forEach(el=>{
+      el.addEventListener('click', ()=>{
+        if (typeof el.showPicker === 'function') el.showPicker();
+      });
+    });
+    syncPreview();
 
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
