@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v31-select-text-match-create -->
+<!-- version: v32-select-ui-alignment-fixed -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -26,14 +26,19 @@ button{font:inherit}
 }
 .paw{width:34px;height:34px;image-rendering:pixelated}
 .header{position:absolute;left:88px;right:96px;top:42px;height:58px;display:flex;align-items:center;justify-content:space-between;z-index:5}
-.brand{display:flex;align-items:center;gap:14px}
-.top-actions{display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:14px;height:42px}
+.top-actions{display:flex;align-items:center;gap:24px}
 .pixel-button,.language-button{
   position:relative;height:48px;border:3px solid rgba(219,171,97,.76);background:rgba(5,15,34,.72);
   display:flex;align-items:center;justify-content:center;box-shadow:5px 5px 0 rgba(0,0,0,.24);cursor:pointer;text-decoration:none;
 }
 .pixel-button{width:148px}
 .language-button{width:190px;gap:9px}
+.txt{display:block;image-rendering:pixelated}
+.brand .txt,.panel-title .txt{transform:translateY(3px)}
+.pixel-button .txt,.language-button .txt,.action .txt{transform:translateY(2px)}
+.language-button .globe{flex:0 0 auto;transform:translateY(1px)}
+.language-button span{display:block;line-height:1;transform:translateY(0)}
 .pixel-button::before,.pixel-button::after,.language-button::before,.language-button::after,.panel::before,.panel::after{
   content:"";position:absolute;width:11px;height:11px;border-color:rgba(241,197,119,.88);border-style:solid;pointer-events:none
 }
@@ -52,9 +57,9 @@ button{font:inherit}
   position:absolute;background:rgba(4,15,36,.84);border:3px solid rgba(219,171,97,.70);
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.04),8px 8px 0 rgba(0,0,0,.25)
 }
-.preview-panel{left:80px;top:112px;width:720px;height:780px;padding:30px}
-.side-panel{left:830px;top:112px;width:760px;height:780px;padding:30px}
-.panel-title{height:36px;display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.preview-panel{left:80px;top:126px;width:720px;height:766px;padding:30px}
+.side-panel{left:830px;top:126px;width:760px;height:766px;padding:30px}
+.panel-title{height:42px;display:flex;align-items:center;gap:12px;margin-bottom:22px}
 .showcase{
   position:relative;width:532px;height:570px;margin:0 auto;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
@@ -70,8 +75,8 @@ button{font:inherit}
 }
 #mainStone{display:none}
 #stoneText{position:absolute;left:50%;top:216px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
-.note{position:absolute;left:94px;bottom:28px;width:532px;height:45px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px}
+.note{position:absolute;left:94px;bottom:26px;width:532px;height:45px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px;margin-top:2px}
 .card{
   position:relative;height:238px;border:3px solid rgba(219,171,97,.45);background:rgba(3,13,31,.72);
   cursor:pointer;box-shadow:5px 5px 0 rgba(0,0,0,.18);overflow:hidden
@@ -81,9 +86,10 @@ button{font:inherit}
 .card::before{left:8px;top:8px;border-width:2px 0 0 2px}.card::after{right:8px;bottom:8px;border-width:0 2px 2px 0}
 .card img{position:absolute;left:50%;bottom:44px;height:168px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(6px 7px 0 rgba(0,0,0,.27))}
 .card canvas{position:absolute;left:18px;bottom:14px}
-.actions{position:absolute;left:30px;right:30px;bottom:30px;display:flex;justify-content:flex-end;gap:18px}
+.actions{position:absolute;left:30px;right:30px;bottom:58px;display:flex;justify-content:flex-end;align-items:center;gap:18px}
 .action{
   position:relative;width:220px;height:52px;border:3px solid rgba(219,171,97,.82);background:rgba(5,15,34,.76);
+  display:flex;align-items:center;justify-content:center;
   box-shadow:5px 5px 0 rgba(0,0,0,.24), inset 0 0 0 2px rgba(255,232,178,.035);cursor:pointer
 }
 .action::before,.action::after{content:"";position:absolute;width:11px;height:11px;border-color:rgba(241,197,119,.88);border-style:solid;pointer-events:none}
