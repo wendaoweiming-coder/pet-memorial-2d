@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v36-select-lang-width-fixed -->
+<!-- version: v37-select-english-note-fixed -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -75,7 +75,7 @@ button{font:inherit}
 }
 #mainStone{display:none}
 #stoneText{position:absolute;left:50%;top:216px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
-.note{position:absolute;left:94px;bottom:34px;width:532px;height:58px}
+.note{position:absolute;left:94px;bottom:30px;width:532px;height:70px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px;margin-top:2px}
 .card{
   position:relative;height:238px;border:3px solid rgba(219,171,97,.45);background:rgba(3,13,31,.72);
@@ -256,7 +256,7 @@ button{font:inherit}
       <img id="mainStone" src="assets/stone_moon_gray.png" alt="">
       <canvas id="stoneText"></canvas>
     </div>
-    <canvas class="note txt" data-k="note" data-w="532" data-h="58" data-size="14"></canvas>
+    <canvas class="note txt" data-k="note" data-w="532" data-h="70" data-size="15"></canvas>
   </aside>
 
   <section class="panel side-panel">
@@ -282,7 +282,7 @@ button{font:inherit}
 const T={
 "zh-CN":{pageTitle:"选择墓碑",backCreate:"返回创建",languageLabel:"简体中文",previewTitle:"最终预览",chooseTitle:"选择墓碑样式",note:"选择一种墓碑样式。确认后将进入纪念园页面。",moonGray:"月灰石碑",warmSand:"暖砂石碑",blueSlate:"蓝岩石碑",mossOld:"苔痕旧石",back:"返回",confirm:"确认使用",saved:"墓碑样式已保存"},
 "zh-TW":{pageTitle:"選擇墓碑",backCreate:"返回建立",languageLabel:"繁體中文",previewTitle:"最終預覽",chooseTitle:"選擇墓碑樣式",note:"選擇一種墓碑樣式。確認後將進入紀念園頁面。",moonGray:"月灰石碑",warmSand:"暖砂石碑",blueSlate:"藍岩石碑",mossOld:"苔痕舊石",back:"返回",confirm:"確認使用",saved:"墓碑樣式已保存"},
-"en":{pageTitle:"Choose Tombstone",backCreate:"Back",languageLabel:"English",previewTitle:"Final Preview",chooseTitle:"Choose Style",note:"Choose a tombstone style. After confirming, you will enter the memorial garden.",moonGray:"Moon Gray",warmSand:"Warm Sand",blueSlate:"Blue Slate",mossOld:"Moss Old",back:"Back",confirm:"Confirm",saved:"Tombstone saved"},
+"en":{pageTitle:"Choose Tombstone",backCreate:"Back",languageLabel:"English",previewTitle:"Final Preview",chooseTitle:"Choose Style",note:"Choose a style.\nConfirm to enter the memorial garden.",moonGray:"Moon Gray",warmSand:"Warm Sand",blueSlate:"Blue Slate",mossOld:"Moss Old",back:"Back",confirm:"Confirm",saved:"Tombstone saved"},
 "ja":{pageTitle:"墓碑を選ぶ",backCreate:"戻る",languageLabel:"日本語",previewTitle:"最終プレビュー",chooseTitle:"墓碑スタイル",note:"墓碑の種類を選びます。確認後、記念園ページに進みます。",moonGray:"月灰の石碑",warmSand:"暖砂の石碑",blueSlate:"青岩の石碑",mossOld:"苔むした石碑",back:"戻る",confirm:"これにする",saved:"保存しました"}
 };
 const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",stone:"stone_moon_gray.png",stoneName:"moonGray"};
@@ -292,39 +292,42 @@ function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerH
 function setup(c,w,h,r=1){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
 function px(c,text,opt={}){const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";const color=opt.color||"rgba(230,196,126,.92)";String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})}
 function wrapNoteCanvas(c,text){
-  const w=+c.dataset.w||532,h=+c.dataset.h||58,size=+c.dataset.size||14;
+  const w=+c.dataset.w||532,h=+c.dataset.h||70,size=+c.dataset.size||15;
   const {ctx}=setup(c,w,h,1);
   ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
   ctx.textBaseline="top";
   ctx.textAlign="left";
-  const maxW=w;
   const raw=String(text||"");
-  const words=raw.includes(" ")?raw.split(" "):raw.split("");
-  let lines=[],line="";
-  for(const part of words){
-    const token=raw.includes(" ")?(line?(" "+part):part):part;
-    const test=line+token;
-    if(ctx.measureText(test).width>maxW&&line){
-      lines.push(line);
-      line=raw.includes(" ")?part:part;
-    }else{
-      line=test;
+  let lines=[];
+  if(raw.includes("\\n")){
+    lines=raw.split("\\n").filter(Boolean);
+  }else{
+    const words=raw.includes(" ")?raw.split(" "):raw.split("");
+    let line="";
+    for(const part of words){
+      const token=raw.includes(" ")?(line?(" "+part):part):part;
+      const test=line+token;
+      if(ctx.measureText(test).width>w&&line){
+        lines.push(line);
+        line=part;
+      }else{
+        line=test;
+      }
     }
+    if(line)lines.push(line);
   }
-  if(line)lines.push(line);
   lines=lines.slice(0,2);
   if(lines.length===2){
-    while(ctx.measureText(lines[1]+"…").width>maxW&&lines[1]) lines[1]=lines[1].slice(0,-1);
-    if(lines.length>2) lines[1]+="…";
+    while(ctx.measureText(lines[1]+"…").width>w&&lines[1]) lines[1]=lines[1].slice(0,-1);
   }
   const lineH=Math.round(size*1.55);
   const startY=Math.max(0,Math.round((h-lines.length*lineH)/2));
   lines.forEach((line,i)=>{
     const y=startY+i*lineH;
-    ctx.fillStyle="rgba(25,16,10,.55)";
+    ctx.fillStyle="rgba(25,16,10,.58)";
     ctx.fillText(line,1,y+1);
-    ctx.fillStyle="rgba(230,196,126,.92)";
+    ctx.fillStyle="rgba(230,196,126,.94)";
     ctx.fillText(line,0,y);
   });
 }
