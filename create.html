@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建纪念｜星归园</title>
-<!-- version: v26-no-future-dates -->
+<!-- version: v40-restore-create-draft -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -311,10 +311,40 @@ const T={
 "ja":{pageTitle:"記念を作成",backHome:"ホームへ",languageLabel:"日本語",previewTitle:"墓碑プレビュー",previewNote:"ここに墓碑プレビューを表示します。右側に入力すると即時更新されます。",formTitle:"記念情報",basicSection:"基本情報",wordsSection:"記念の言葉",visibilitySection:"公開範囲",photoSection:"写真（最大5枚）",petNameLabel:"名前",petTypeLabel:"種類",birthLabel:"誕生日",deathLabel:"旅立った日",epitaphLabel:"墓誌銘",storyLabel:"公開する物語",petNamePH:"名前を入力",petTypePH:"種類を選択",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"伝えたい言葉を書く...",storyPH:"あなたたちの物語を書く...",cat:"猫",dog:"犬",rabbit:"うさぎ",bird:"鳥",other:"その他",public:"公開",publicDesc:"全ての訪問者が閲覧",invite:"招待のみ",inviteDesc:"リンクを持つ人だけ",private:"自分だけ",privateDesc:"自分だけが閲覧",uploadMain:"＋  写真をアップロード\\nJPG、PNG、1枚5MB以下",submit:"記念を作成",needName:"名前を入力してください",dateRequired:"誕生日と旅立った日は必須です",birthRequired:"誕生日を入力してください",deathRequired:"旅立った日を入力してください",dateOrderInvalid:"旅立った日は誕生日より前にできません",birthFuture:"誕生日は未来日にできません",deathFuture:"旅立った日は未来日にできません",saved:"保存しました"}
 };
 
-const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",type:"",visibility:"public",photos:[]};
+const savedDraft=(()=>{try{return JSON.parse(localStorage.getItem("petMemorialDraft")||"{}")}catch(e){return {}}})();
+const S={
+  lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",
+  type:savedDraft.petType||"",
+  visibility:savedDraft.visibility||"public",
+  photos:[]
+};
 const stage=document.getElementById("stage"),toast=document.getElementById("toast");
 const nameI=document.getElementById("petName"),birthI=document.getElementById("birthDate"),deathI=document.getElementById("deathDate"),epiI=document.getElementById("epitaph"),storyI=document.getElementById("story");
 const stoneC=document.getElementById("stoneText");
+function restoreDraft(){
+  nameI.value=savedDraft.petName||"";
+  birthI.value=savedDraft.birthDate||"";
+  deathI.value=savedDraft.deathDate||"";
+  epiI.value=savedDraft.epitaph||"";
+  storyI.value=savedDraft.story||"";
+  document.querySelectorAll(".choice").forEach(c=>c.classList.toggle("active",c.dataset.v===S.visibility));
+}
+function currentDraft(){
+  return {
+    petName:nameI.value.trim(),
+    petType:S.type,
+    birthDate:birthI.value,
+    deathDate:deathI.value,
+    epitaph:epiI.value.trim(),
+    story:storyI.value.trim(),
+    visibility:S.visibility,
+    photoCount:S.photos.length||savedDraft.photoCount||0,
+    savedAt:savedDraft.savedAt||new Date().toISOString()
+  };
+}
+function persistDraft(){
+  localStorage.setItem("petMemorialDraft",JSON.stringify(currentDraft()));
+}
 function tr(k){return(T[S.lang]&&T[S.lang][k])||T["zh-CN"][k]||k}
 function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();
 
@@ -414,14 +444,17 @@ function update(){
   drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),110,121,150,15,1,"rgba(42,38,34,.76)");
   if(epiI.value.trim()) drawStoneBlock(ctx,epiI.value.trim(),110,140,132,84,12,6,8,"rgba(42,38,34,.68)");
 }
-[nameI,birthI,deathI,epiI,storyI].forEach(el=>{el.addEventListener("input",update);el.addEventListener("change",update)});
+[nameI,birthI,deathI,epiI,storyI].forEach(el=>{
+  el.addEventListener("input",()=>{update();persistDraft()});
+  el.addEventListener("change",()=>{update();persistDraft()});
+});
 [birthI,deathI].forEach(el=>el.parentElement.addEventListener("click",()=>{el.focus();if(el.showPicker)el.showPicker()}));
 
 const typeShell=document.getElementById("typeShell"),typeMenu=document.getElementById("typeMenu");
 typeShell.addEventListener("click",e=>{e.stopPropagation();typeMenu.classList.toggle("open")});
-typeMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();S.type=b.dataset.v;typeMenu.classList.remove("open");update()}));
+typeMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();S.type=b.dataset.v;typeMenu.classList.remove("open");update();persistDraft()}));
 
-document.querySelectorAll(".choice").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));c.classList.add("active");S.visibility=c.dataset.v}));
+document.querySelectorAll(".choice").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));c.classList.add("active");S.visibility=c.dataset.v;persistDraft()}));
 
 const langBtn=document.getElementById("langButton"),langMenu=document.getElementById("langMenu");
 langBtn.addEventListener("click",e=>{e.stopPropagation();langMenu.classList.toggle("open")});
@@ -431,9 +464,9 @@ document.addEventListener("click",()=>{langMenu.classList.remove("open");typeMen
 const photoInput=document.getElementById("photoInput"),slots=[...document.querySelectorAll(".slot")];
 document.getElementById("uploadMain").addEventListener("click",()=>photoInput.click());
 slots.forEach(s=>s.addEventListener("click",()=>photoInput.click()));
-photoInput.addEventListener("change",()=>{S.photos=[...photoInput.files].slice(0,5);renderPhotos()});
+photoInput.addEventListener("change",()=>{S.photos=[...photoInput.files].slice(0,5);renderPhotos();persistDraft()});
 function renderPhotos(){slots.forEach((slot,i)=>{const img=slot.querySelector("img"),f=S.photos[i];if(f){img.src=URL.createObjectURL(f);slot.classList.add("filled")}else{img.removeAttribute("src");slot.classList.remove("filled")}})}
-slots.forEach((slot,i)=>slot.querySelector(".remove").addEventListener("click",e=>{e.stopPropagation();S.photos.splice(i,1);renderPhotos()}));
+slots.forEach((slot,i)=>slot.querySelector(".remove").addEventListener("click",e=>{e.stopPropagation();S.photos.splice(i,1);renderPhotos();persistDraft()}));
 
 
 
@@ -487,9 +520,10 @@ document.getElementById("form").addEventListener("submit",e=>{
     return;
   }
   if(!nameI.value.trim()){toast.textContent=tr("needName");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500);return}
-  localStorage.setItem("petMemorialDraft",JSON.stringify({petName:nameI.value.trim(),petType:S.type,birthDate:birthI.value,deathDate:deathI.value,epitaph:epiI.value.trim(),story:storyI.value.trim(),visibility:S.visibility,photoCount:S.photos.length,savedAt:new Date().toISOString()}));
+  localStorage.setItem("petMemorialDraft",JSON.stringify({...currentDraft(),savedAt:new Date().toISOString()}));
   toast.textContent=tr("saved");toast.classList.add("show");setTimeout(()=>{toast.classList.remove("show");location.href="select-stone.html"},650);
 });
+restoreDraft();
 updateStatic();markRequiredDates();update();
 </script>
 </body>
