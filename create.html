@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建纪念｜星归园</title>
-<!-- version: v25-date-order-fixed -->
+<!-- version: v26-no-future-dates -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -305,10 +305,10 @@ canvas{image-rendering:pixelated;display:block}
 
 <script>
 const T={
-"zh-CN":{pageTitle:"创建纪念",backHome:"返回首页",languageLabel:"简体中文",previewTitle:"墓碑预览",previewNote:"这里是您的墓碑预览效果。填写右侧信息，墓碑将实时更新。",formTitle:"纪念信息",basicSection:"基础信息",wordsSection:"文字纪念",visibilitySection:"可见范围",photoSection:"照片（最多5张）",petNameLabel:"爱宠名字",petTypeLabel:"爱宠种类",birthLabel:"出生日期",deathLabel:"离开日期",epitaphLabel:"墓志铭",storyLabel:"公开的故事（选填）",petNamePH:"请输入爱宠名字",petTypePH:"请选择爱宠种类",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"写下您想对爱宠说的话...",storyPH:"记录一段属于你们的故事，分享这份爱与回忆...",cat:"猫",dog:"狗",rabbit:"兔子",bird:"鸟",other:"其他",public:"公开",publicDesc:"所有访客都可以看到",invite:"邀请可见",inviteDesc:"只有拥有链接的人查看",private:"仅自己",privateDesc:"只有自己可以查看",uploadMain:"＋  点击上传照片\\n支持 JPG、PNG，单张不超过 5MB",submit:"创建纪念",needName:"请先填写爱宠名字",dateRequired:"出生日期和离开日期必须填写",birthRequired:"请填写出生日期",deathRequired:"请填写离开日期",dateOrderInvalid:"离开日期不能早于出生日期",saved:"纪念信息已保存"},
-"zh-TW":{pageTitle:"建立紀念",backHome:"返回首頁",languageLabel:"繁體中文",previewTitle:"墓碑預覽",previewNote:"這裡是您的墓碑預覽效果。填寫右側資訊，墓碑將即時更新。",formTitle:"紀念資訊",basicSection:"基礎資訊",wordsSection:"文字紀念",visibilitySection:"可見範圍",photoSection:"照片（最多5張）",petNameLabel:"愛寵名字",petTypeLabel:"愛寵種類",birthLabel:"出生日期",deathLabel:"離開日期",epitaphLabel:"墓誌銘",storyLabel:"公開的故事（選填）",petNamePH:"請輸入愛寵名字",petTypePH:"請選擇愛寵種類",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"寫下您想對愛寵說的話...",storyPH:"記錄一段屬於你們的故事，分享這份愛與回憶...",cat:"貓",dog:"狗",rabbit:"兔子",bird:"鳥",other:"其他",public:"公開",publicDesc:"所有訪客都可以看到",invite:"邀請可見",inviteDesc:"只有擁有連結的人查看",private:"僅自己",privateDesc:"只有自己可以查看",uploadMain:"＋  點擊上傳照片\\n支援 JPG、PNG，單張不超過 5MB",submit:"建立紀念",needName:"請先填寫愛寵名字",dateRequired:"出生日期和離開日期必須填寫",birthRequired:"請填寫出生日期",deathRequired:"請填寫離開日期",dateOrderInvalid:"離開日期不能早於出生日期",saved:"紀念資訊已保存"},
-"en":{pageTitle:"Create Memorial",backHome:"Home",languageLabel:"English",previewTitle:"Preview",previewNote:"This is the tombstone preview. Fill in the form and it updates in real time.",formTitle:"Memorial Info",basicSection:"Basic Info",wordsSection:"Memorial Words",visibilitySection:"Visibility",photoSection:"Photos (max 5)",petNameLabel:"Pet Name",petTypeLabel:"Pet Type",birthLabel:"Birth Date",deathLabel:"Passing Date",epitaphLabel:"Epitaph",storyLabel:"Public Story",petNamePH:"Enter pet name",petTypePH:"Choose type",birthPH:"yyyy / mm / dd",deathPH:"yyyy / mm / dd",epitaphPH:"Write what you want to say...",storyPH:"Record a story that belongs to you...",cat:"Cat",dog:"Dog",rabbit:"Rabbit",bird:"Bird",other:"Other",public:"Public",publicDesc:"Visible to all visitors",invite:"Invite only",inviteDesc:"Only people with link",private:"Private",privateDesc:"Only you can view",uploadMain:"＋  Upload photos\\nJPG, PNG, under 5MB each",submit:"Create Memorial",needName:"Please enter pet name",dateRequired:"Birth Date and Passing Date are required",birthRequired:"Birth Date required",deathRequired:"Passing Date required",dateOrderInvalid:"Passing Date cannot be earlier than Birth Date",saved:"Memorial saved"},
-"ja":{pageTitle:"記念を作成",backHome:"ホームへ",languageLabel:"日本語",previewTitle:"墓碑プレビュー",previewNote:"ここに墓碑プレビューを表示します。右側に入力すると即時更新されます。",formTitle:"記念情報",basicSection:"基本情報",wordsSection:"記念の言葉",visibilitySection:"公開範囲",photoSection:"写真（最大5枚）",petNameLabel:"名前",petTypeLabel:"種類",birthLabel:"誕生日",deathLabel:"旅立った日",epitaphLabel:"墓誌銘",storyLabel:"公開する物語",petNamePH:"名前を入力",petTypePH:"種類を選択",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"伝えたい言葉を書く...",storyPH:"あなたたちの物語を書く...",cat:"猫",dog:"犬",rabbit:"うさぎ",bird:"鳥",other:"その他",public:"公開",publicDesc:"全ての訪問者が閲覧",invite:"招待のみ",inviteDesc:"リンクを持つ人だけ",private:"自分だけ",privateDesc:"自分だけが閲覧",uploadMain:"＋  写真をアップロード\\nJPG、PNG、1枚5MB以下",submit:"記念を作成",needName:"名前を入力してください",dateRequired:"誕生日と旅立った日は必須です",birthRequired:"誕生日を入力してください",deathRequired:"旅立った日を入力してください",dateOrderInvalid:"旅立った日は誕生日より前にできません",saved:"保存しました"}
+"zh-CN":{pageTitle:"创建纪念",backHome:"返回首页",languageLabel:"简体中文",previewTitle:"墓碑预览",previewNote:"这里是您的墓碑预览效果。填写右侧信息，墓碑将实时更新。",formTitle:"纪念信息",basicSection:"基础信息",wordsSection:"文字纪念",visibilitySection:"可见范围",photoSection:"照片（最多5张）",petNameLabel:"爱宠名字",petTypeLabel:"爱宠种类",birthLabel:"出生日期",deathLabel:"离开日期",epitaphLabel:"墓志铭",storyLabel:"公开的故事（选填）",petNamePH:"请输入爱宠名字",petTypePH:"请选择爱宠种类",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"写下您想对爱宠说的话...",storyPH:"记录一段属于你们的故事，分享这份爱与回忆...",cat:"猫",dog:"狗",rabbit:"兔子",bird:"鸟",other:"其他",public:"公开",publicDesc:"所有访客都可以看到",invite:"邀请可见",inviteDesc:"只有拥有链接的人查看",private:"仅自己",privateDesc:"只有自己可以查看",uploadMain:"＋  点击上传照片\\n支持 JPG、PNG，单张不超过 5MB",submit:"创建纪念",needName:"请先填写爱宠名字",dateRequired:"出生日期和离开日期必须填写",birthRequired:"请填写出生日期",deathRequired:"请填写离开日期",dateOrderInvalid:"离开日期不能早于出生日期",birthFuture:"出生日期不能晚于今天",deathFuture:"离开日期不能晚于今天",saved:"纪念信息已保存"},
+"zh-TW":{pageTitle:"建立紀念",backHome:"返回首頁",languageLabel:"繁體中文",previewTitle:"墓碑預覽",previewNote:"這裡是您的墓碑預覽效果。填寫右側資訊，墓碑將即時更新。",formTitle:"紀念資訊",basicSection:"基礎資訊",wordsSection:"文字紀念",visibilitySection:"可見範圍",photoSection:"照片（最多5張）",petNameLabel:"愛寵名字",petTypeLabel:"愛寵種類",birthLabel:"出生日期",deathLabel:"離開日期",epitaphLabel:"墓誌銘",storyLabel:"公開的故事（選填）",petNamePH:"請輸入愛寵名字",petTypePH:"請選擇愛寵種類",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"寫下您想對愛寵說的話...",storyPH:"記錄一段屬於你們的故事，分享這份愛與回憶...",cat:"貓",dog:"狗",rabbit:"兔子",bird:"鳥",other:"其他",public:"公開",publicDesc:"所有訪客都可以看到",invite:"邀請可見",inviteDesc:"只有擁有連結的人查看",private:"僅自己",privateDesc:"只有自己可以查看",uploadMain:"＋  點擊上傳照片\\n支援 JPG、PNG，單張不超過 5MB",submit:"建立紀念",needName:"請先填寫愛寵名字",dateRequired:"出生日期和離開日期必須填寫",birthRequired:"請填寫出生日期",deathRequired:"請填寫離開日期",dateOrderInvalid:"離開日期不能早於出生日期",birthFuture:"出生日期不能晚於今天",deathFuture:"離開日期不能晚於今天",saved:"紀念資訊已保存"},
+"en":{pageTitle:"Create Memorial",backHome:"Home",languageLabel:"English",previewTitle:"Preview",previewNote:"This is the tombstone preview. Fill in the form and it updates in real time.",formTitle:"Memorial Info",basicSection:"Basic Info",wordsSection:"Memorial Words",visibilitySection:"Visibility",photoSection:"Photos (max 5)",petNameLabel:"Pet Name",petTypeLabel:"Pet Type",birthLabel:"Birth Date",deathLabel:"Passing Date",epitaphLabel:"Epitaph",storyLabel:"Public Story",petNamePH:"Enter pet name",petTypePH:"Choose type",birthPH:"yyyy / mm / dd",deathPH:"yyyy / mm / dd",epitaphPH:"Write what you want to say...",storyPH:"Record a story that belongs to you...",cat:"Cat",dog:"Dog",rabbit:"Rabbit",bird:"Bird",other:"Other",public:"Public",publicDesc:"Visible to all visitors",invite:"Invite only",inviteDesc:"Only people with link",private:"Private",privateDesc:"Only you can view",uploadMain:"＋  Upload photos\\nJPG, PNG, under 5MB each",submit:"Create Memorial",needName:"Please enter pet name",dateRequired:"Birth Date and Passing Date are required",birthRequired:"Birth Date required",deathRequired:"Passing Date required",dateOrderInvalid:"Passing Date cannot be earlier than Birth Date",birthFuture:"Birth Date cannot be in the future",deathFuture:"Passing Date cannot be in the future",saved:"Memorial saved"},
+"ja":{pageTitle:"記念を作成",backHome:"ホームへ",languageLabel:"日本語",previewTitle:"墓碑プレビュー",previewNote:"ここに墓碑プレビューを表示します。右側に入力すると即時更新されます。",formTitle:"記念情報",basicSection:"基本情報",wordsSection:"記念の言葉",visibilitySection:"公開範囲",photoSection:"写真（最大5枚）",petNameLabel:"名前",petTypeLabel:"種類",birthLabel:"誕生日",deathLabel:"旅立った日",epitaphLabel:"墓誌銘",storyLabel:"公開する物語",petNamePH:"名前を入力",petTypePH:"種類を選択",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"伝えたい言葉を書く...",storyPH:"あなたたちの物語を書く...",cat:"猫",dog:"犬",rabbit:"うさぎ",bird:"鳥",other:"その他",public:"公開",publicDesc:"全ての訪問者が閲覧",invite:"招待のみ",inviteDesc:"リンクを持つ人だけ",private:"自分だけ",privateDesc:"自分だけが閲覧",uploadMain:"＋  写真をアップロード\\nJPG、PNG、1枚5MB以下",submit:"記念を作成",needName:"名前を入力してください",dateRequired:"誕生日と旅立った日は必須です",birthRequired:"誕生日を入力してください",deathRequired:"旅立った日を入力してください",dateOrderInvalid:"旅立った日は誕生日より前にできません",birthFuture:"誕生日は未来日にできません",deathFuture:"旅立った日は未来日にできません",saved:"保存しました"}
 };
 
 const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",type:"",visibility:"public",photos:[]};
@@ -438,24 +438,38 @@ slots.forEach((slot,i)=>slot.querySelector(".remove").addEventListener("click",e
 
 
 let submitAttempted=false;
+function todayLocalISO(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
 function markRequiredDates(){
+  const today=todayLocalISO();
+  birthI.max=today;
+  deathI.max=today;
+
   const missingBirth=!birthI.value;
   const missingDeath=!deathI.value;
-  const orderInvalid=!!(birthI.value&&deathI.value&&deathI.value<birthI.value);
+  const birthFuture=!!(birthI.value&&birthI.value>today);
+  const deathFuture=!!(deathI.value&&deathI.value>today);
+  const orderInvalid=!!(birthI.value&&deathI.value&&!birthFuture&&!deathFuture&&deathI.value<birthI.value);
+
+  if(birthI.value&&!birthFuture) deathI.min=birthI.value;
+  else deathI.removeAttribute("min");
+
   const birthShell=birthI.closest(".input-shell");
   const deathShell=deathI.closest(".input-shell");
-  birthShell.classList.toggle("error",submitAttempted&&missingBirth);
-  deathShell.classList.toggle("error",submitAttempted&&(missingDeath||orderInvalid));
+  birthShell.classList.toggle("error",submitAttempted&&(missingBirth||birthFuture));
+  deathShell.classList.toggle("error",submitAttempted&&(missingDeath||deathFuture||orderInvalid));
 
   const birthHint=document.getElementById("birthHint");
   const deathHint=document.getElementById("deathHint");
-  if(birthHint) birthHint.textContent=tr("birthRequired");
-  if(deathHint) deathHint.textContent=orderInvalid?tr("dateOrderInvalid"):tr("deathRequired");
+  if(birthHint) birthHint.textContent=birthFuture?tr("birthFuture"):tr("birthRequired");
+  if(deathHint) deathHint.textContent=deathFuture?tr("deathFuture"):(orderInvalid?tr("dateOrderInvalid"):tr("deathRequired"));
 
-  if(birthI.value) deathI.min=birthI.value;
-  else deathI.removeAttribute("min");
-
-  return !(missingBirth||missingDeath||orderInvalid);
+  return !(missingBirth||missingDeath||birthFuture||deathFuture||orderInvalid);
 }
 [birthI,deathI].forEach(input=>{
   input.addEventListener("change",()=>markRequiredDates());
@@ -467,7 +481,8 @@ document.getElementById("form").addEventListener("submit",e=>{
   e.preventDefault();
   submitAttempted=true;
   if(!markRequiredDates()){
-    if(!birthI.value) birthI.focus();
+    const today=todayLocalISO();
+    if(!birthI.value||birthI.value>today) birthI.focus();
     else deathI.focus();
     return;
   }
