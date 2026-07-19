@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v27-select-page-fixed -->
+<!-- version: v28-select-text-aligned -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -82,7 +82,7 @@ button{font:inherit}
   background-size:4px 4px
 }
 #mainStone{position:absolute;left:50%;bottom:48px;height:455px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.30));z-index:2}
-#stoneText{position:absolute;left:50%;top:218px;width:240px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
+#stoneText{position:absolute;left:50%;top:226px;width:232px;height:242px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
 .note{position:absolute;left:30px;bottom:28px;width:660px;height:45px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px}
 .card{
@@ -217,20 +217,73 @@ function drawOne(ctx,text,x,y,size,color){
   ctx.fillStyle="rgba(220,210,190,.20)";ctx.fillText(text,x+1,y+1);
   ctx.fillStyle=color;ctx.fillText(text,x,y);
 }
+function fitLines(ctx,text,maxW,startSize,minSize,maxLines){
+  const clean=String(text||"").trim();
+  if(!clean) return {size:startSize,lines:[],lineH:Math.round(startSize*1.32)};
+  function wrapAt(size){
+    ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
+    let out=[],line="";
+    for(const ch of clean){
+      const test=line+ch;
+      if(ctx.measureText(test).width>maxW&&line){out.push(line);line=ch}else line=test;
+    }
+    if(line)out.push(line);
+    return out;
+  }
+  for(let size=startSize;size>=minSize;size--){
+    let lines=wrapAt(size);
+    if(lines.length<=maxLines) return {size,lines,lineH:Math.round(size*1.32)};
+  }
+  let lines=wrapAt(minSize).slice(0,maxLines);
+  if(lines.length===maxLines){
+    let last=lines[maxLines-1];
+    ctx.font=`900 ${minSize}px "SimSun","Courier New",monospace`;
+    while(last&&ctx.measureText(last+"…").width>maxW) last=last.slice(0,-1);
+    lines[maxLines-1]=(last||"")+"…";
+  }
+  return {size:minSize,lines,lineH:Math.round(minSize*1.32)};
+}
+function drawBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,color){
+  const fit=fitLines(ctx,text,maxW,startSize,minSize,maxLines);
+  if(!fit.lines.length) return;
+  ctx.font=`900 ${fit.size}px "SimSun","Courier New",monospace`;
+  ctx.textAlign="center";ctx.textBaseline="top";
+  const totalH=fit.lines.length*fit.lineH;
+  const startY=y+Math.max(0,Math.floor((maxH-totalH)/2));
+  fit.lines.forEach((ln,i)=>{
+    const yy=startY+i*fit.lineH;
+    ctx.fillStyle="rgba(220,210,190,.20)";
+    ctx.fillText(ln,x+1,yy+1);
+    ctx.fillStyle=color;
+    ctx.fillText(ln,x,yy);
+  });
+}
+function drawOne(ctx,text,x,y,size,color){
+  ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
+  ctx.textAlign="center";ctx.textBaseline="top";
+  ctx.fillStyle="rgba(220,210,190,.20)";
+  ctx.fillText(text,x+1,y+1);
+  ctx.fillStyle=color;
+  ctx.fillText(text,x,y);
+}
 function drawStoneText(){
   const draft=JSON.parse(localStorage.getItem("petMemorialDraft")||"{}");
   const name=draft.petName||"小布丁";
   const birth=draft.birthDate?draft.birthDate.replaceAll("-","."):"2014.06.12";
   const death=draft.deathDate?draft.deathDate.replaceAll("-","."):"2025.11.03";
   const epi=draft.epitaph||"";
-  const {ctx}=setup(stoneText,240,230,1);
+  const {ctx}=setup(stoneText,232,242,1);
   ctx.clearRect(0,0,stoneText.width,stoneText.height);
-  const cx=120;
-  drawBlock(ctx,name,cx,20,124,42,22,10,2,"rgba(38,34,30,.86)");
-  drawOne(ctx,birth,cx,76,15,"rgba(42,38,34,.76)");
-  drawOne(ctx,"—",cx,98,13,"rgba(42,38,34,.76)");
-  drawOne(ctx,death,cx,118,15,"rgba(42,38,34,.76)");
-  if(epi) drawBlock(ctx,epi,cx,140,126,70,12,7,7,"rgba(42,38,34,.68)");
+
+  // 这里按创建页预览的坐标比例同步：
+  // 创建页：220x230，name 36，birth 88，dash 105，death 121，epitaph 140
+  // 选择页主墓碑略大，所以统一放大约 1.05，并保持中轴线。
+  const cx=116;
+  drawBlock(ctx,name,cx,38,130,44,20,10,2,"rgba(38,34,30,.86)");
+  drawOne(ctx,birth,cx,93,16,"rgba(42,38,34,.76)");
+  drawOne(ctx,"—",cx,111,14,"rgba(42,38,34,.76)");
+  drawOne(ctx,death,cx,128,16,"rgba(42,38,34,.76)");
+  if(epi) drawBlock(ctx,epi,cx,148,138,82,13,7,8,"rgba(42,38,34,.68)");
 }
 function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}
 updateStatic();drawStoneText();
