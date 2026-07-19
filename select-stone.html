@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v39-select-note-final-position -->
+<!-- version: v41-remove-bottom-back -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -250,6 +250,20 @@ button{font:inherit}
   height:76px!important;
 }
 
+
+/* v41 remove duplicate bottom back */
+.actions{
+  right:30px!important;
+  bottom:64px!important;
+  justify-content:flex-end!important;
+}
+.actions .secondary{
+  display:none!important;
+}
+#confirmBtn{
+  width:240px!important;
+}
+
 </style>
 </head>
 <body>
@@ -291,7 +305,6 @@ button{font:inherit}
     </div>
 
     <div class="actions">
-      <button class="action secondary" type="button" id="backBtn"><canvas class="txt" data-k="back" data-w="130" data-h="28" data-size="17"></canvas></button>
       <button class="action" type="button" id="confirmBtn"><canvas class="txt" data-k="confirm" data-w="190" data-h="28" data-size="17"></canvas></button>
     </div>
   </section>
