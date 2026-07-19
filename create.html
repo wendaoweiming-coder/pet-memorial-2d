@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建纪念｜星归园</title>
-<!-- version: v17-preview-scene-fixed -->
+<!-- version: v18-preview-rebuild-full -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -58,19 +58,83 @@ button,input,textarea{font:inherit}
 .preview-scene{
   position:relative;width:532px;height:570px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
-    linear-gradient(rgba(6,15,31,.08),rgba(6,15,31,.14)),
-    url("assets/preview_area_bg.png") center/cover no-repeat;
+    linear-gradient(rgba(6,15,31,.18),rgba(6,15,31,.28)),
+    url("assets/create_garden_bg.png") center 44%/cover no-repeat;
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)
 }
+.preview-scene::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:252px;
+  z-index:1;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 62%, rgba(75,86,51,.68) 0%, rgba(40,71,43,.62) 42%, rgba(9,42,35,.76) 72%, rgba(3,16,30,.50) 100%),
+    linear-gradient(0deg, rgba(4,24,30,.86), rgba(4,24,30,.26));
+}
 .preview-scene::after{
-  content:"";position:absolute;inset:0;background:
+  content:"";position:absolute;inset:0;z-index:9;background:
   linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
   linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
-  background-size:4px 4px;pointer-events:none;opacity:.52
+  background-size:4px 4px;pointer-events:none;opacity:.42
 }
-.tombstone-wrap{position:absolute;left:50%;bottom:24px;width:340px;height:430px;transform:translateX(-50%);z-index:2}
-.tombstone-img{position:absolute;left:50%;bottom:0;height:420px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(8px 9px 0 rgba(0,0,0,.26))}
-#stoneText{position:absolute;left:50%;top:118px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
+.preview-pad{
+  position:absolute;
+  left:50%;
+  bottom:20px;
+  width:392px;
+  height:170px;
+  transform:translateX(-50%);
+  z-index:2;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(78,86,51,.62) 0%, rgba(48,75,45,.52) 44%, rgba(13,42,34,.38) 74%, rgba(0,0,0,0) 100%);
+  border-radius:50%;
+}
+.preview-pad::before{
+  content:"";
+  position:absolute;
+  left:38px;
+  right:38px;
+  bottom:30px;
+  height:30px;
+  border-radius:50%;
+  background:rgba(0,0,0,.30);
+  filter:blur(3px);
+}
+.preview-pad::after{
+  content:"";
+  position:absolute;
+  left:28px;
+  right:28px;
+  bottom:37px;
+  height:22px;
+  border-top:3px solid rgba(158,139,93,.32);
+  border-radius:50%;
+  opacity:.75;
+}
+.preview-flower-left,.preview-flower-right{
+  position:absolute;
+  bottom:78px;
+  width:66px;
+  height:42px;
+  z-index:3;
+  pointer-events:none;
+  opacity:.78;
+  background:
+    radial-gradient(circle at 18px 28px, rgba(222,216,190,.88) 0 2px, transparent 3px),
+    radial-gradient(circle at 32px 20px, rgba(158,134,204,.80) 0 2px, transparent 3px),
+    radial-gradient(circle at 44px 30px, rgba(222,216,190,.72) 0 2px, transparent 3px),
+    linear-gradient(90deg, transparent, rgba(36,82,43,.80), transparent);
+}
+.preview-flower-left{left:62px}
+.preview-flower-right{right:62px}
+.tombstone-wrap{position:absolute;left:50%;bottom:30px;width:360px;height:455px;transform:translateX(-50%);z-index:4}
+.tombstone-img{position:absolute;left:50%;bottom:0;height:440px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(8px 10px 0 rgba(0,0,0,.30))}
+#stoneText{position:absolute;left:50%;top:126px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:5;pointer-events:none}
 .preview-note{position:absolute;left:26px;bottom:28px;width:532px;height:54px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
 .section{grid-column:1/-1;height:28px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:0}
@@ -206,6 +270,9 @@ canvas{image-rendering:pixelated;display:block}
   <aside class="panel preview-panel">
     <div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="previewTitle" data-w="160" data-h="30" data-size="20"></canvas></div>
     <div class="preview-scene">
+      <div class="preview-pad"></div>
+      <div class="preview-flower-left"></div>
+      <div class="preview-flower-right"></div>
       <div class="tombstone-wrap">
         <img class="tombstone-img" src="assets/blank_tombstone.png" alt="">
         <canvas id="stoneText"></canvas>
