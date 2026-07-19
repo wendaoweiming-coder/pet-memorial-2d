@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v37-select-english-note-fixed -->
+<!-- version: v38-select-note-position-fixed -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -229,6 +229,18 @@ button{font:inherit}
   transform:translateY(4px)!important;
 }
 
+
+/* v38 note position fix */
+.showcase{
+  margin-top:-6px!important;
+}
+.note{
+  left:94px!important;
+  bottom:24px!important;
+  width:532px!important;
+  height:82px!important;
+}
+
 </style>
 </head>
 <body>
@@ -256,7 +268,7 @@ button{font:inherit}
       <img id="mainStone" src="assets/stone_moon_gray.png" alt="">
       <canvas id="stoneText"></canvas>
     </div>
-    <canvas class="note txt" data-k="note" data-w="532" data-h="70" data-size="15"></canvas>
+    <canvas class="note txt" data-k="note" data-w="532" data-h="82" data-size="15"></canvas>
   </aside>
 
   <section class="panel side-panel">
@@ -292,7 +304,7 @@ function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerH
 function setup(c,w,h,r=1){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
 function px(c,text,opt={}){const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";const color=opt.color||"rgba(230,196,126,.92)";String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})}
 function wrapNoteCanvas(c,text){
-  const w=+c.dataset.w||532,h=+c.dataset.h||70,size=+c.dataset.size||15;
+  const w=+c.dataset.w||532,h=+c.dataset.h||82,size=+c.dataset.size||15;
   const {ctx}=setup(c,w,h,1);
   ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
@@ -311,9 +323,7 @@ function wrapNoteCanvas(c,text){
       if(ctx.measureText(test).width>w&&line){
         lines.push(line);
         line=part;
-      }else{
-        line=test;
-      }
+      }else line=test;
     }
     if(line)lines.push(line);
   }
@@ -322,7 +332,7 @@ function wrapNoteCanvas(c,text){
     while(ctx.measureText(lines[1]+"…").width>w&&lines[1]) lines[1]=lines[1].slice(0,-1);
   }
   const lineH=Math.round(size*1.55);
-  const startY=Math.max(0,Math.round((h-lines.length*lineH)/2));
+  const startY=12;
   lines.forEach((line,i)=>{
     const y=startY+i*lineH;
     ctx.fillStyle="rgba(25,16,10,.58)";
