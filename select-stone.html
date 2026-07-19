@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v29-select-preview-match-create -->
+<!-- version: v30-select-preview-text-fixed -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -69,7 +69,7 @@ button{font:inherit}
   background-size:4px 4px;pointer-events:none;opacity:.28
 }
 #mainStone{display:none}
-#stoneText{position:absolute;left:50%;top:118px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
+#stoneText{position:absolute;left:50%;top:226px;width:232px;height:242px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
 .note{position:absolute;left:94px;bottom:28px;width:532px;height:45px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px}
 .card{
@@ -311,13 +311,15 @@ function drawStoneText(){
   const birth=draft.birthDate?draft.birthDate.replaceAll("-","."):"2014.06.12";
   const death=draft.deathDate?draft.deathDate.replaceAll("-","."):"2025.11.03";
   const epi=draft.epitaph||"";
-  const {ctx}=setup(stoneText,220,230,1);
+  const {ctx}=setup(stoneText,232,242,1);
   ctx.clearRect(0,0,stoneText.width,stoneText.height);
-  drawStoneBlock(ctx,name,110,36,118,42,19,10,2,"rgba(38,34,30,.86)");
-  drawStoneTextLine(ctx,birth,110,88,150,15,1,"rgba(42,38,34,.76)");
-  drawStoneTextLine(ctx,"—",110,105,150,13,1,"rgba(42,38,34,.76)");
-  drawStoneTextLine(ctx,death,110,121,150,15,1,"rgba(42,38,34,.76)");
-  if(epi) drawStoneBlock(ctx,epi,110,140,132,84,12,6,8,"rgba(42,38,34,.68)");
+
+  const cx=116;
+  drawStoneBlock(ctx,name,cx,38,130,44,20,10,2,"rgba(38,34,30,.86)");
+  drawStoneTextLine(ctx,birth,cx,93,150,16,1,"rgba(42,38,34,.76)");
+  drawStoneTextLine(ctx,"—",cx,111,150,14,1,"rgba(42,38,34,.76)");
+  drawStoneTextLine(ctx,death,cx,128,150,16,1,"rgba(42,38,34,.76)");
+  if(epi) drawStoneBlock(ctx,epi,cx,148,138,82,13,7,8,"rgba(42,38,34,.68)");
 }
 function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}
 updateStatic();drawStoneText();
