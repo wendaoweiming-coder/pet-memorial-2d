@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v28-select-text-aligned -->
+<!-- version: v29-select-preview-match-create -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -56,34 +56,21 @@ button{font:inherit}
 .side-panel{left:830px;top:112px;width:760px;height:780px;padding:30px}
 .panel-title{height:36px;display:flex;align-items:center;gap:10px;margin-bottom:18px}
 .showcase{
-  position:relative;width:660px;height:605px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
+  position:relative;width:532px;height:570px;margin:0 auto;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
-    linear-gradient(rgba(6,15,31,.05),rgba(6,15,31,.14)),
-    url("assets/select_preview_bg.png") center/cover no-repeat;
+    linear-gradient(rgba(6,15,31,.02),rgba(6,15,31,.06)),
+    url("assets/preview_scene_base.png") center/cover no-repeat;
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)
 }
-.showcase::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  bottom:54px;
-  width:320px;
-  height:64px;
-  transform:translateX(-50%);
-  z-index:1;
-  pointer-events:none;
-  background:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,.34) 0%, rgba(0,0,0,.18) 48%, rgba(0,0,0,0) 76%);
-}
 .showcase::after{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:.38;z-index:9;
-  background:
-    linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);
-  background-size:4px 4px
+  content:"";position:absolute;inset:0;z-index:9;background:
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.010) 1px,transparent 1px);
+  background-size:4px 4px;pointer-events:none;opacity:.28
 }
-#mainStone{position:absolute;left:50%;bottom:48px;height:455px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.30));z-index:2}
-#stoneText{position:absolute;left:50%;top:226px;width:232px;height:242px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
-.note{position:absolute;left:30px;bottom:28px;width:660px;height:45px}
+#mainStone{display:none}
+#stoneText{position:absolute;left:50%;top:118px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
+.note{position:absolute;left:94px;bottom:28px;width:532px;height:45px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px}
 .card{
   position:relative;height:238px;border:3px solid rgba(219,171,97,.45);background:rgba(3,13,31,.72);
@@ -266,24 +253,71 @@ function drawOne(ctx,text,x,y,size,color){
   ctx.fillStyle=color;
   ctx.fillText(text,x,y);
 }
+function fitStoneBlock(ctx,text,maxW,maxH,startSize,minSize,maxLines){
+  const clean=String(text||"").trim();
+  if(!clean)return{size:startSize,lines:[],lineH:Math.round(startSize*1.35)};
+  function build(size){
+    ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
+    let lines=[],line="";
+    for(const ch of clean){
+      const test=line+ch;
+      if(ctx.measureText(test).width>maxW&&line){lines.push(line);line=ch}else line=test;
+    }
+    if(line)lines.push(line);
+    return lines;
+  }
+  for(let size=startSize;size>=minSize;size--){
+    const lines=build(size),lineH=Math.round(size*1.35);
+    if(lines.length<=maxLines&&lines.length*lineH<=maxH)return{size,lines,lineH};
+  }
+  const size=minSize,lineH=Math.round(size*1.35);
+  let lines=build(size).slice(0,maxLines);
+  if(lines.length===maxLines){
+    let last=lines[maxLines-1];
+    ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
+    while(last&&ctx.measureText(last+"…").width>maxW)last=last.slice(0,-1);
+    lines[maxLines-1]=(last||"")+"…";
+  }
+  return{size,lines,lineH};
+}
+function drawStoneTextLine(ctx,text,x,y,maxW,size,maxLines,color){
+  ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;ctx.textAlign="center";ctx.textBaseline="top";
+  wrap(ctx,text,maxW).slice(0,maxLines).forEach((line,i)=>{
+    const yy=y+i*Math.round(size*1.35);
+    ctx.fillStyle="rgba(220,210,190,.22)";
+    ctx.fillText(line,x+1,yy+1);
+    ctx.fillStyle=color;
+    ctx.fillText(line,x,yy);
+  });
+}
+function drawStoneBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,color){
+  const fit=fitStoneBlock(ctx,text,maxW,maxH,startSize,minSize,maxLines);
+  if(!fit.lines.length)return;
+  ctx.font=`900 ${fit.size}px "SimSun","Courier New",monospace`;
+  ctx.textAlign="center";ctx.textBaseline="top";
+  const totalH=fit.lines.length*fit.lineH;
+  const startY=y+Math.max(0,Math.floor((maxH-totalH)/2));
+  fit.lines.forEach((line,i)=>{
+    const yy=startY+i*fit.lineH;
+    ctx.fillStyle="rgba(220,210,190,.22)";
+    ctx.fillText(line,x+1,yy+1);
+    ctx.fillStyle=color;
+    ctx.fillText(line,x,yy);
+  });
+}
 function drawStoneText(){
   const draft=JSON.parse(localStorage.getItem("petMemorialDraft")||"{}");
   const name=draft.petName||"小布丁";
   const birth=draft.birthDate?draft.birthDate.replaceAll("-","."):"2014.06.12";
   const death=draft.deathDate?draft.deathDate.replaceAll("-","."):"2025.11.03";
   const epi=draft.epitaph||"";
-  const {ctx}=setup(stoneText,232,242,1);
+  const {ctx}=setup(stoneText,220,230,1);
   ctx.clearRect(0,0,stoneText.width,stoneText.height);
-
-  // 这里按创建页预览的坐标比例同步：
-  // 创建页：220x230，name 36，birth 88，dash 105，death 121，epitaph 140
-  // 选择页主墓碑略大，所以统一放大约 1.05，并保持中轴线。
-  const cx=116;
-  drawBlock(ctx,name,cx,38,130,44,20,10,2,"rgba(38,34,30,.86)");
-  drawOne(ctx,birth,cx,93,16,"rgba(42,38,34,.76)");
-  drawOne(ctx,"—",cx,111,14,"rgba(42,38,34,.76)");
-  drawOne(ctx,death,cx,128,16,"rgba(42,38,34,.76)");
-  if(epi) drawBlock(ctx,epi,cx,148,138,82,13,7,8,"rgba(42,38,34,.68)");
+  drawStoneBlock(ctx,name,110,36,118,42,19,10,2,"rgba(38,34,30,.86)");
+  drawStoneTextLine(ctx,birth,110,88,150,15,1,"rgba(42,38,34,.76)");
+  drawStoneTextLine(ctx,"—",110,105,150,13,1,"rgba(42,38,34,.76)");
+  drawStoneTextLine(ctx,death,110,121,150,15,1,"rgba(42,38,34,.76)");
+  if(epi) drawStoneBlock(ctx,epi,110,140,132,84,12,6,8,"rgba(42,38,34,.68)");
 }
 function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}
 updateStatic();drawStoneText();
@@ -293,7 +327,7 @@ document.querySelectorAll(".card").forEach(card=>{
     document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
     card.classList.add("active");
     S.stone=card.dataset.stone;S.stoneName=card.dataset.name;
-    document.getElementById("mainStone").src="assets/"+S.stone;
+    /* final preview uses the same baked scene as create preview */
   });
 });
 document.getElementById("backBtn").onclick=()=>location.href="create.html";
