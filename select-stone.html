@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
+<!-- version: v27-select-page-fixed -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -57,35 +58,52 @@ button{font:inherit}
 .showcase{
   position:relative;width:660px;height:605px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
-    linear-gradient(rgba(6,15,31,.12),rgba(6,15,31,.22)),
-    url("assets/create_garden_bg.png") center/cover no-repeat;
+    linear-gradient(rgba(6,15,31,.05),rgba(6,15,31,.14)),
+    url("assets/select_preview_bg.png") center/cover no-repeat;
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)
 }
+.showcase::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:54px;
+  width:320px;
+  height:64px;
+  transform:translateX(-50%);
+  z-index:1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,.34) 0%, rgba(0,0,0,.18) 48%, rgba(0,0,0,0) 76%);
+}
 .showcase::after{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:.48;
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.38;z-index:9;
   background:
-    linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+    linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);
   background-size:4px 4px
 }
-#mainStone{position:absolute;left:50%;bottom:18px;height:520px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(12px 13px 0 rgba(0,0,0,.28));z-index:2}
-#stoneText{position:absolute;left:50%;top:196px;width:240px;height:220px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
+#mainStone{position:absolute;left:50%;bottom:48px;height:455px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(9px 10px 0 rgba(0,0,0,.30));z-index:2}
+#stoneText{position:absolute;left:50%;top:218px;width:240px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:3;pointer-events:none}
 .note{position:absolute;left:30px;bottom:28px;width:660px;height:45px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px}
 .card{
-  position:relative;height:220px;border:3px solid rgba(219,171,97,.45);background:rgba(3,13,31,.72);
+  position:relative;height:238px;border:3px solid rgba(219,171,97,.45);background:rgba(3,13,31,.72);
   cursor:pointer;box-shadow:5px 5px 0 rgba(0,0,0,.18);overflow:hidden
 }
 .card.active{border-color:rgba(241,197,119,.94);background:rgba(230,190,116,.08)}
 .card::before,.card::after{content:"";position:absolute;width:10px;height:10px;border-color:rgba(241,197,119,.72);border-style:solid}
 .card::before{left:8px;top:8px;border-width:2px 0 0 2px}.card::after{right:8px;bottom:8px;border-width:0 2px 2px 0}
-.card img{position:absolute;left:50%;bottom:42px;height:142px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(5px 6px 0 rgba(0,0,0,.25))}
+.card img{position:absolute;left:50%;bottom:44px;height:168px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(6px 7px 0 rgba(0,0,0,.27))}
 .card canvas{position:absolute;left:18px;bottom:14px}
 .actions{position:absolute;left:30px;right:30px;bottom:30px;display:flex;justify-content:flex-end;gap:18px}
 .action{
-  position:relative;width:220px;height:52px;border:3px solid rgba(219,171,97,.82);background:linear-gradient(#d8b574,#b99052);
-  box-shadow:5px 5px 0 rgba(0,0,0,.24);cursor:pointer
+  position:relative;width:220px;height:52px;border:3px solid rgba(219,171,97,.82);background:rgba(5,15,34,.76);
+  box-shadow:5px 5px 0 rgba(0,0,0,.24), inset 0 0 0 2px rgba(255,232,178,.035);cursor:pointer
 }
+.action::before,.action::after{content:"";position:absolute;width:11px;height:11px;border-color:rgba(241,197,119,.88);border-style:solid;pointer-events:none}
+.action::before{left:9px;top:9px;border-width:2px 0 0 2px}
+.action::after{right:9px;bottom:9px;border-width:0 2px 2px 0}
+.action:hover{background:rgba(8,20,44,.84)}
+#confirmBtn{width:220px;border-color:rgba(241,197,119,.92);background:rgba(8,20,44,.82)}
 .secondary{background:rgba(5,15,34,.75);width:160px}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;background:rgba(5,15,34,.96);border:2px solid rgba(219,171,97,.78);color:#e5bd78;opacity:0;pointer-events:none;transition:opacity .18s;font:900 16px "SimSun","Courier New",monospace}
 .toast.show{opacity:1}
@@ -152,21 +170,67 @@ function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerH
 function setup(c,w,h,r=1){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
 function px(c,text,opt={}){const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";const color=opt.color||"rgba(230,196,126,.92)";String(text||"").split("\\n").forEach((line,i)=>{const y=i*Math.round(size*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,(opt.align==="center"?c.width/2:0)+1,y+1);ctx.fillStyle=color;ctx.fillText(line,opt.align==="center"?c.width/2:0,y)})}
 function wrap(ctx,text,max){let out=[],line="";for(const ch of String(text||"")){let test=line+ch;if(ctx.measureText(test).width>max&&line){out.push(line);line=ch}else line=test}if(line)out.push(line);return out}
+function fitLines(ctx,text,maxW,startSize,minSize,maxLines){
+  const clean=String(text||"").trim();
+  if(!clean) return {size:startSize,lines:[],lineH:Math.round(startSize*1.32)};
+  function wrapAt(size){
+    ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
+    let out=[],line="";
+    for(const ch of clean){
+      const test=line+ch;
+      if(ctx.measureText(test).width>maxW&&line){out.push(line);line=ch}else line=test;
+    }
+    if(line)out.push(line);
+    return out;
+  }
+  for(let size=startSize;size>=minSize;size--){
+    let lines=wrapAt(size);
+    if(lines.length<=maxLines) return {size,lines,lineH:Math.round(size*1.32)};
+  }
+  let lines=wrapAt(minSize).slice(0,maxLines);
+  if(lines.length===maxLines){
+    let last=lines[maxLines-1];
+    ctx.font=`900 ${minSize}px "SimSun","Courier New",monospace`;
+    while(last&&ctx.measureText(last+"…").width>maxW) last=last.slice(0,-1);
+    lines[maxLines-1]=(last||"")+"…";
+  }
+  return {size:minSize,lines,lineH:Math.round(minSize*1.32)};
+}
+function drawBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,color){
+  const fit=fitLines(ctx,text,maxW,startSize,minSize,maxLines);
+  if(!fit.lines.length) return;
+  ctx.font=`900 ${fit.size}px "SimSun","Courier New",monospace`;
+  ctx.textAlign="center";ctx.textBaseline="top";
+  const totalH=fit.lines.length*fit.lineH;
+  const startY=y+Math.max(0,Math.floor((maxH-totalH)/2));
+  fit.lines.forEach((ln,i)=>{
+    const yy=startY+i*fit.lineH;
+    ctx.fillStyle="rgba(220,210,190,.20)";
+    ctx.fillText(ln,x+1,yy+1);
+    ctx.fillStyle=color;
+    ctx.fillText(ln,x,yy);
+  });
+}
+function drawOne(ctx,text,x,y,size,color){
+  ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;
+  ctx.textAlign="center";ctx.textBaseline="top";
+  ctx.fillStyle="rgba(220,210,190,.20)";ctx.fillText(text,x+1,y+1);
+  ctx.fillStyle=color;ctx.fillText(text,x,y);
+}
 function drawStoneText(){
   const draft=JSON.parse(localStorage.getItem("petMemorialDraft")||"{}");
   const name=draft.petName||"小布丁";
   const birth=draft.birthDate?draft.birthDate.replaceAll("-","."):"2014.06.12";
   const death=draft.deathDate?draft.deathDate.replaceAll("-","."):"2025.11.03";
   const epi=draft.epitaph||"";
-  const {ctx}=setup(stoneText,240,220,1);
+  const {ctx}=setup(stoneText,240,230,1);
   ctx.clearRect(0,0,stoneText.width,stoneText.height);
-  ctx.font='900 13px "SimSun","Courier New",monospace';ctx.textAlign="center";ctx.textBaseline="top";
-  function line(text,y,size,maxW,maxLines,color){ctx.font=`900 ${size}px "SimSun","Courier New",monospace`;wrap(ctx,text,maxW).slice(0,maxLines).forEach((ln,i)=>{let yy=y+i*Math.round(size*1.35);ctx.fillStyle="rgba(220,210,190,.22)";ctx.fillText(ln,110/2+1,yy+1);ctx.fillStyle=color;ctx.fillText(ln,110/2,yy)})}
-  line(name,22,24,150,2,"rgba(38,34,30,.86)");
-  line(birth,78,15,150,1,"rgba(42,38,34,.76)");
-  line("—",106,15,150,1,"rgba(42,38,34,.76)");
-  line(death,134,15,150,1,"rgba(42,38,34,.76)");
-  if(epi) line(epi,168,13,150,2,"rgba(42,38,34,.68)");
+  const cx=120;
+  drawBlock(ctx,name,cx,20,124,42,22,10,2,"rgba(38,34,30,.86)");
+  drawOne(ctx,birth,cx,76,15,"rgba(42,38,34,.76)");
+  drawOne(ctx,"—",cx,98,13,"rgba(42,38,34,.76)");
+  drawOne(ctx,death,cx,118,15,"rgba(42,38,34,.76)");
+  if(epi) drawBlock(ctx,epi,cx,140,126,70,12,7,7,"rgba(42,38,34,.68)");
 }
 function updateStatic(){document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k))}
 updateStatic();drawStoneText();
