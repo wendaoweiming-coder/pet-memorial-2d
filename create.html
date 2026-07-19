@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建纪念｜星归园</title>
-<!-- version: v19-preview-background-fixed -->
+<!-- version: v20-preview-integrated -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -58,7 +58,7 @@ button,input,textarea{font:inherit}
 .preview-scene{
   position:relative;width:532px;height:570px;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
-    linear-gradient(rgba(6,15,31,.04),rgba(6,15,31,.12)),
+    linear-gradient(rgba(6,15,31,.03),rgba(6,15,31,.10)),
     url("assets/preview_area_bg.png") center/cover no-repeat;
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)
 }
@@ -66,23 +66,23 @@ button,input,textarea{font:inherit}
   content:"";
   position:absolute;
   left:50%;
-  bottom:48px;
-  width:285px;
-  height:54px;
+  bottom:46px;
+  width:290px;
+  height:56px;
   transform:translateX(-50%);
   z-index:1;
   pointer-events:none;
-  background:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,.38) 0%, rgba(0,0,0,.20) 45%, rgba(0,0,0,0) 74%);
+  background:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,.34) 0%, rgba(0,0,0,.18) 47%, rgba(0,0,0,0) 76%);
 }
 .preview-scene::after{
   content:"";position:absolute;inset:0;z-index:9;background:
   linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
   linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
-  background-size:4px 4px;pointer-events:none;opacity:.42
+  background-size:4px 4px;pointer-events:none;opacity:.40
 }
-.tombstone-wrap{position:absolute;left:50%;bottom:30px;width:365px;height:462px;transform:translateX(-50%);z-index:4}
-.tombstone-img{position:absolute;left:50%;bottom:0;height:445px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(8px 10px 0 rgba(0,0,0,.28))}
-#stoneText{position:absolute;left:50%;top:128px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:5;pointer-events:none}
+.tombstone-wrap{position:absolute;left:50%;bottom:32px;width:352px;height:448px;transform:translateX(-50%);z-index:4}
+.tombstone-img{position:absolute;left:50%;bottom:0;height:432px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(8px 10px 0 rgba(0,0,0,.30))}
+#stoneText{position:absolute;left:50%;top:123px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:5;pointer-events:none}
 .preview-note{position:absolute;left:26px;bottom:28px;width:532px;height:54px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
 .section{grid-column:1/-1;height:28px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:0}
