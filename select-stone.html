@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v45-ornate-memorial-stones -->
+<!-- version: v48-neutral-stone-carved-text -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -74,7 +74,7 @@ button{font:inherit}
   background-size:4px 4px;pointer-events:none;opacity:.28
 }
 #mainStone{display:none}
-#stoneText{position:absolute;left:50%;top:216px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
+#stoneText{position:absolute;left:50%;top:268px;width:220px;height:200px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
 .note{position:absolute;left:94px;bottom:30px;width:532px;height:70px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px;margin-top:2px}
 .card{
@@ -314,10 +314,10 @@ button{font:inherit}
 
 <script>
 const T={
-"zh-CN":{pageTitle:"选择墓碑",backCreate:"返回创建",languageLabel:"简体中文",previewTitle:"最终预览",chooseTitle:"选择墓碑样式",note:"选择一种墓碑样式。确认后将进入纪念园页面。",moonGray:"月桂月纹碑",warmSand:"花庭尖拱碑",blueSlate:"静夜哥特碑",mossOld:"苔庭古典碑",back:"返回",confirm:"确认使用",saved:"墓碑样式已保存"},
-"zh-TW":{pageTitle:"選擇墓碑",backCreate:"返回建立",languageLabel:"繁體中文",previewTitle:"最終預覽",chooseTitle:"選擇墓碑樣式",note:"選擇一種墓碑樣式。確認後將進入紀念園頁面。",moonGray:"月桂月紋碑",warmSand:"花庭尖拱碑",blueSlate:"靜夜哥德碑",mossOld:"苔庭古典碑",back:"返回",confirm:"確認使用",saved:"墓碑樣式已保存"},
-"en":{pageTitle:"Choose Tombstone",backCreate:"Back",languageLabel:"English",previewTitle:"Final Preview",chooseTitle:"Choose Style",note:"Choose a style.\nConfirm to enter the memorial garden.",moonGray:"Lunar Laurel",warmSand:"Floral Sanctuary",blueSlate:"Midnight Gothic",mossOld:"Moss Garden",back:"Back",confirm:"Confirm",saved:"Tombstone saved"},
-"ja":{pageTitle:"墓碑を選ぶ",backCreate:"戻る",languageLabel:"日本語",previewTitle:"最終プレビュー",chooseTitle:"墓碑スタイル",note:"墓碑の種類を選びます。確認後、記念園ページに進みます。",moonGray:"月桂月紋碑",warmSand:"花庭尖拱碑",blueSlate:"静夜ゴシック碑",mossOld:"苔庭古典碑",back:"戻る",confirm:"これにする",saved:"保存しました"}
+"zh-CN":{pageTitle:"选择墓碑",backCreate:"返回创建",languageLabel:"简体中文",previewTitle:"最终预览",chooseTitle:"选择墓碑样式",note:"选择一种墓碑样式。确认后将进入纪念园页面。",moonGray:"月桂月纹碑",warmSand:"花庭尖拱碑",blueSlate:"深灰花岗岩哥特碑",mossOld:"风化灰岩古典碑",back:"返回",confirm:"确认使用",saved:"墓碑样式已保存"},
+"zh-TW":{pageTitle:"選擇墓碑",backCreate:"返回建立",languageLabel:"繁體中文",previewTitle:"最終預覽",chooseTitle:"選擇墓碑樣式",note:"選擇一種墓碑樣式。確認後將進入紀念園頁面。",moonGray:"月桂月紋碑",warmSand:"花庭尖拱碑",blueSlate:"深灰花崗岩哥德碑",mossOld:"風化灰岩古典碑",back:"返回",confirm:"確認使用",saved:"墓碑樣式已保存"},
+"en":{pageTitle:"Choose Tombstone",backCreate:"Back",languageLabel:"English",previewTitle:"Final Preview",chooseTitle:"Choose Style",note:"Choose a style.\nConfirm to enter the memorial garden.",moonGray:"Lunar Laurel",warmSand:"Floral Sanctuary",blueSlate:"Charcoal Granite",mossOld:"Weathered Limestone",back:"Back",confirm:"Confirm",saved:"Tombstone saved"},
+"ja":{pageTitle:"墓碑を選ぶ",backCreate:"戻る",languageLabel:"日本語",previewTitle:"最終プレビュー",chooseTitle:"墓碑スタイル",note:"墓碑の種類を選びます。確認後、記念園ページに進みます。",moonGray:"月桂月紋碑",warmSand:"花庭尖拱碑",blueSlate:"濃灰花崗岩ゴシック碑",mossOld:"風化石灰岩クラシック碑",back:"戻る",confirm:"これにする",saved:"保存しました"}
 };
 const savedStone=(()=>{try{return JSON.parse(localStorage.getItem("petMemorialStone")||"{}")}catch(e){return {}}})();
 const styleScenes={
@@ -327,10 +327,11 @@ const styleScenes={
   "stone_moss_garden.png":"scene_moss_garden.png"
 };
 const styleTextLayout={
-  "stone_lunar_laurel.png":{top:212,color:"rgba(34,31,29,.90)"},
-  "stone_flower_arch.png":{top:220,color:"rgba(72,50,31,.90)"},
-  "stone_midnight_gothic.png":{top:190,color:"rgba(198,205,220,.90)"},
-  "stone_moss_garden.png":{top:230,color:"rgba(211,207,177,.88)"}
+  // v48: safe widths are deliberately smaller than the recessed plaques; clipping is a final guard.
+  "stone_lunar_laurel.png":{top:294,width:92,nameY:5,nameH:30,nameSize:15,dateY:44,dashY:61,deathY:76,epiY:101,epiH:31,epiWidth:88,dateSize:10,carve:{recess:"rgba(34,32,30,.78)",shadow:"rgba(8,8,7,.24)",highlight:"rgba(220,214,202,.16)"}},
+  "stone_flower_arch.png":{top:289,width:82,nameY:6,nameH:30,nameSize:14,dateY:45,dashY:62,deathY:77,epiY:102,epiH:30,epiWidth:78,dateSize:9,carve:{recess:"rgba(76,57,42,.72)",shadow:"rgba(38,27,19,.20)",highlight:"rgba(239,222,192,.14)"}},
+  "stone_midnight_gothic.png":{top:276,width:94,nameY:10,nameH:34,nameSize:15,dateY:55,dashY:72,deathY:87,epiY:114,epiH:39,epiWidth:90,dateSize:10,carve:{recess:"rgba(12,13,14,.74)",shadow:"rgba(0,0,0,.30)",highlight:"rgba(176,174,166,.22)"}},
+  "stone_moss_garden.png":{top:281,width:94,nameY:9,nameH:32,nameSize:15,dateY:51,dashY:68,deathY:83,epiY:109,epiH:38,epiWidth:90,dateSize:10,carve:{recess:"rgba(45,43,39,.74)",shadow:"rgba(17,15,13,.22)",highlight:"rgba(207,199,184,.16)"}}
 };
 const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",stone:savedStone.stone||"stone_lunar_laurel.png",stoneName:savedStone.stoneName||"moonGray"};
 const stage=document.getElementById("stage"),stoneText=document.getElementById("stoneText"),toast=document.getElementById("toast");
@@ -526,21 +527,68 @@ function drawStoneBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,color)
     ctx.fillText(line,x,yy);
   });
 }
+
+function carvedFont(ctx,size){ctx.font=`600 ${size}px "SimSun","Noto Serif CJK SC","Times New Roman",serif`}
+function stoneWrap(ctx,text,maxW){
+  const clean=String(text||"").trim(); if(!clean)return [];
+  const latin=/[A-Za-z]/.test(clean)&&clean.includes(" ");
+  const units=latin?clean.split(/\s+/):Array.from(clean);
+  const lines=[];let line="";
+  for(const unit of units){
+    const token=latin?(line?" "+unit:unit):unit;
+    const test=line+token;
+    if(line&&ctx.measureText(test).width>maxW){lines.push(line);line=unit}else line=test;
+  }
+  if(line)lines.push(line);return lines;
+}
+function paintCarved(ctx,text,x,y,style){
+  ctx.save();ctx.textAlign="center";ctx.textBaseline="top";
+  ctx.fillStyle=style.highlight;ctx.fillText(text,x-.55,y-.55);
+  ctx.fillStyle=style.shadow;ctx.fillText(text,x+.65,y+.75);
+  ctx.fillStyle=style.recess;ctx.fillText(text,x,y);
+  ctx.restore();
+}
+function drawCarvedLine(ctx,text,x,y,maxW,startSize,minSize,style){
+  let size=startSize;const clean=String(text||"");
+  carvedFont(ctx,size);while(size>minSize&&ctx.measureText(clean).width>maxW){size--;carvedFont(ctx,size)}
+  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y-2,maxW,Math.ceil(size*1.8)+4);ctx.clip();
+  paintCarved(ctx,clean,x,y,style);ctx.restore();
+}
+function drawCarvedName(ctx,text,x,y,maxW,maxH,startSize,minSize,style){
+  const clean=String(text||"").trim();if(!clean)return;
+  let size=startSize,lines=[];
+  for(;size>=minSize;size--){carvedFont(ctx,size);if(ctx.measureText(clean).width<=maxW){lines=[clean];break}}
+  if(!lines.length){size=minSize;carvedFont(ctx,size);lines=stoneWrap(ctx,clean,maxW).slice(0,2)}
+  const lineH=Math.round(size*1.28),total=lines.length*lineH,start=y+Math.max(0,Math.floor((maxH-total)/2));
+  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y,maxW,maxH);ctx.clip();
+  lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
+}
+function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style){
+  const clean=String(text||"").trim();if(!clean)return;
+  let size=startSize,lines=[],lineH=0;
+  for(;size>=minSize;size--){carvedFont(ctx,size);const candidate=stoneWrap(ctx,clean,maxW);lineH=Math.round(size*1.30);if(candidate.length<=maxLines&&candidate.length*lineH<=maxH){lines=candidate;break}}
+  if(!lines.length){size=minSize;carvedFont(ctx,size);lineH=Math.round(size*1.30);lines=stoneWrap(ctx,clean,maxW).slice(0,maxLines);if(lines.length===maxLines){let last=lines[maxLines-1];while(last&&ctx.measureText(last+"…").width>maxW)last=last.slice(0,-1);lines[maxLines-1]=(last||"")+"…"}}
+  const total=lines.length*lineH,start=y+Math.max(0,Math.floor((maxH-total)/2));
+  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y,maxW,maxH);ctx.clip();
+  lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
+}
+
 function drawStoneText(){
   const draft=JSON.parse(localStorage.getItem("petMemorialDraft")||"{}");
   const name=draft.petName||"小布丁";
   const birth=draft.birthDate?draft.birthDate.replaceAll("-","."):"2014.06.12";
   const death=draft.deathDate?draft.deathDate.replaceAll("-","."):"2025.11.03";
   const epi=draft.epitaph||"";
-  const {ctx}=setup(stoneText,220,230,1);
+  const {ctx}=setup(stoneText,220,200,1);
   ctx.clearRect(0,0,stoneText.width,stoneText.height);
 
-  const ink=(styleTextLayout[S.stone]||styleTextLayout["stone_lunar_laurel.png"]).color;
-  drawStoneBlock(ctx,name,110,36,118,42,20,10,2,ink);
-  drawStoneTextLine(ctx,birth,110,88,150,16,1,ink);
-  drawStoneTextLine(ctx,"—",110,106,150,14,1,ink);
-  drawStoneTextLine(ctx,death,110,123,150,16,1,ink);
-  if(epi) drawStoneBlock(ctx,epi,110,144,128,74,12,7,7,ink);
+  const layout=styleTextLayout[S.stone]||styleTextLayout["stone_lunar_laurel.png"];
+  const carve=layout.carve;
+  drawCarvedName(ctx,name,110,layout.nameY,layout.width,layout.nameH,layout.nameSize,9,carve);
+  drawCarvedLine(ctx,birth,110,layout.dateY,layout.width,layout.dateSize,8,carve);
+  drawCarvedLine(ctx,"—",110,layout.dashY,34,Math.max(8,layout.dateSize-1),8,carve);
+  drawCarvedLine(ctx,death,110,layout.deathY,layout.width,layout.dateSize,8,carve);
+  if(epi) drawCarvedBlock(ctx,epi,110,layout.epiY,layout.epiWidth,layout.epiH,9,7,4,carve);
 }
 function updateStatic(){
   document.querySelectorAll("canvas.txt").forEach(c=>{

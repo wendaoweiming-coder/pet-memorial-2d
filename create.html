@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建纪念｜星归园</title>
-<!-- version: v40-restore-create-draft -->
+<!-- version: v48-neutral-stone-carved-text -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -70,7 +70,7 @@ button,input,textarea{font:inherit}
 }
 .tombstone-wrap{position:absolute;left:50%;bottom:40px;width:297px;height:432px;transform:translateX(-50%);z-index:5}
 .tombstone-img{display:none}
-#stoneText{position:absolute;left:50%;top:118px;width:220px;height:230px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
+#stoneText{position:absolute;left:50%;top:196px;width:220px;height:190px;transform:translateX(-50%);image-rendering:pixelated;z-index:6;pointer-events:none}
 .preview-note{position:absolute;left:26px;bottom:28px;width:532px;height:54px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
 .section{grid-column:1/-1;height:28px;background:rgba(224,178,106,.11);border-left:5px solid rgba(230,190,116,.86);display:flex;align-items:center;padding-left:14px;margin-top:0}
@@ -417,7 +417,54 @@ function drawStoneBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,color)
     ctx.fillText(line,x,yy);
   });
 }
-function fmt(v){return v?v.replaceAll("-", "."):"----.--.--"}function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
+
+function carvedFont(ctx,size){ctx.font=`600 ${size}px "SimSun","Noto Serif CJK SC","Times New Roman",serif`}
+function stoneWrap(ctx,text,maxW){
+  const clean=String(text||"").trim(); if(!clean)return [];
+  const latin=/[A-Za-z]/.test(clean)&&clean.includes(" ");
+  const units=latin?clean.split(/\s+/):Array.from(clean);
+  const lines=[];let line="";
+  for(const unit of units){
+    const token=latin?(line?" "+unit:unit):unit;
+    const test=line+token;
+    if(line&&ctx.measureText(test).width>maxW){lines.push(line);line=unit}else line=test;
+  }
+  if(line)lines.push(line);return lines;
+}
+function paintCarved(ctx,text,x,y,style){
+  ctx.save();ctx.textAlign="center";ctx.textBaseline="top";
+  ctx.fillStyle=style.highlight;ctx.fillText(text,x-.55,y-.55);
+  ctx.fillStyle=style.shadow;ctx.fillText(text,x+.65,y+.75);
+  ctx.fillStyle=style.recess;ctx.fillText(text,x,y);
+  ctx.restore();
+}
+function drawCarvedLine(ctx,text,x,y,maxW,startSize,minSize,style){
+  let size=startSize;const clean=String(text||"");
+  carvedFont(ctx,size);while(size>minSize&&ctx.measureText(clean).width>maxW){size--;carvedFont(ctx,size)}
+  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y-2,maxW,Math.ceil(size*1.8)+4);ctx.clip();
+  paintCarved(ctx,clean,x,y,style);ctx.restore();
+}
+function drawCarvedName(ctx,text,x,y,maxW,maxH,startSize,minSize,style){
+  const clean=String(text||"").trim();if(!clean)return;
+  let size=startSize,lines=[];
+  for(;size>=minSize;size--){carvedFont(ctx,size);if(ctx.measureText(clean).width<=maxW){lines=[clean];break}}
+  if(!lines.length){size=minSize;carvedFont(ctx,size);lines=stoneWrap(ctx,clean,maxW).slice(0,2)}
+  const lineH=Math.round(size*1.28),total=lines.length*lineH,start=y+Math.max(0,Math.floor((maxH-total)/2));
+  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y,maxW,maxH);ctx.clip();
+  lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
+}
+function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style){
+  const clean=String(text||"").trim();if(!clean)return;
+  let size=startSize,lines=[],lineH=0;
+  for(;size>=minSize;size--){carvedFont(ctx,size);const candidate=stoneWrap(ctx,clean,maxW);lineH=Math.round(size*1.30);if(candidate.length<=maxLines&&candidate.length*lineH<=maxH){lines=candidate;break}}
+  if(!lines.length){size=minSize;carvedFont(ctx,size);lineH=Math.round(size*1.30);lines=stoneWrap(ctx,clean,maxW).slice(0,maxLines);if(lines.length===maxLines){let last=lines[maxLines-1];while(last&&ctx.measureText(last+"…").width>maxW)last=last.slice(0,-1);lines[maxLines-1]=(last||"")+"…"}}
+  const total=lines.length*lineH,start=y+Math.max(0,Math.floor((maxH-total)/2));
+  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y,maxW,maxH);ctx.clip();
+  lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
+}
+
+const createCarve={recess:"rgba(34,32,30,.78)",shadow:"rgba(8,8,7,.24)",highlight:"rgba(220,214,202,.16)"};
+function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
   document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
   document.querySelectorAll("[data-k-text]").forEach(el=>{el.textContent=tr(el.dataset.kText)});
@@ -437,12 +484,13 @@ function update(){
   px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
   px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
 
-  const {ctx}=setup(stoneC,220,230,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
-  drawStoneBlock(ctx,nameI.value.trim()||"小布丁",110,36,118,42,19,10,2,"rgba(38,34,30,.86)");
-  drawStoneText(ctx,fmt(birthI.value||"2014-06-12"),110,88,150,15,1,"rgba(42,38,34,.76)");
-  drawStoneText(ctx,"—",110,105,150,13,1,"rgba(42,38,34,.76)");
-  drawStoneText(ctx,fmt(deathI.value||"2025-11-03"),110,121,150,15,1,"rgba(42,38,34,.76)");
-  if(epiI.value.trim()) drawStoneBlock(ctx,epiI.value.trim(),110,140,132,84,12,6,8,"rgba(42,38,34,.68)");
+  const {ctx}=setup(stoneC,220,190,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
+  // v48: all text is clipped to the recessed plaque and rendered as a shallow carving.
+  drawCarvedName(ctx,nameI.value.trim()||"小布丁",110,5,92,30,15,10,createCarve);
+  drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,92,10,8,createCarve);
+  drawCarvedLine(ctx,"—",110,61,34,9,8,createCarve);
+  drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,76,92,10,8,createCarve);
+  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,101,88,31,9,7,3,createCarve);
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{
   el.addEventListener("input",()=>{update();persistDraft()});
