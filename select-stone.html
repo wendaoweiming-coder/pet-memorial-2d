@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v41-remove-bottom-back -->
+<!-- version: v45-ornate-memorial-stones -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -64,7 +64,7 @@ button{font:inherit}
   position:relative;width:532px;height:570px;margin:0 auto;border:3px solid rgba(219,171,97,.55);overflow:hidden;
   background:
     linear-gradient(rgba(6,15,31,.02),rgba(6,15,31,.06)),
-    url("assets/preview_scene_base.png") center/cover no-repeat;
+    var(--scene, url("assets/scene_lunar_laurel.png")) center/cover no-repeat;
   box-shadow:inset 0 0 0 2px rgba(255,232,178,.035)
 }
 .showcase::after{
@@ -84,7 +84,7 @@ button{font:inherit}
 .card.active{border-color:rgba(241,197,119,.94);background:rgba(230,190,116,.08)}
 .card::before,.card::after{content:"";position:absolute;width:10px;height:10px;border-color:rgba(241,197,119,.72);border-style:solid}
 .card::before{left:8px;top:8px;border-width:2px 0 0 2px}.card::after{right:8px;bottom:8px;border-width:0 2px 2px 0}
-.card img{position:absolute;left:50%;bottom:44px;height:168px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(6px 7px 0 rgba(0,0,0,.27))}
+.card img{position:absolute;left:50%;bottom:44px;height:178px;transform:translateX(-50%);image-rendering:pixelated;filter:drop-shadow(6px 7px 0 rgba(0,0,0,.27))}
 .card canvas{position:absolute;left:18px;bottom:14px}
 .actions{position:absolute;left:30px;right:30px;bottom:58px;display:flex;justify-content:flex-end;align-items:center;gap:18px}
 .action{
@@ -288,7 +288,7 @@ button{font:inherit}
   <aside class="panel preview-panel">
     <div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="previewTitle" data-w="180" data-h="30" data-size="20"></canvas></div>
     <div class="showcase">
-      <img id="mainStone" src="assets/stone_moon_gray.png" alt="">
+      <img id="mainStone" src="assets/stone_lunar_laurel.png" alt="">
       <canvas id="stoneText"></canvas>
     </div>
     <canvas class="note txt" data-k="note" data-w="532" data-h="76" data-size="15"></canvas>
@@ -298,10 +298,10 @@ button{font:inherit}
     <div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="chooseTitle" data-w="190" data-h="30" data-size="20"></canvas></div>
 
     <div class="grid">
-      <div class="card active" data-stone="stone_moon_gray.png" data-name="moonGray"><img src="assets/stone_moon_gray.png" alt=""><canvas class="txt" data-k="moonGray" data-w="250" data-h="25" data-size="16"></canvas></div>
-      <div class="card" data-stone="stone_warm_sand.png" data-name="warmSand"><img src="assets/stone_warm_sand.png" alt=""><canvas class="txt" data-k="warmSand" data-w="250" data-h="25" data-size="16"></canvas></div>
-      <div class="card" data-stone="stone_blue_slate.png" data-name="blueSlate"><img src="assets/stone_blue_slate.png" alt=""><canvas class="txt" data-k="blueSlate" data-w="250" data-h="25" data-size="16"></canvas></div>
-      <div class="card" data-stone="stone_moss_old.png" data-name="mossOld"><img src="assets/stone_moss_old.png" alt=""><canvas class="txt" data-k="mossOld" data-w="250" data-h="25" data-size="16"></canvas></div>
+      <div class="card active" data-stone="stone_lunar_laurel.png" data-name="moonGray"><img src="assets/stone_lunar_laurel.png" alt=""><canvas class="txt" data-k="moonGray" data-w="250" data-h="25" data-size="16"></canvas></div>
+      <div class="card" data-stone="stone_flower_arch.png" data-name="warmSand"><img src="assets/stone_flower_arch.png" alt=""><canvas class="txt" data-k="warmSand" data-w="250" data-h="25" data-size="16"></canvas></div>
+      <div class="card" data-stone="stone_midnight_gothic.png" data-name="blueSlate"><img src="assets/stone_midnight_gothic.png" alt=""><canvas class="txt" data-k="blueSlate" data-w="250" data-h="25" data-size="16"></canvas></div>
+      <div class="card" data-stone="stone_moss_garden.png" data-name="mossOld"><img src="assets/stone_moss_garden.png" alt=""><canvas class="txt" data-k="mossOld" data-w="250" data-h="25" data-size="16"></canvas></div>
     </div>
 
     <div class="actions">
@@ -314,12 +314,25 @@ button{font:inherit}
 
 <script>
 const T={
-"zh-CN":{pageTitle:"选择墓碑",backCreate:"返回创建",languageLabel:"简体中文",previewTitle:"最终预览",chooseTitle:"选择墓碑样式",note:"选择一种墓碑样式。确认后将进入纪念园页面。",moonGray:"月灰石碑",warmSand:"暖砂石碑",blueSlate:"蓝岩石碑",mossOld:"苔痕旧石",back:"返回",confirm:"确认使用",saved:"墓碑样式已保存"},
-"zh-TW":{pageTitle:"選擇墓碑",backCreate:"返回建立",languageLabel:"繁體中文",previewTitle:"最終預覽",chooseTitle:"選擇墓碑樣式",note:"選擇一種墓碑樣式。確認後將進入紀念園頁面。",moonGray:"月灰石碑",warmSand:"暖砂石碑",blueSlate:"藍岩石碑",mossOld:"苔痕舊石",back:"返回",confirm:"確認使用",saved:"墓碑樣式已保存"},
-"en":{pageTitle:"Choose Tombstone",backCreate:"Back",languageLabel:"English",previewTitle:"Final Preview",chooseTitle:"Choose Style",note:"Choose a style.\nConfirm to enter the memorial garden.",moonGray:"Moon Gray",warmSand:"Warm Sand",blueSlate:"Blue Slate",mossOld:"Moss Old",back:"Back",confirm:"Confirm",saved:"Tombstone saved"},
-"ja":{pageTitle:"墓碑を選ぶ",backCreate:"戻る",languageLabel:"日本語",previewTitle:"最終プレビュー",chooseTitle:"墓碑スタイル",note:"墓碑の種類を選びます。確認後、記念園ページに進みます。",moonGray:"月灰の石碑",warmSand:"暖砂の石碑",blueSlate:"青岩の石碑",mossOld:"苔むした石碑",back:"戻る",confirm:"これにする",saved:"保存しました"}
+"zh-CN":{pageTitle:"选择墓碑",backCreate:"返回创建",languageLabel:"简体中文",previewTitle:"最终预览",chooseTitle:"选择墓碑样式",note:"选择一种墓碑样式。确认后将进入纪念园页面。",moonGray:"月桂月纹碑",warmSand:"花庭尖拱碑",blueSlate:"静夜哥特碑",mossOld:"苔庭古典碑",back:"返回",confirm:"确认使用",saved:"墓碑样式已保存"},
+"zh-TW":{pageTitle:"選擇墓碑",backCreate:"返回建立",languageLabel:"繁體中文",previewTitle:"最終預覽",chooseTitle:"選擇墓碑樣式",note:"選擇一種墓碑樣式。確認後將進入紀念園頁面。",moonGray:"月桂月紋碑",warmSand:"花庭尖拱碑",blueSlate:"靜夜哥德碑",mossOld:"苔庭古典碑",back:"返回",confirm:"確認使用",saved:"墓碑樣式已保存"},
+"en":{pageTitle:"Choose Tombstone",backCreate:"Back",languageLabel:"English",previewTitle:"Final Preview",chooseTitle:"Choose Style",note:"Choose a style.\nConfirm to enter the memorial garden.",moonGray:"Lunar Laurel",warmSand:"Floral Sanctuary",blueSlate:"Midnight Gothic",mossOld:"Moss Garden",back:"Back",confirm:"Confirm",saved:"Tombstone saved"},
+"ja":{pageTitle:"墓碑を選ぶ",backCreate:"戻る",languageLabel:"日本語",previewTitle:"最終プレビュー",chooseTitle:"墓碑スタイル",note:"墓碑の種類を選びます。確認後、記念園ページに進みます。",moonGray:"月桂月紋碑",warmSand:"花庭尖拱碑",blueSlate:"静夜ゴシック碑",mossOld:"苔庭古典碑",back:"戻る",confirm:"これにする",saved:"保存しました"}
 };
-const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",stone:"stone_moon_gray.png",stoneName:"moonGray"};
+const savedStone=(()=>{try{return JSON.parse(localStorage.getItem("petMemorialStone")||"{}")}catch(e){return {}}})();
+const styleScenes={
+  "stone_lunar_laurel.png":"scene_lunar_laurel.png",
+  "stone_flower_arch.png":"scene_flower_arch.png",
+  "stone_midnight_gothic.png":"scene_midnight_gothic.png",
+  "stone_moss_garden.png":"scene_moss_garden.png"
+};
+const styleTextLayout={
+  "stone_lunar_laurel.png":{top:212,color:"rgba(34,31,29,.90)"},
+  "stone_flower_arch.png":{top:220,color:"rgba(72,50,31,.90)"},
+  "stone_midnight_gothic.png":{top:190,color:"rgba(198,205,220,.90)"},
+  "stone_moss_garden.png":{top:230,color:"rgba(211,207,177,.88)"}
+};
+const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",stone:savedStone.stone||"stone_lunar_laurel.png",stoneName:savedStone.stoneName||"moonGray"};
 const stage=document.getElementById("stage"),stoneText=document.getElementById("stoneText"),toast=document.getElementById("toast");
 function tr(k){return(T[S.lang]&&T[S.lang][k])||T["zh-CN"][k]||k}
 function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();
@@ -522,12 +535,12 @@ function drawStoneText(){
   const {ctx}=setup(stoneText,220,230,1);
   ctx.clearRect(0,0,stoneText.width,stoneText.height);
 
-  // 加深文字，但仍保持“刻在石头上”的感觉，不做黑色贴字
-  drawStoneBlock(ctx,name,110,36,118,42,20,10,2,"rgba(30,27,24,.92)");
-  drawStoneTextLine(ctx,birth,110,88,150,16,1,"rgba(32,29,26,.84)");
-  drawStoneTextLine(ctx,"—",110,106,150,14,1,"rgba(32,29,26,.78)");
-  drawStoneTextLine(ctx,death,110,123,150,16,1,"rgba(32,29,26,.84)");
-  if(epi) drawStoneBlock(ctx,epi,110,144,128,74,12,7,7,"rgba(34,30,27,.78)");
+  const ink=(styleTextLayout[S.stone]||styleTextLayout["stone_lunar_laurel.png"]).color;
+  drawStoneBlock(ctx,name,110,36,118,42,20,10,2,ink);
+  drawStoneTextLine(ctx,birth,110,88,150,16,1,ink);
+  drawStoneTextLine(ctx,"—",110,106,150,14,1,ink);
+  drawStoneTextLine(ctx,death,110,123,150,16,1,ink);
+  if(epi) drawStoneBlock(ctx,epi,110,144,128,74,12,7,7,ink);
 }
 function updateStatic(){
   document.querySelectorAll("canvas.txt").forEach(c=>{
@@ -539,17 +552,27 @@ function updateStatic(){
     px(c,tr(c.dataset.k)||c.dataset.k,isButton?{align:"center"}:{});
   });
 }
-updateStatic();drawStoneText();
+function updatePreviewScene(){
+  const showcase=document.querySelector(".showcase");
+  const scene=styleScenes[S.stone]||"scene_lunar_laurel.png";
+  const layout=styleTextLayout[S.stone]||styleTextLayout["stone_lunar_laurel.png"];
+  showcase.style.setProperty("--scene",`url("assets/${scene}")`);
+  stoneText.style.top=layout.top+"px";
+  document.querySelectorAll(".card").forEach(c=>c.classList.toggle("active",c.dataset.stone===S.stone));
+  drawStoneText();
+}
+updateStatic();updatePreviewScene();drawStoneText();
 
 document.querySelectorAll(".card").forEach(card=>{
   card.addEventListener("click",()=>{
     document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
     card.classList.add("active");
     S.stone=card.dataset.stone;S.stoneName=card.dataset.name;
-    /* final preview uses the same baked scene as create preview */
+    updatePreviewScene();
   });
 });
-document.getElementById("backBtn").onclick=()=>location.href="create.html";
+const bottomBackBtn=document.getElementById("backBtn");
+if(bottomBackBtn) bottomBackBtn.onclick=()=>location.href="create.html";
 document.getElementById("confirmBtn").onclick=()=>{
   localStorage.setItem("petMemorialStone",JSON.stringify({stone:S.stone,stoneName:S.stoneName}));
   toast.textContent=tr("saved");toast.classList.add("show");setTimeout(()=>{toast.classList.remove("show");location.href="cemetery.html"},650);
