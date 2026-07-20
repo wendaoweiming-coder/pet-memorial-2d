@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>选择墓碑｜星归园</title>
-<!-- version: v48-neutral-stone-carved-text -->
+<!-- version: v49-epitaph-safe-area -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -327,11 +327,11 @@ const styleScenes={
   "stone_moss_garden.png":"scene_moss_garden.png"
 };
 const styleTextLayout={
-  // v48: safe widths are deliberately smaller than the recessed plaques; clipping is a final guard.
-  "stone_lunar_laurel.png":{top:294,width:92,nameY:5,nameH:30,nameSize:15,dateY:44,dashY:61,deathY:76,epiY:101,epiH:31,epiWidth:88,dateSize:10,carve:{recess:"rgba(34,32,30,.78)",shadow:"rgba(8,8,7,.24)",highlight:"rgba(220,214,202,.16)"}},
-  "stone_flower_arch.png":{top:289,width:82,nameY:6,nameH:30,nameSize:14,dateY:45,dashY:62,deathY:77,epiY:102,epiH:30,epiWidth:78,dateSize:9,carve:{recess:"rgba(76,57,42,.72)",shadow:"rgba(38,27,19,.20)",highlight:"rgba(239,222,192,.14)"}},
-  "stone_midnight_gothic.png":{top:276,width:94,nameY:10,nameH:34,nameSize:15,dateY:55,dashY:72,deathY:87,epiY:114,epiH:39,epiWidth:90,dateSize:10,carve:{recess:"rgba(12,13,14,.74)",shadow:"rgba(0,0,0,.30)",highlight:"rgba(176,174,166,.22)"}},
-  "stone_moss_garden.png":{top:281,width:94,nameY:9,nameH:32,nameSize:15,dateY:51,dashY:68,deathY:83,epiY:109,epiH:38,epiWidth:90,dateSize:10,carve:{recess:"rgba(45,43,39,.74)",shadow:"rgba(17,15,13,.22)",highlight:"rgba(207,199,184,.16)"}}
+  // v49: epitaph zones stop well above every plaque's bottom border.
+  "stone_lunar_laurel.png":{top:294,width:92,nameY:5,nameH:30,nameSize:15,dateY:44,dashY:61,deathY:76,epiY:95,epiH:23,epiWidth:86,epiSize:8,epiMin:6,epiLines:2,dateSize:10,carve:{recess:"rgba(34,32,30,.78)",shadow:"rgba(8,8,7,.24)",highlight:"rgba(220,214,202,.16)"}},
+  "stone_flower_arch.png":{top:289,width:82,nameY:6,nameH:30,nameSize:14,dateY:45,dashY:62,deathY:77,epiY:96,epiH:23,epiWidth:76,epiSize:8,epiMin:6,epiLines:2,dateSize:9,carve:{recess:"rgba(76,57,42,.72)",shadow:"rgba(38,27,19,.20)",highlight:"rgba(239,222,192,.14)"}},
+  "stone_midnight_gothic.png":{top:276,width:94,nameY:10,nameH:34,nameSize:15,dateY:55,dashY:72,deathY:87,epiY:111,epiH:26,epiWidth:88,epiSize:8,epiMin:6,epiLines:2,dateSize:10,carve:{recess:"rgba(12,13,14,.74)",shadow:"rgba(0,0,0,.30)",highlight:"rgba(176,174,166,.22)"}},
+  "stone_moss_garden.png":{top:281,width:94,nameY:9,nameH:32,nameSize:15,dateY:51,dashY:68,deathY:83,epiY:105,epiH:25,epiWidth:88,epiSize:8,epiMin:6,epiLines:2,dateSize:10,carve:{recess:"rgba(45,43,39,.74)",shadow:"rgba(17,15,13,.22)",highlight:"rgba(207,199,184,.16)"}}
 };
 const S={lang:localStorage.getItem("petMemorialLanguage")||"zh-CN",stone:savedStone.stone||"stone_lunar_laurel.png",stoneName:savedStone.stoneName||"moonGray"};
 const stage=document.getElementById("stage"),stoneText=document.getElementById("stoneText"),toast=document.getElementById("toast");
@@ -565,11 +565,29 @@ function drawCarvedName(ctx,text,x,y,maxW,maxH,startSize,minSize,style){
 }
 function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style){
   const clean=String(text||"").trim();if(!clean)return;
+  const safeH=Math.max(1,maxH-3); // reserve a bottom gap so text never touches the plaque border
   let size=startSize,lines=[],lineH=0;
-  for(;size>=minSize;size--){carvedFont(ctx,size);const candidate=stoneWrap(ctx,clean,maxW);lineH=Math.round(size*1.30);if(candidate.length<=maxLines&&candidate.length*lineH<=maxH){lines=candidate;break}}
-  if(!lines.length){size=minSize;carvedFont(ctx,size);lineH=Math.round(size*1.30);lines=stoneWrap(ctx,clean,maxW).slice(0,maxLines);if(lines.length===maxLines){let last=lines[maxLines-1];while(last&&ctx.measureText(last+"…").width>maxW)last=last.slice(0,-1);lines[maxLines-1]=(last||"")+"…"}}
-  const total=lines.length*lineH,start=y+Math.max(0,Math.floor((maxH-total)/2));
-  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y,maxW,maxH);ctx.clip();
+  for(;size>=minSize;size--){
+    carvedFont(ctx,size);
+    lineH=Math.max(1,Math.round(size*1.28));
+    const allowed=Math.max(1,Math.min(maxLines,Math.floor(safeH/lineH)));
+    const candidate=stoneWrap(ctx,clean,maxW);
+    if(candidate.length<=allowed){lines=candidate;break}
+  }
+  if(!lines.length){
+    size=minSize;carvedFont(ctx,size);lineH=Math.max(1,Math.round(size*1.28));
+    const allowed=Math.max(1,Math.min(maxLines,Math.floor(safeH/lineH)));
+    lines=stoneWrap(ctx,clean,maxW).slice(0,allowed);
+    const full=stoneWrap(ctx,clean,maxW);
+    if(lines.length&&full.length>allowed){
+      let last=lines[lines.length-1];
+      while(last&&ctx.measureText(last+"…").width>maxW)last=last.slice(0,-1);
+      lines[lines.length-1]=(last||"")+"…";
+    }
+  }
+  const total=lines.length*lineH;
+  const start=y+Math.max(0,Math.floor((safeH-total)/2));
+  ctx.save();ctx.beginPath();ctx.rect(x-maxW/2,y,maxW,safeH);ctx.clip();
   lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
 }
 
@@ -588,7 +606,7 @@ function drawStoneText(){
   drawCarvedLine(ctx,birth,110,layout.dateY,layout.width,layout.dateSize,8,carve);
   drawCarvedLine(ctx,"—",110,layout.dashY,34,Math.max(8,layout.dateSize-1),8,carve);
   drawCarvedLine(ctx,death,110,layout.deathY,layout.width,layout.dateSize,8,carve);
-  if(epi) drawCarvedBlock(ctx,epi,110,layout.epiY,layout.epiWidth,layout.epiH,9,7,4,carve);
+  if(epi) drawCarvedBlock(ctx,epi,110,layout.epiY,layout.epiWidth,layout.epiH,layout.epiSize,layout.epiMin,layout.epiLines,carve);
 }
 function updateStatic(){
   document.querySelectorAll("canvas.txt").forEach(c=>{
