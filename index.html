@@ -20,9 +20,16 @@
     .language-menu button{height:34px;color:rgba(235,205,153,.92);font-size:14px;font-weight:800;letter-spacing:.8px}
     .language-menu button:hover,.language-menu button.active{background:rgba(232,191,116,.12)}
 
-    .content-group{position:absolute;left:86px;top:82px;z-index:12;width:560px;display:flex;flex-direction:column;align-items:flex-start}
-    .hero-full-logo{display:block;width:510px;height:auto;image-rendering:pixelated;filter:drop-shadow(0 8px 20px rgba(0,0,0,.26));margin-left:0}
-    .actions{margin-top:18px;margin-left:10px;display:flex;gap:18px}
+    .content-group{position:absolute;left:102px;top:94px;z-index:12;width:700px;display:flex;flex-direction:column;align-items:center}
+    .logo-row{position:relative;width:700px;height:126px}
+    .logo-row::before,.logo-row::after{content:"";position:absolute;top:69px;height:2px;background:linear-gradient(90deg,rgba(195,149,83,.28),rgba(205,160,91,.88))}
+    .logo-row::before{left:0;width:292px}
+    .logo-row::after{right:0;width:292px;transform:scaleX(-1)}
+    .hero-logo{position:absolute;left:50%;top:7px;transform:translateX(-50%);width:96px;height:96px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.28))}
+    .wordmark{display:block;width:330px;height:auto;image-rendering:pixelated;margin-top:0;filter:drop-shadow(0 3px 5px rgba(0,0,0,.24))}
+    .brand-separator{width:430px;height:1px;margin-top:8px;background:linear-gradient(90deg,transparent,rgba(196,150,84,.58) 18%,rgba(225,185,112,.78) 50%,rgba(196,150,84,.58) 82%,transparent)}
+    .slogan{display:block;max-width:615px;height:auto;image-rendering:pixelated;margin-top:16px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.2))}
+    .actions{margin-top:24px;display:flex;gap:18px}
     .pixel-button{position:relative;width:224px;height:54px;display:inline-flex;align-items:center;justify-content:center;gap:12px;color:rgba(236,205,151,.94);background:rgba(10,21,42,.64);border:2px solid rgba(203,155,86,.68);box-shadow:inset 0 0 0 2px rgba(255,231,174,.05),0 8px 20px rgba(0,0,0,.2);font-family:"Microsoft YaHei","PingFang SC",serif;font-size:16px;font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.36);transition:transform .14s ease,border-color .14s ease,background .14s ease}
     .pixel-button::before,.pixel-button::after{content:"";position:absolute;width:8px;height:8px;border:2px solid rgba(211,163,91,.54);pointer-events:none}
     .pixel-button::before{left:8px;top:8px;border-right:0;border-bottom:0}
@@ -34,7 +41,7 @@
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
-<body data-version="stillight-homepage-v55">
+<body data-version="stillight-homepage-v54">
   <main class="viewport">
     <section class="stage" id="stage">
       <div class="language" id="languageBox">
@@ -54,7 +61,10 @@
       </div>
 
       <div class="content-group">
-        <img class="hero-full-logo" src="assets/stillight_logo_full.png" alt="STILLIGHT — In memory, love remains." />
+        <div class="logo-row"><img class="hero-logo" src="assets/stillight_mark.png" alt="STILLIGHT Logo" /></div>
+        <img class="wordmark" src="assets/stillight_wordmark.png" alt="STILLIGHT" />
+        <div class="brand-separator"></div>
+        <img class="slogan" id="sloganImage" src="assets/slogan_zh_CN_v54.png" alt="在回忆里，爱仍然存在。" />
         <div class="actions">
           <button class="pixel-button primary" type="button" id="enterGarden"><img class="button-icon-img" src="assets/paw.png" alt="" aria-hidden="true" /><span id="enterText">进入纪念园</span></button>
           <button class="pixel-button" type="button" id="createMemorial"><img class="button-icon-img" src="assets/paw.png" alt="" aria-hidden="true" /><span id="createText">开始创建</span></button>
@@ -65,16 +75,16 @@
   <div class="toast" id="toast"></div>
   <script>
     const TEXTS={
-      "zh-CN":{enter:"进入纪念园",create:"开始创建",langLabel:"简体中文",saved:"语言已保存",noMemorial:"还没有创建纪念，先去创建页面。"},
-      "zh-TW":{enter:"進入紀念園",create:"開始建立",langLabel:"繁體中文",saved:"語言已保存",noMemorial:"還沒有建立紀念，先去建立頁面。"},
-      "en":{enter:"Enter Garden",create:"Create Memorial",langLabel:"English",saved:"Language saved",noMemorial:"No memorial yet. Opening the creation page."},
-      "ja":{enter:"記念園へ",create:"作成する",langLabel:"日本語",saved:"言語を保存しました",noMemorial:"まだ記念ページがありません。作成ページへ移動します。"}
+      "zh-CN":{slogan:"assets/slogan_zh_CN_v54.png",alt:"在回忆里，爱仍然存在。",enter:"进入纪念园",create:"开始创建",langLabel:"简体中文",saved:"语言已保存",noMemorial:"还没有创建纪念，先去创建页面。"},
+      "zh-TW":{slogan:"assets/slogan_zh_TW_v54.png",alt:"在回憶裡，愛仍然存在。",enter:"進入紀念園",create:"開始建立",langLabel:"繁體中文",saved:"語言已保存",noMemorial:"還沒有建立紀念，先去建立頁面。"},
+      "en":{slogan:"assets/slogan_en_v54.png",alt:"In memory, love remains.",enter:"Enter Garden",create:"Create Memorial",langLabel:"English",saved:"Language saved",noMemorial:"No memorial yet. Opening the creation page."},
+      "ja":{slogan:"assets/slogan_ja_v54.png",alt:"想い出の中で、愛は生き続ける。",enter:"記念園へ",create:"作成する",langLabel:"日本語",saved:"言語を保存しました",noMemorial:"まだ記念ページがありません。作成ページへ移動します。"}
     };
-    const stage=document.getElementById("stage"),toast=document.getElementById("toast"),languageBox=document.getElementById("languageBox"),languageButton=document.getElementById("languageButton"),languageLabel=document.getElementById("languageLabel"),enterText=document.getElementById("enterText"),createText=document.getElementById("createText");
+    const stage=document.getElementById("stage"),toast=document.getElementById("toast"),languageBox=document.getElementById("languageBox"),languageButton=document.getElementById("languageButton"),sloganImage=document.getElementById("sloganImage"),languageLabel=document.getElementById("languageLabel"),enterText=document.getElementById("enterText"),createText=document.getElementById("createText");
     function resizeStage(){const scale=Math.max(innerWidth/1672,innerHeight/941);stage.style.transform=`translate(-50%, -50%) scale(${scale})`}
     addEventListener("resize",resizeStage);resizeStage();
     function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),1500)}
-    function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];document.documentElement.lang=lang;languageLabel.textContent=data.langLabel;enterText.textContent=data.enter;createText.textContent=data.create;document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}
+    function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];document.documentElement.lang=lang;sloganImage.src=data.slogan;sloganImage.alt=data.alt;languageLabel.textContent=data.langLabel;enterText.textContent=data.enter;createText.textContent=data.create;document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}
     function hasSavedMemorial(){try{const draft=JSON.parse(localStorage.getItem("petMemorialDraft"));return Boolean(draft&&draft.petName)}catch(e){return false}}
     function openGarden(){const lang=localStorage.getItem("petMemorialLanguage")||"zh-CN",data=TEXTS[lang]||TEXTS["zh-CN"];if(hasSavedMemorial()){location.href="cemetery.html";return}showToast(data.noMemorial);setTimeout(()=>location.href="create.html",700)}
     document.getElementById("enterGarden").addEventListener("click",openGarden);
@@ -82,7 +92,7 @@
     languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});
     document.querySelectorAll(".language-menu button").forEach(button=>button.addEventListener("click",e=>{e.stopPropagation();const lang=button.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open");showToast((TEXTS[lang]||TEXTS["zh-CN"]).saved)}));
     document.addEventListener("click",()=>languageBox.classList.remove("open"));
-    localStorage.setItem("starpawHomeVersion","stillight-homepage-v55");
+    localStorage.setItem("starpawHomeVersion","stillight-homepage-v54");
     applyLanguage(localStorage.getItem("petMemorialLanguage")||"zh-CN");
   </script>
 </body>
