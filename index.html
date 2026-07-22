@@ -35,7 +35,7 @@
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
-<body data-version="stillight-homepage-v62-option-d-ui-fix">
+<body data-version="stillight-homepage-v63-copy-refine">
   <main class="viewport">
     <section class="stage" id="stage">
       <div class="language" id="languageBox">
@@ -56,7 +56,7 @@
 
       <div class="content-group">
         <img class="full-logo" src="assets/stillight_logo_full.png" alt="STILLIGHT — In memory, love remains." />
-        <canvas class="supporting-copy" id="supportingCopy" width="340" height="22" role="img" aria-label="让思念，在这里安静停留。"></canvas>
+        <canvas class="supporting-copy" id="supportingCopy" width="510" height="33" role="img" aria-label="让思念，在这里安静停留。"></canvas>
         <div class="actions">
           <button class="pixel-button primary" type="button" id="enterGarden"><img class="button-icon-img" src="assets/paw.png" alt="" aria-hidden="true" /><span id="enterText">进入纪念园</span></button>
           <button class="pixel-button" type="button" id="createMemorial"><img class="button-icon-img" src="assets/paw.png" alt="" aria-hidden="true" /><span id="createText">开始创建</span></button>
@@ -76,7 +76,7 @@
     function resizeStage(){const scale=Math.max(innerWidth/1672,innerHeight/941);stage.style.transform=`translate(-50%, -50%) scale(${scale})`}
     addEventListener("resize",resizeStage);resizeStage();
     function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),1500)}
-    function drawPixelCopy(text,lang){const ctx=supportingCopy.getContext("2d");ctx.clearRect(0,0,supportingCopy.width,supportingCopy.height);ctx.imageSmoothingEnabled=false;ctx.textAlign="center";ctx.textBaseline="middle";ctx.font=(lang==="en"?'700 11px "Courier New",monospace':'900 13px "SimSun","MS Gothic",monospace');ctx.fillStyle="rgba(36,22,12,.88)";ctx.fillText(text,171,12);ctx.fillStyle="#efd09a";ctx.fillText(text,170,11);supportingCopy.setAttribute("aria-label",text)}
+    function drawPixelCopy(text,lang){const ctx=supportingCopy.getContext("2d");ctx.clearRect(0,0,supportingCopy.width,supportingCopy.height);ctx.imageSmoothingEnabled=false;ctx.textAlign="center";ctx.textBaseline="middle";ctx.font=(lang==="en"?'700 16px "Courier New",monospace':'900 18px "SimSun","MS Gothic",monospace');ctx.fillStyle="rgba(28,18,10,.46)";ctx.fillText(text,256,18);ctx.fillStyle="#d8a348";ctx.fillText(text,255,17);supportingCopy.setAttribute("aria-label",text)}
     function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];document.documentElement.lang=lang;drawPixelCopy(data.copy,lang);languageLabel.textContent=data.langLabel;enterText.textContent=data.enter;createText.textContent=data.create;document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}
     function hasSavedMemorial(){try{const draft=JSON.parse(localStorage.getItem("petMemorialDraft"));return Boolean(draft&&draft.petName)}catch(e){return false}}
     function openGarden(){const lang=localStorage.getItem("petMemorialLanguage")||"zh-CN",data=TEXTS[lang]||TEXTS["zh-CN"];if(hasSavedMemorial()){location.href="cemetery.html";return}showToast(data.noMemorial);setTimeout(()=>location.href="create.html",700)}
@@ -85,7 +85,7 @@
     languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});
     document.querySelectorAll(".language-menu button").forEach(button=>button.addEventListener("click",e=>{e.stopPropagation();const lang=button.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open");showToast((TEXTS[lang]||TEXTS["zh-CN"]).saved)}));
     document.addEventListener("click",()=>languageBox.classList.remove("open"));
-    localStorage.setItem("starpawHomeVersion","stillight-homepage-v62-option-d-ui-fix");
+    localStorage.setItem("starpawHomeVersion","stillight-homepage-v63-copy-refine");
     applyLanguage(localStorage.getItem("petMemorialLanguage")||"zh-CN");
   </script>
 </body>
