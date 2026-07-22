@@ -35,7 +35,7 @@
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
-<body data-version="stillight-homepage-v63-copy-refine">
+<body data-version="stillight-homepage-v64-localized-logo">
   <main class="viewport">
     <section class="stage" id="stage">
       <div class="language" id="languageBox">
@@ -55,7 +55,7 @@
       </div>
 
       <div class="content-group">
-        <img class="full-logo" src="assets/stillight_logo_full.png" alt="STILLIGHT — In memory, love remains." />
+        <img class="full-logo" id="fullLogo" src="assets/logo_zh_CN.png" alt="静光 — 在记忆中，爱依然存在。" />
         <canvas class="supporting-copy" id="supportingCopy" width="510" height="33" role="img" aria-label="让思念，在这里安静停留。"></canvas>
         <div class="actions">
           <button class="pixel-button primary" type="button" id="enterGarden"><img class="button-icon-img" src="assets/paw.png" alt="" aria-hidden="true" /><span id="enterText">进入纪念园</span></button>
@@ -67,17 +67,17 @@
   <div class="toast" id="toast"></div>
   <script>
     const TEXTS={
-      "zh-CN":{copy:"让思念，在这里安静停留。",enter:"进入纪念园",create:"开始创建",langLabel:"简体中文",saved:"语言已保存",noMemorial:"还没有创建纪念，先去创建页面。"},
-      "zh-TW":{copy:"讓思念，在這裡安靜停留。",enter:"進入紀念園",create:"開始建立",langLabel:"繁體中文",saved:"語言已保存",noMemorial:"還沒有建立紀念，先去建立頁面。"},
-      "en":{copy:"A quiet place to hold every memory.",enter:"Enter Garden",create:"Create Memorial",langLabel:"English",saved:"Language saved",noMemorial:"No memorial yet. Opening the creation page."},
-      "ja":{copy:"想いが、静かに留まる場所。",enter:"記念園へ",create:"作成する",langLabel:"日本語",saved:"言語を保存しました",noMemorial:"まだ記念ページがありません。作成ページへ移動します。"}
+      "zh-CN":{logo:"assets/logo_zh_CN.png",logoAlt:"静光 — 在记忆中，爱依然存在。",copy:"让思念，在这里安静停留。",enter:"进入纪念园",create:"开始创建",langLabel:"简体中文",saved:"语言已保存",noMemorial:"还没有创建纪念，先去创建页面。"},
+      "zh-TW":{logo:"assets/logo_zh_TW.png",logoAlt:"靜光 — 在記憶中，愛依然存在。",copy:"讓思念，在這裡安靜停留。",enter:"進入紀念園",create:"開始建立",langLabel:"繁體中文",saved:"語言已保存",noMemorial:"還沒有建立紀念，先去建立頁面。"},
+      "en":{logo:"assets/logo_en.png",logoAlt:"STILLIGHT — In memory, love remains.",copy:"A quiet place to hold every memory.",enter:"Enter Garden",create:"Create Memorial",langLabel:"English",saved:"Language saved",noMemorial:"No memorial yet. Opening the creation page."},
+      "ja":{logo:"assets/logo_ja.png",logoAlt:"スティルライト — 記憶の中で、愛は生き続ける。",copy:"想いが、静かに留まる場所。",enter:"記念園へ",create:"作成する",langLabel:"日本語",saved:"言語を保存しました",noMemorial:"まだ記念ページがありません。作成ページへ移動します。"}
     };
-    const stage=document.getElementById("stage"),toast=document.getElementById("toast"),languageBox=document.getElementById("languageBox"),languageButton=document.getElementById("languageButton"),supportingCopy=document.getElementById("supportingCopy"),languageLabel=document.getElementById("languageLabel"),enterText=document.getElementById("enterText"),createText=document.getElementById("createText");
+    const stage=document.getElementById("stage"),toast=document.getElementById("toast"),languageBox=document.getElementById("languageBox"),languageButton=document.getElementById("languageButton"),fullLogo=document.getElementById("fullLogo"),supportingCopy=document.getElementById("supportingCopy"),languageLabel=document.getElementById("languageLabel"),enterText=document.getElementById("enterText"),createText=document.getElementById("createText");
     function resizeStage(){const scale=Math.max(innerWidth/1672,innerHeight/941);stage.style.transform=`translate(-50%, -50%) scale(${scale})`}
     addEventListener("resize",resizeStage);resizeStage();
     function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),1500)}
     function drawPixelCopy(text,lang){const ctx=supportingCopy.getContext("2d");ctx.clearRect(0,0,supportingCopy.width,supportingCopy.height);ctx.imageSmoothingEnabled=false;ctx.textAlign="center";ctx.textBaseline="middle";ctx.font=(lang==="en"?'700 16px "Courier New",monospace':'900 18px "SimSun","MS Gothic",monospace');ctx.fillStyle="rgba(28,18,10,.46)";ctx.fillText(text,256,18);ctx.fillStyle="#d8a348";ctx.fillText(text,255,17);supportingCopy.setAttribute("aria-label",text)}
-    function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];document.documentElement.lang=lang;drawPixelCopy(data.copy,lang);languageLabel.textContent=data.langLabel;enterText.textContent=data.enter;createText.textContent=data.create;document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}
+    function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];document.documentElement.lang=lang;fullLogo.src=data.logo;fullLogo.alt=data.logoAlt;drawPixelCopy(data.copy,lang);languageLabel.textContent=data.langLabel;enterText.textContent=data.enter;createText.textContent=data.create;document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}
     function hasSavedMemorial(){try{const draft=JSON.parse(localStorage.getItem("petMemorialDraft"));return Boolean(draft&&draft.petName)}catch(e){return false}}
     function openGarden(){const lang=localStorage.getItem("petMemorialLanguage")||"zh-CN",data=TEXTS[lang]||TEXTS["zh-CN"];if(hasSavedMemorial()){location.href="cemetery.html";return}showToast(data.noMemorial);setTimeout(()=>location.href="create.html",700)}
     document.getElementById("enterGarden").addEventListener("click",openGarden);
@@ -85,7 +85,7 @@
     languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});
     document.querySelectorAll(".language-menu button").forEach(button=>button.addEventListener("click",e=>{e.stopPropagation();const lang=button.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open");showToast((TEXTS[lang]||TEXTS["zh-CN"]).saved)}));
     document.addEventListener("click",()=>languageBox.classList.remove("open"));
-    localStorage.setItem("starpawHomeVersion","stillight-homepage-v63-copy-refine");
+    localStorage.setItem("starpawHomeVersion","stillight-homepage-v64-localized-logo");
     applyLanguage(localStorage.getItem("petMemorialLanguage")||"zh-CN");
   </script>
 </body>
