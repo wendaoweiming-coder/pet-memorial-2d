@@ -26,13 +26,14 @@
     .actions{margin-top:16px;display:flex;gap:18px}
     .pixel-button{position:relative;width:218px;height:56px;display:inline-flex;align-items:center;justify-content:center;color:#d9a24a;background:transparent url("assets/button_frame_a2_hollow_v69.png") center/100% 100% no-repeat;border:0;box-shadow:none;font-family:"Microsoft YaHei","PingFang SC",serif;font-size:16px;font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.46);image-rendering:pixelated;transition:transform .12s steps(2,end),filter .12s steps(2,end)}
     .pixel-button.primary{background-color:transparent}
+    .pixel-button>span{display:inline-block;transform:translateY(3px)}
     .pixel-button:hover{transform:translateY(-2px);filter:brightness(1.16)}
     .pixel-button:focus-visible{outline:2px solid rgba(242,190,100,.88);outline-offset:3px}
     .toast{position:fixed;left:50%;bottom:28px;z-index:100;padding:12px 18px;color:#e8c994;background:rgba(9,16,31,.96);border:1px solid rgba(198,151,85,.45);transform:translateX(-50%) translateY(16px);opacity:0;pointer-events:none;transition:.22s ease;letter-spacing:1px;font:700 15px "Microsoft YaHei","PingFang SC",sans-serif}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
-<body data-version="stillight-homepage-v69-hollow-cache-fix">
+<body data-version="stillight-homepage-v70-button-text-center-fix">
   <main class="viewport">
     <section class="stage" id="stage">
       <div class="language" id="languageBox">
@@ -82,7 +83,7 @@
     languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});
     document.querySelectorAll(".language-menu button").forEach(button=>button.addEventListener("click",e=>{e.stopPropagation();const lang=button.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open");showToast((TEXTS[lang]||TEXTS["zh-CN"]).saved)}));
     document.addEventListener("click",()=>languageBox.classList.remove("open"));
-    localStorage.setItem("starpawHomeVersion","stillight-homepage-v69-hollow-cache-fix");
+    localStorage.setItem("starpawHomeVersion","stillight-homepage-v70-button-text-center-fix");
     applyLanguage(localStorage.getItem("petMemorialLanguage")||"zh-CN");
   </script>
 </body>
