@@ -22,20 +22,20 @@
 
     .content-group{position:absolute;left:62px;top:276px;z-index:12;width:700px;display:flex;flex-direction:column;align-items:center}
     .full-logo{display:block;width:430px;height:auto;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 5px 9px rgba(0,0,0,.34))}
-    .supporting-copy{margin-top:14px;color:#efd09a;font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:25px;font-weight:800;letter-spacing:3px;text-shadow:0 3px 2px rgba(40,24,12,.8),0 0 8px rgba(232,185,108,.16);white-space:nowrap}
-    .actions{margin-top:24px;display:flex;gap:18px}
+    .supporting-copy{display:block;width:680px;height:44px;margin-top:10px;image-rendering:pixelated;image-rendering:crisp-edges}
+    .actions{margin-top:16px;display:flex;gap:18px}
     .pixel-button{position:relative;width:218px;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:11px;color:rgba(236,205,151,.96);background:rgba(10,21,42,.7);border:2px solid rgba(203,155,86,.72);box-shadow:inset 0 0 0 2px rgba(255,231,174,.05),0 8px 20px rgba(0,0,0,.22);font-family:"Microsoft YaHei","PingFang SC",serif;font-size:16px;font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.36);transition:transform .14s ease,border-color .14s ease,background .14s ease}
     .pixel-button::before,.pixel-button::after{content:"";position:absolute;width:8px;height:8px;border:2px solid rgba(211,163,91,.54);pointer-events:none}
     .pixel-button::before{left:8px;top:8px;border-right:0;border-bottom:0}
     .pixel-button::after{right:8px;bottom:8px;border-left:0;border-top:0}
-    .pixel-button.primary{border-color:rgba(225,177,100,.82);background:linear-gradient(180deg,rgba(24,42,69,.72),rgba(11,23,46,.72))}
+    .pixel-button.primary{border-color:rgba(203,155,86,.72);background:rgba(10,21,42,.7)}
     .pixel-button:hover{transform:translateY(-2px);background:rgba(22,39,68,.78);border-color:rgba(242,198,121,.9)}
     .button-icon-img{width:18px;height:18px;image-rendering:pixelated;flex:none;filter:drop-shadow(0 2px 0 rgba(28,17,7,.4))}
     .toast{position:fixed;left:50%;bottom:28px;z-index:100;padding:12px 18px;color:#e8c994;background:rgba(9,16,31,.96);border:1px solid rgba(198,151,85,.45);transform:translateX(-50%) translateY(16px);opacity:0;pointer-events:none;transition:.22s ease;letter-spacing:1px;font:700 15px "Microsoft YaHei","PingFang SC",sans-serif}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
-<body data-version="stillight-homepage-v61-option-d">
+<body data-version="stillight-homepage-v62-option-d-ui-fix">
   <main class="viewport">
     <section class="stage" id="stage">
       <div class="language" id="languageBox">
@@ -56,7 +56,7 @@
 
       <div class="content-group">
         <img class="full-logo" src="assets/stillight_logo_full.png" alt="STILLIGHT — In memory, love remains." />
-        <div class="supporting-copy" id="supportingCopy">让思念，在这里安静停留。</div>
+        <canvas class="supporting-copy" id="supportingCopy" width="340" height="22" role="img" aria-label="让思念，在这里安静停留。"></canvas>
         <div class="actions">
           <button class="pixel-button primary" type="button" id="enterGarden"><img class="button-icon-img" src="assets/paw.png" alt="" aria-hidden="true" /><span id="enterText">进入纪念园</span></button>
           <button class="pixel-button" type="button" id="createMemorial"><img class="button-icon-img" src="assets/paw.png" alt="" aria-hidden="true" /><span id="createText">开始创建</span></button>
@@ -76,7 +76,8 @@
     function resizeStage(){const scale=Math.max(innerWidth/1672,innerHeight/941);stage.style.transform=`translate(-50%, -50%) scale(${scale})`}
     addEventListener("resize",resizeStage);resizeStage();
     function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),1500)}
-    function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];document.documentElement.lang=lang;supportingCopy.textContent=data.copy;languageLabel.textContent=data.langLabel;enterText.textContent=data.enter;createText.textContent=data.create;document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}
+    function drawPixelCopy(text,lang){const ctx=supportingCopy.getContext("2d");ctx.clearRect(0,0,supportingCopy.width,supportingCopy.height);ctx.imageSmoothingEnabled=false;ctx.textAlign="center";ctx.textBaseline="middle";ctx.font=(lang==="en"?'700 11px "Courier New",monospace':'900 13px "SimSun","MS Gothic",monospace');ctx.fillStyle="rgba(36,22,12,.88)";ctx.fillText(text,171,12);ctx.fillStyle="#efd09a";ctx.fillText(text,170,11);supportingCopy.setAttribute("aria-label",text)}
+    function applyLanguage(lang){const data=TEXTS[lang]||TEXTS["zh-CN"];document.documentElement.lang=lang;drawPixelCopy(data.copy,lang);languageLabel.textContent=data.langLabel;enterText.textContent=data.enter;createText.textContent=data.create;document.querySelectorAll(".language-menu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang))}
     function hasSavedMemorial(){try{const draft=JSON.parse(localStorage.getItem("petMemorialDraft"));return Boolean(draft&&draft.petName)}catch(e){return false}}
     function openGarden(){const lang=localStorage.getItem("petMemorialLanguage")||"zh-CN",data=TEXTS[lang]||TEXTS["zh-CN"];if(hasSavedMemorial()){location.href="cemetery.html";return}showToast(data.noMemorial);setTimeout(()=>location.href="create.html",700)}
     document.getElementById("enterGarden").addEventListener("click",openGarden);
@@ -84,7 +85,7 @@
     languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});
     document.querySelectorAll(".language-menu button").forEach(button=>button.addEventListener("click",e=>{e.stopPropagation();const lang=button.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open");showToast((TEXTS[lang]||TEXTS["zh-CN"]).saved)}));
     document.addEventListener("click",()=>languageBox.classList.remove("open"));
-    localStorage.setItem("starpawHomeVersion","stillight-homepage-v61-option-d");
+    localStorage.setItem("starpawHomeVersion","stillight-homepage-v62-option-d-ui-fix");
     applyLanguage(localStorage.getItem("petMemorialLanguage")||"zh-CN");
   </script>
 </body>
