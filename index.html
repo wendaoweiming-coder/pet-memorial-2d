@@ -20,7 +20,7 @@
     .language-menu button{height:34px;color:rgba(235,205,153,.92);font-size:14px;font-weight:800;letter-spacing:.8px}
     .language-menu button:hover,.language-menu button.active{background:rgba(232,191,116,.12)}
 
-    .content-group{position:absolute;left:62px;top:276px;z-index:12;width:700px;display:flex;flex-direction:column;align-items:center}
+    .content-group{position:absolute;left:42px;top:251px;z-index:12;width:700px;display:flex;flex-direction:column;align-items:center}
     .full-logo{display:block;width:430px;height:auto;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 5px 9px rgba(0,0,0,.34))}
     .supporting-copy{display:block;width:680px;height:44px;margin-top:10px;image-rendering:pixelated;image-rendering:crisp-edges}
     .actions{margin-top:16px;display:flex;gap:18px}
@@ -33,7 +33,7 @@
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
-<body data-version="stillight-homepage-v70-button-text-center-fix">
+<body data-version="stillight-homepage-v71-content-position-fix">
   <main class="viewport">
     <section class="stage" id="stage">
       <div class="language" id="languageBox">
@@ -83,7 +83,7 @@
     languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});
     document.querySelectorAll(".language-menu button").forEach(button=>button.addEventListener("click",e=>{e.stopPropagation();const lang=button.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open");showToast((TEXTS[lang]||TEXTS["zh-CN"]).saved)}));
     document.addEventListener("click",()=>languageBox.classList.remove("open"));
-    localStorage.setItem("starpawHomeVersion","stillight-homepage-v70-button-text-center-fix");
+    localStorage.setItem("starpawHomeVersion","stillight-homepage-v71-content-position-fix");
     applyLanguage(localStorage.getItem("petMemorialLanguage")||"zh-CN");
   </script>
 </body>
