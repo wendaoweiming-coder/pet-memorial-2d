@@ -24,22 +24,15 @@
     .full-logo{display:block;width:430px;height:auto;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 5px 9px rgba(0,0,0,.34))}
     .supporting-copy{display:block;width:680px;height:44px;margin-top:10px;image-rendering:pixelated;image-rendering:crisp-edges}
     .actions{margin-top:16px;display:flex;gap:18px}
-    .pixel-button{--gold:#c8913f;--gold-bright:#e0ad58;position:relative;width:218px;height:52px;display:inline-flex;align-items:center;justify-content:center;color:#d6a04c;background:rgba(6,17,34,.32);border:2px solid var(--gold);clip-path:polygon(6px 0,calc(100% - 6px) 0,calc(100% - 6px) 2px,100% 2px,100% calc(100% - 6px),calc(100% - 2px) calc(100% - 6px),calc(100% - 2px) 100%,6px 100%,6px calc(100% - 2px),0 calc(100% - 2px),0 6px,2px 6px,2px 2px,6px 2px);font-family:"Microsoft YaHei","PingFang SC",serif;font-size:16px;font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.4);image-rendering:pixelated;transition:color .12s steps(2,end),border-color .12s steps(2,end),background .12s steps(2,end),transform .12s steps(2,end)}
-    .pixel-button::before{content:"";position:absolute;left:50%;top:-4px;width:7px;height:7px;transform:translateX(-50%) rotate(45deg);background:var(--gold);box-shadow:0 0 0 2px rgba(6,17,34,.72);pointer-events:none}
-    .pixel-button.primary{background:rgba(6,17,34,.32);border-color:var(--gold)}
-    .pixel-button:hover{transform:translateY(-2px);color:#f0bf69;background:rgba(10,25,48,.48);border-color:var(--gold-bright)}
-    .button-ornament{position:absolute;top:50%;width:11px;height:22px;transform:translateY(-50%);pointer-events:none}
-    .button-ornament.left{left:10px}
-    .button-ornament.right{right:10px;transform:translateY(-50%) scaleX(-1)}
-    .button-ornament::before,.button-ornament::after{content:"";position:absolute;left:4px;width:4px;height:4px;background:var(--gold);box-shadow:3px -4px 0 -1px var(--gold),3px 4px 0 -1px var(--gold)}
-    .button-ornament::before{top:5px}
-    .button-ornament::after{top:13px}
-    .pixel-button .button-label{position:relative;z-index:2}
+    .pixel-button{position:relative;width:218px;height:56px;display:inline-flex;align-items:center;justify-content:center;color:#d9a24a;background:transparent url("assets/button_frame_a2.png") center/100% 100% no-repeat;border:0;box-shadow:none;font-family:"Microsoft YaHei","PingFang SC",serif;font-size:16px;font-weight:900;letter-spacing:1px;text-shadow:0 2px 0 rgba(17,12,8,.46);image-rendering:pixelated;transition:transform .12s steps(2,end),filter .12s steps(2,end)}
+    .pixel-button.primary{background-color:transparent}
+    .pixel-button:hover{transform:translateY(-2px);filter:brightness(1.16)}
+    .pixel-button:focus-visible{outline:2px solid rgba(242,190,100,.88);outline-offset:3px}
     .toast{position:fixed;left:50%;bottom:28px;z-index:100;padding:12px 18px;color:#e8c994;background:rgba(9,16,31,.96);border:1px solid rgba(198,151,85,.45);transform:translateX(-50%) translateY(16px);opacity:0;pointer-events:none;transition:.22s ease;letter-spacing:1px;font:700 15px "Microsoft YaHei","PingFang SC",sans-serif}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   </style>
 </head>
-<body data-version="stillight-homepage-v66-single-gold-frame">
+<body data-version="stillight-homepage-v67-a2-image-frame">
   <main class="viewport">
     <section class="stage" id="stage">
       <div class="language" id="languageBox">
@@ -62,8 +55,8 @@
         <img class="full-logo" id="fullLogo" src="assets/logo_zh_CN.png" alt="STILLIGHT — 在记忆中，爱依然存在。" />
         <canvas class="supporting-copy" id="supportingCopy" width="510" height="33" role="img" aria-label="让思念，在这里安静停留。"></canvas>
         <div class="actions">
-          <button class="pixel-button primary" type="button" id="enterGarden"><i class="button-ornament left" aria-hidden="true"></i><span class="button-label" id="enterText">进入纪念园</span><i class="button-ornament right" aria-hidden="true"></i></button>
-          <button class="pixel-button" type="button" id="createMemorial"><i class="button-ornament left" aria-hidden="true"></i><span class="button-label" id="createText">开始创建</span><i class="button-ornament right" aria-hidden="true"></i></button>
+          <button class="pixel-button primary" type="button" id="enterGarden"><span id="enterText">进入纪念园</span></button>
+          <button class="pixel-button" type="button" id="createMemorial"><span id="createText">开始创建</span></button>
         </div>
       </div>
     </section>
@@ -89,7 +82,7 @@
     languageButton.addEventListener("click",e=>{e.stopPropagation();languageBox.classList.toggle("open")});
     document.querySelectorAll(".language-menu button").forEach(button=>button.addEventListener("click",e=>{e.stopPropagation();const lang=button.dataset.lang;localStorage.setItem("petMemorialLanguage",lang);applyLanguage(lang);languageBox.classList.remove("open");showToast((TEXTS[lang]||TEXTS["zh-CN"]).saved)}));
     document.addEventListener("click",()=>languageBox.classList.remove("open"));
-    localStorage.setItem("starpawHomeVersion","stillight-homepage-v66-single-gold-frame");
+    localStorage.setItem("starpawHomeVersion","stillight-homepage-v67-a2-image-frame");
     applyLanguage(localStorage.getItem("petMemorialLanguage")||"zh-CN");
   </script>
 </body>
