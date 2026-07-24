@@ -1,15 +1,18 @@
 :root{--logo-gold:#d9a24a}
 
 /* Shared language control: identical coordinates and styling on every page. */
-.header:has(.language-fixed){right:76px!important;top:48px!important}
-.header .top-actions:has(.language-fixed){padding-right:182px!important}
+.header:has(.language-fixed),
+.header.has-fixed-language{right:76px!important;top:48px!important}
+.header .top-actions:has(.language-fixed),
+.header.has-fixed-language .top-actions{padding-right:182px!important}
 .language-fixed{
   position:fixed!important;
   right:76px!important;
   top:48px!important;
   z-index:80!important;
   width:auto!important;
-  height:auto!important
+  height:auto!important;
+  transform-origin:top right!important
 }
 .language-fixed .language-button{
   position:relative!important;
