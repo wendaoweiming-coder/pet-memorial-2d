@@ -371,6 +371,7 @@ canvas{image-rendering:pixelated;display:block}
 }
 .language .menu button:hover,.language .menu button.active{background:rgba(232,191,116,.12)}
 </style>
+<link rel="stylesheet" href="assets/global-language.css" />
 </head>
 <body>
 <main class="viewport">
@@ -379,13 +380,13 @@ canvas{image-rendering:pixelated;display:block}
     <div class="brand"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="pageTitle" data-w="170" data-h="34" data-size="24"></canvas></div>
     <div class="top-actions">
       <a class="pixel-button" href="index.html"><span class="button-label" data-k-text="backHome"></span></a>
-      <div class="language">
+      <div class="language language-fixed">
         <button class="language-button" id="langButton" type="button" aria-label="选择语言">
           <svg class="globe" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" shape-rendering="crispEdges"/>
             <path d="M4 12H20M6 8H18M6 16H18M12 3C9 6 8 9 8 12C8 15 9 18 12 21M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="currentColor" stroke-width="1.6" shape-rendering="crispEdges"/>
           </svg>
-          <span class="button-label" data-k-text="languageLabel"></span><span class="lang-arrow">⌄</span>
+          <span class="button-label language-label" data-k-text="languageLabel"></span><span class="lang-arrow">⌄</span>
         </button>
         <div class="menu" id="langMenu">
           <button data-lang="zh-CN">简体中文</button><button data-lang="zh-TW">繁體中文</button><button data-lang="en">English</button><button data-lang="ja">日本語</button>

@@ -1,0 +1,104 @@
+:root{--logo-gold:#c7841d}
+
+/* Shared language control: identical coordinates and styling on every page. */
+.header:has(.language-fixed){right:76px!important;top:48px!important}
+.header .top-actions:has(.language-fixed){padding-right:182px!important}
+.language-fixed{
+  position:fixed!important;
+  right:76px!important;
+  top:48px!important;
+  z-index:80!important;
+  width:auto!important;
+  height:auto!important
+}
+.language-fixed .language-button{
+  position:relative!important;
+  width:auto!important;
+  min-width:158px!important;
+  height:42px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  padding:0 14px!important;
+  color:var(--logo-gold)!important;
+  background:rgba(8,17,35,.58)!important;
+  border:2px solid rgba(199,132,29,.72)!important;
+  box-shadow:inset 0 0 0 2px rgba(199,132,29,.05),0 8px 20px rgba(0,0,0,.17)!important;
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif!important;
+  font-size:15px!important;
+  font-weight:800!important;
+  letter-spacing:1px!important;
+  line-height:1!important;
+  text-decoration:none!important;
+  cursor:pointer!important
+}
+.language-fixed .language-button::before,
+.language-fixed .language-button::after{display:none!important}
+.language-fixed .globe,
+.language-fixed .globe-svg{
+  width:19px!important;
+  height:19px!important;
+  flex:0 0 19px!important;
+  color:var(--logo-gold)!important;
+  opacity:1!important;
+  transform:none!important
+}
+.language-fixed .language-label,
+.language-fixed .language-button .button-label{
+  display:inline-block!important;
+  width:auto!important;
+  height:auto!important;
+  color:var(--logo-gold)!important;
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif!important;
+  font-size:15px!important;
+  font-weight:800!important;
+  letter-spacing:1px!important;
+  line-height:1!important;
+  text-shadow:none!important;
+  transform:none!important;
+  white-space:nowrap!important
+}
+.language-fixed .lang-arrow{
+  display:inline-block!important;
+  color:var(--logo-gold)!important;
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif!important;
+  font-size:14px!important;
+  line-height:1!important;
+  opacity:.86!important;
+  transform:translateY(-1px)!important
+}
+.language-fixed .language-menu,
+.language-fixed .menu{
+  position:absolute!important;
+  right:0!important;
+  top:50px!important;
+  width:158px!important;
+  padding:6px!important;
+  background:rgba(8,16,32,.97)!important;
+  border:2px solid rgba(199,132,29,.66)!important;
+  box-shadow:0 18px 34px rgba(0,0,0,.34)!important
+}
+.language-fixed .language-menu{display:none!important}
+.language-fixed .menu{display:none!important}
+.language-fixed.open .language-menu,
+.language-fixed .language-menu.open,
+.language-fixed .menu.open{display:grid!important;gap:4px!important}
+.language-fixed .language-menu button,
+.language-fixed .menu button{
+  height:34px!important;
+  padding:0!important;
+  border:0!important;
+  color:var(--logo-gold)!important;
+  background:transparent!important;
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif!important;
+  font-size:14px!important;
+  font-weight:800!important;
+  letter-spacing:.8px!important;
+  line-height:34px!important;
+  text-align:center!important
+}
+.language-fixed .language-menu button:hover,
+.language-fixed .language-menu button.active,
+.language-fixed .menu button:hover,
+.language-fixed .menu button.active{background:rgba(199,132,29,.12)!important}
