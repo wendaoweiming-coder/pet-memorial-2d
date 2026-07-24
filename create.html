@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>创建纪念｜星归园</title>
+<title>创建墓碑｜STILLIGHT</title>
 <!-- version: v49-epitaph-safe-area -->
 <style>
 *{box-sizing:border-box}
@@ -225,6 +225,124 @@ canvas{image-rendering:pixelated;display:block}
 
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;padding:10px 18px;background:rgba(5,15,34,.96);border:2px solid rgba(219,171,97,.78);color:#e5bd78;opacity:0;pointer-events:none;transition:opacity .18s;font:900 16px "SimSun","Courier New",monospace}
 .toast.show{opacity:1}
+
+/* v72 — approved integrated garden form */
+:root{--brand-gold:#c7841d;--brand-gold-soft:rgba(199,132,29,.78);--brand-gold-dim:rgba(199,132,29,.48)}
+.stage{
+  background:
+    linear-gradient(rgba(3,12,25,.18),rgba(3,12,25,.28)),
+    url("assets/create_garden_bg.png") center/cover no-repeat;
+}
+.stage::before{opacity:.16}
+.stage::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 73% 48%,rgba(2,10,22,.08),rgba(2,10,22,.20) 78%);
+}
+.header{left:76px;right:72px;top:34px;height:46px}
+.brand{display:none}
+.top-actions{margin-left:auto;gap:12px}
+.header .pixel-button,.language-button{
+  height:42px;background:rgba(4,13,28,.26);border-color:var(--brand-gold-dim);box-shadow:none
+}
+.header .pixel-button{width:132px}
+.language-button{width:172px}
+.panel{z-index:2;background:transparent;border:0;box-shadow:none}
+.panel::before,.panel::after{display:none}
+.preview-panel{left:56px;top:84px;width:650px;height:820px;padding:0}
+.form-panel{left:748px;top:116px;width:836px;height:756px;padding:0 6px}
+.panel-title,.preview-note,.section{display:none!important}
+.section.visibility-heading,.section.photo-heading{
+  display:flex!important;height:24px;background:transparent;border:0;padding:0;margin:0 0 -8px;align-items:center
+}
+.preview-scene{
+  width:650px;height:820px;border:0;background:transparent;box-shadow:none;overflow:visible
+}
+.preview-scene::after{display:none}
+.tombstone-wrap{left:50%;bottom:54px;width:424px;height:658px;transform:translateX(-50%)}
+.tombstone-img{
+  display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;
+  image-rendering:pixelated;filter:brightness(.57) saturate(.56) contrast(1.16) drop-shadow(0 14px 12px rgba(0,0,0,.28))
+}
+#stoneText{top:300px;width:220px;height:190px}
+.stone-selector{
+  position:absolute;top:346px;width:64px;height:79px;border:0;padding:0;background-color:transparent;
+  background-position:center;background-repeat:no-repeat;background-size:100% 100%;image-rendering:pixelated;
+  cursor:pointer;filter:drop-shadow(0 3px 3px rgba(0,0,0,.32));transition:transform .12s steps(2,end),filter .12s steps(2,end)
+}
+.stone-selector.prev{left:78px;background-image:url("assets/selector_left.png")}
+.stone-selector.next{right:78px;background-image:url("assets/selector_right.png")}
+.stone-selector:hover{transform:translateY(-2px);filter:brightness(1.14) drop-shadow(0 4px 3px rgba(0,0,0,.34))}
+.stone-selector:focus-visible{outline:2px solid var(--brand-gold);outline-offset:4px}
+.form-grid{grid-template-columns:1fr 1fr;gap:12px 74px;color:var(--brand-gold)}
+.field{height:82px;overflow:visible}
+.field.tall{height:136px}
+.label{height:26px;margin:0 0 3px}
+.input-shell,.field.tall .input-shell{
+  height:48px;border:0;border-bottom:2px solid var(--brand-gold-soft);background:transparent;box-shadow:none
+}
+.input-shell::after{
+  content:"";position:absolute;right:-1px;bottom:-2px;width:8px;height:8px;
+  border-right:2px solid var(--brand-gold-soft);border-top:2px solid var(--brand-gold-soft)
+}
+.field.tall .input-shell{
+  height:106px;border-bottom:0;
+  background:
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 35px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 75px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 104px/100% 2px no-repeat
+}
+.field.tall .input-shell::after{display:none}
+.input-shell input,.input-shell textarea{
+  color:var(--brand-gold)!important;caret-color:var(--brand-gold);padding:0 4px;font-size:18px;text-shadow:1px 1px 0 rgba(25,16,10,.56)
+}
+.input-shell textarea{padding:8px 4px;line-height:40px}
+#nameDisplay,#epitaphDisplay,#storyDisplay{display:none!important}
+.display{left:3px;top:1px}
+.date-icon{display:none}
+.arrow{right:4px;top:20px;border-top-color:var(--brand-gold)}
+.type-menu{left:0;right:0;top:48px;border:2px solid var(--brand-gold-soft);background:rgba(3,13,29,.97);box-shadow:4px 4px 0 rgba(0,0,0,.22)}
+.type-menu button{color:var(--brand-gold)}
+.choice-row{gap:22px;margin-top:0;align-items:center}
+.choice{
+  height:48px;border:0;background:transparent;box-shadow:none;padding:12px 0 0 38px;color:var(--brand-gold)
+}
+.choice.active{border:0;background:transparent}
+.radio{left:4px;top:12px;width:20px;height:20px;border:2px solid var(--brand-gold)}
+.choice.active .radio::after{left:4px;top:4px;width:8px;height:8px;background:var(--brand-gold)}
+.choice .txt:nth-of-type(2){display:none}
+.upload-area{grid-template-columns:170px repeat(5,1fr);gap:12px;margin-top:0}
+.upload-main,.slot{
+  height:68px;border:0;background:transparent;box-shadow:none;position:relative
+}
+.upload-main::before,.slot::before{
+  content:"";position:absolute;inset:0;opacity:.88;background:
+    linear-gradient(var(--brand-gold),var(--brand-gold)) left top/18px 2px no-repeat,
+    linear-gradient(var(--brand-gold),var(--brand-gold)) left top/2px 18px no-repeat,
+    linear-gradient(var(--brand-gold),var(--brand-gold)) right top/18px 2px no-repeat,
+    linear-gradient(var(--brand-gold),var(--brand-gold)) right top/2px 18px no-repeat,
+    linear-gradient(var(--brand-gold),var(--brand-gold)) left bottom/18px 2px no-repeat,
+    linear-gradient(var(--brand-gold),var(--brand-gold)) left bottom/2px 18px no-repeat,
+    linear-gradient(var(--brand-gold),var(--brand-gold)) right bottom/18px 2px no-repeat,
+    linear-gradient(var(--brand-gold),var(--brand-gold)) right bottom/2px 18px no-repeat
+}
+.slot::after{content:"+";position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-gold);font-size:28px;line-height:1}
+.slot.filled::after{display:none}
+.slot.filled::before{display:block}
+.upload-copy{left:14px;right:10px;color:var(--brand-gold)}
+.upload-copy .main{font-size:14px}.upload-copy .sub{font-size:10px}
+.submit-row{margin-top:2px}
+.submit{
+  width:244px;height:62px;border:0;background:transparent url("assets/button_frame_a2_hollow_v69.png") center/100% 100% no-repeat;
+  box-shadow:none;image-rendering:pixelated
+}
+.submit::before,.submit::after{display:none}
+.submit:hover{background-color:transparent;filter:brightness(1.14);transform:translateY(-2px)}
+.submit .button-label{height:100%;color:var(--brand-gold);font-size:18px;transform:translateY(3px)}
+.button-label,.upload-copy{color:var(--brand-gold)}
+.form-panel canvas{filter:saturate(.72) brightness(.92)}
+.counter{opacity:.68}
+.field-hint{top:76px;border-color:#b85b44;background:rgba(4,13,29,.95)}
+.toast{color:var(--brand-gold);border-color:var(--brand-gold-soft)}
 </style>
 </head>
 <body>
@@ -250,9 +368,11 @@ canvas{image-rendering:pixelated;display:block}
     <div class="panel-title"><img class="paw" src="assets/paw.png" alt=""><canvas class="txt" data-k="previewTitle" data-w="160" data-h="30" data-size="20"></canvas></div>
     <div class="preview-scene">
       <div class="tombstone-wrap">
-        <img class="tombstone-img" src="assets/blank_tombstone.png" alt="">
+        <img class="tombstone-img" id="previewStone" src="assets/stone_lunar_laurel.png" alt="">
         <canvas id="stoneText"></canvas>
       </div>
+      <button class="stone-selector prev" id="previousStone" type="button" aria-label="上一款墓碑"></button>
+      <button class="stone-selector next" id="nextStone" type="button" aria-label="下一款墓碑"></button>
     </div>
     <canvas class="preview-note txt" data-k="previewNote" data-w="560" data-h="54" data-size="15"></canvas>
   </aside>
@@ -272,11 +392,11 @@ canvas{image-rendering:pixelated;display:block}
 
       <div class="section"><canvas class="txt" data-k="wordsSection" data-w="150" data-h="28" data-size="17"></canvas></div>
 
-      <div class="field full tall"><canvas class="label txt" data-k="epitaphLabel" data-w="150" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="epitaphDisplay"></canvas><textarea id="epitaph" maxlength="120"></textarea><canvas class="counter" id="epiCount"></canvas></div></div>
+      <div class="field full tall"><canvas class="label txt" data-k="epitaphLabel" data-w="260" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="epitaphDisplay"></canvas><textarea id="epitaph" maxlength="120"></textarea><canvas class="counter" id="epiCount"></canvas></div></div>
 
-      <div class="field full tall"><canvas class="label txt" data-k="storyLabel" data-w="220" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="storyDisplay"></canvas><textarea id="story" maxlength="300"></textarea><canvas class="counter" id="storyCount"></canvas></div></div>
+      <div class="field full tall"><canvas class="label txt" data-k="storyLabel" data-w="360" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="storyDisplay"></canvas><textarea id="story" maxlength="300"></textarea><canvas class="counter" id="storyCount"></canvas></div></div>
 
-      <div class="section"><canvas class="txt" data-k="visibilitySection" data-w="150" data-h="28" data-size="17"></canvas></div>
+      <div class="section visibility-heading"><canvas class="txt" data-k="visibilitySection" data-w="150" data-h="24" data-size="15"></canvas></div>
 
       <div class="choice-row">
         <div class="choice active" data-v="public"><span class="radio"></span><canvas class="txt" data-k="public" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="publicDesc" data-w="185" data-h="20" data-size="12"></canvas></div>
@@ -284,7 +404,7 @@ canvas{image-rendering:pixelated;display:block}
         <div class="choice" data-v="private"><span class="radio"></span><canvas class="txt" data-k="private" data-w="120" data-h="22" data-size="15"></canvas><canvas class="txt" data-k="privateDesc" data-w="185" data-h="20" data-size="12"></canvas></div>
       </div>
 
-      <div class="section"><canvas class="txt" data-k="photoSection" data-w="210" data-h="28" data-size="17"></canvas></div>
+      <div class="section photo-heading"><canvas class="txt" data-k="photoSection" data-w="210" data-h="24" data-size="15"></canvas></div>
 
       <div class="upload-area">
         <div class="upload-main" id="uploadMain"><div class="upload-copy"><span class="main" id="uploadMainLine"></span><span class="sub" id="uploadSubLine"></span></div></div>
@@ -310,6 +430,10 @@ const T={
 "en":{pageTitle:"Create Memorial",backHome:"Home",languageLabel:"English",previewTitle:"Preview",previewNote:"This is the tombstone preview. Fill in the form and it updates in real time.",formTitle:"Memorial Info",basicSection:"Basic Info",wordsSection:"Memorial Words",visibilitySection:"Visibility",photoSection:"Photos (max 5)",petNameLabel:"Pet Name",petTypeLabel:"Pet Type",birthLabel:"Birth Date",deathLabel:"Passing Date",epitaphLabel:"Epitaph",storyLabel:"Public Story",petNamePH:"Enter pet name",petTypePH:"Choose type",birthPH:"yyyy / mm / dd",deathPH:"yyyy / mm / dd",epitaphPH:"Write what you want to say...",storyPH:"Record a story that belongs to you...",cat:"Cat",dog:"Dog",rabbit:"Rabbit",bird:"Bird",other:"Other",public:"Public",publicDesc:"Visible to all visitors",invite:"Invite only",inviteDesc:"Only people with link",private:"Private",privateDesc:"Only you can view",uploadMain:"＋  Upload photos\\nJPG, PNG, under 5MB each",submit:"Create Memorial",needName:"Please enter pet name",dateRequired:"Birth Date and Passing Date are required",birthRequired:"Birth Date required",deathRequired:"Passing Date required",dateOrderInvalid:"Passing Date cannot be earlier than Birth Date",birthFuture:"Birth Date cannot be in the future",deathFuture:"Passing Date cannot be in the future",saved:"Memorial saved"},
 "ja":{pageTitle:"記念を作成",backHome:"ホームへ",languageLabel:"日本語",previewTitle:"墓碑プレビュー",previewNote:"ここに墓碑プレビューを表示します。右側に入力すると即時更新されます。",formTitle:"記念情報",basicSection:"基本情報",wordsSection:"記念の言葉",visibilitySection:"公開範囲",photoSection:"写真（最大5枚）",petNameLabel:"名前",petTypeLabel:"種類",birthLabel:"誕生日",deathLabel:"旅立った日",epitaphLabel:"墓誌銘",storyLabel:"公開する物語",petNamePH:"名前を入力",petTypePH:"種類を選択",birthPH:"年 / 月 / 日",deathPH:"年 / 月 / 日",epitaphPH:"伝えたい言葉を書く...",storyPH:"あなたたちの物語を書く...",cat:"猫",dog:"犬",rabbit:"うさぎ",bird:"鳥",other:"その他",public:"公開",publicDesc:"全ての訪問者が閲覧",invite:"招待のみ",inviteDesc:"リンクを持つ人だけ",private:"自分だけ",privateDesc:"自分だけが閲覧",uploadMain:"＋  写真をアップロード\\nJPG、PNG、1枚5MB以下",submit:"記念を作成",needName:"名前を入力してください",dateRequired:"誕生日と旅立った日は必須です",birthRequired:"誕生日を入力してください",deathRequired:"旅立った日を入力してください",dateOrderInvalid:"旅立った日は誕生日より前にできません",birthFuture:"誕生日は未来日にできません",deathFuture:"旅立った日は未来日にできません",saved:"保存しました"}
 };
+Object.assign(T["zh-CN"],{pageTitle:"创建墓碑",petNameLabel:"宠物名字",petTypeLabel:"宠物种类",epitaphLabel:"墓志铭（最多120字）",storyLabel:"公开的故事（选填，最多300字）",submit:"创建墓碑",saved:"墓碑信息已保存"});
+Object.assign(T["zh-TW"],{pageTitle:"建立墓碑",petNameLabel:"寵物名字",petTypeLabel:"寵物種類",epitaphLabel:"墓誌銘（最多120字）",storyLabel:"公開的故事（選填，最多300字）",submit:"建立墓碑",saved:"墓碑資訊已保存"});
+Object.assign(T.en,{pageTitle:"Create Tombstone",epitaphLabel:"Epitaph (max 120)",storyLabel:"Public Story (optional, max 300)",submit:"Create Tombstone",saved:"Tombstone saved"});
+Object.assign(T.ja,{pageTitle:"墓碑を作成",petNameLabel:"ペットの名前",petTypeLabel:"ペットの種類",epitaphLabel:"墓誌銘（最大120字）",storyLabel:"公開する物語（任意、最大300字）",submit:"墓碑を作成",saved:"墓碑を保存しました"});
 
 const savedDraft=(()=>{try{return JSON.parse(localStorage.getItem("petMemorialDraft")||"{}")}catch(e){return {}}})();
 const S={
@@ -353,7 +477,7 @@ function px(c,text,opt={}){
   const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;
   const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";
-  const color=opt.color||"rgba(230,196,126,.92)";
+  const color=opt.color||"rgba(199,132,29,.94)";
   const lines=String(text||"").split(/\\n|\n/);
   const lineH=Math.max(1,Math.round(size*1.38/r));
   const totalH=lines.length*lineH;
@@ -393,7 +517,7 @@ function fitStoneBlock(ctx,text,maxW,maxH,startSize,minSize,maxLines){
 function field(c,text,ph,multi=false){
   const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,1);
   ctx.font=`900 ${Math.round(17/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
-  const has=String(text||"").trim(),fill=has?"rgba(230,196,126,.94)":"rgba(211,166,97,.72)",content=has?text:ph;
+  const has=String(text||"").trim(),fill=has?"rgba(199,132,29,.96)":"rgba(199,132,29,.66)",content=has?text:ph;
   if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*Math.round(18*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}
   else{let y=Math.round((c.height-Math.round(17/r))/2);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(String(content).slice(0,42),1,y+1);ctx.fillStyle=fill;ctx.fillText(String(content).slice(0,42),0,y)}
 }
@@ -499,8 +623,8 @@ function update(){
   field(document.getElementById("typeDisplay"),S.type?tr(S.type):"",tr("petTypePH"));
   field(document.getElementById("birthDisplay"),birthI.value?birthI.value.replaceAll("-"," / "):"",tr("birthPH"));
   field(document.getElementById("deathDisplay"),deathI.value?deathI.value.replaceAll("-"," / "):"",tr("deathPH"));
-  px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
-  px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(230,196,126,.86)"});
+  px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(199,132,29,.76)"});
+  px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(199,132,29,.76)"});
 
   const {ctx}=setup(stoneC,220,190,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
   // v48: all text is clipped to the recessed plaque and rendered as a shallow carving.
@@ -533,6 +657,25 @@ slots.forEach(s=>s.addEventListener("click",()=>photoInput.click()));
 photoInput.addEventListener("change",()=>{S.photos=[...photoInput.files].slice(0,5);renderPhotos();persistDraft()});
 function renderPhotos(){slots.forEach((slot,i)=>{const img=slot.querySelector("img"),f=S.photos[i];if(f){img.src=URL.createObjectURL(f);slot.classList.add("filled")}else{img.removeAttribute("src");slot.classList.remove("filled")}})}
 slots.forEach((slot,i)=>slot.querySelector(".remove").addEventListener("click",e=>{e.stopPropagation();S.photos.splice(i,1);renderPhotos();persistDraft()}));
+
+const stoneStyles=[
+  {stone:"stone_lunar_laurel.png",stoneName:"moonGray",top:300},
+  {stone:"stone_flower_arch.png",stoneName:"warmSand",top:302},
+  {stone:"stone_midnight_gothic.png",stoneName:"blueSlate",top:286},
+  {stone:"stone_moss_garden.png",stoneName:"mossOld",top:292}
+];
+const savedStone=(()=>{try{return JSON.parse(localStorage.getItem("petMemorialStone")||"{}")}catch(e){return {}}})();
+let stoneIndex=Math.max(0,stoneStyles.findIndex(item=>item.stone===savedStone.stone));
+const previewStone=document.getElementById("previewStone");
+function applyStone(){
+  const selected=stoneStyles[stoneIndex];
+  previewStone.src=`assets/${selected.stone}`;
+  stoneC.style.top=`${selected.top}px`;
+  localStorage.setItem("petMemorialStone",JSON.stringify({stone:selected.stone,stoneName:selected.stoneName}));
+}
+document.getElementById("previousStone").addEventListener("click",()=>{stoneIndex=(stoneIndex+stoneStyles.length-1)%stoneStyles.length;applyStone()});
+document.getElementById("nextStone").addEventListener("click",()=>{stoneIndex=(stoneIndex+1)%stoneStyles.length;applyStone()});
+applyStone();
 
 
 
