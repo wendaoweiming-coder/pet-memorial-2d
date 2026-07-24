@@ -7,14 +7,14 @@
 <style>
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
 body{font-family:"SimSun","Courier New",monospace;color:#e5bd78}
-.stage{position:fixed;inset:0;background:linear-gradient(rgba(4,9,22,.58),rgba(4,9,22,.70)),url("assets/create_garden_bg.png") center/cover no-repeat;display:grid;place-items:center}
+.stage{position:absolute;left:50%;top:50%;width:1672px;height:941px;transform-origin:center center;background:linear-gradient(rgba(4,9,22,.58),rgba(4,9,22,.70)),url("assets/create_garden_bg.png") center/cover no-repeat;display:grid;place-items:center}
 .card{width:760px;height:420px;border:3px solid rgba(219,171,97,.76);background:rgba(4,15,36,.84);box-shadow:8px 8px 0 rgba(0,0,0,.25);display:grid;place-items:center;text-align:center;font-size:28px;font-weight:900}
 a{color:#e5bd78}
 </style>
 <link rel="stylesheet" href="assets/global-language.css" />
 </head>
 <body>
-<div class="stage">
+<div class="stage" id="stage">
   <div class="language-fixed" id="languageBox">
     <button class="language-button" type="button" id="languageButton" aria-label="选择语言">
       <svg class="globe-svg" viewBox="0 0 24 24" aria-hidden="true">
@@ -39,6 +39,9 @@ const TEXTS={
   "en":{label:"English",copy:"Memorial garden placeholder",back:"Back to creation"},
   "ja":{label:"日本語",copy:"記念園ページ",back:"作成ページへ戻る"}
 };
+const stage=document.getElementById("stage");
+function resizeStage(){const scale=Math.max(innerWidth/1672,innerHeight/941);stage.style.transform=`translate(-50%, -50%) scale(${scale})`}
+addEventListener("resize",resizeStage);resizeStage();
 const languageBox=document.getElementById("languageBox");
 const languageButton=document.getElementById("languageButton");
 function applyLanguage(lang){

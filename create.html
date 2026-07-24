@@ -501,7 +501,7 @@ function persistDraft(){
   localStorage.setItem("petMemorialDraft",JSON.stringify(currentDraft()));
 }
 function tr(k){return(T[S.lang]&&T[S.lang][k])||T["zh-CN"][k]||k}
-function resize(){stage.style.transform=`scale(${Math.min(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();
+function resize(){stage.style.transform=`scale(${Math.max(innerWidth/1672,innerHeight/941)})`}addEventListener("resize",resize);resize();
 
 function setup(c,w,h,r=1){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
 function px(c,text,opt={}){
