@@ -343,6 +343,33 @@ canvas{image-rendering:pixelated;display:block}
 .counter{opacity:.68}
 .field-hint{top:76px;border-color:#b85b44;background:rgba(4,13,29,.95)}
 .toast{color:var(--brand-gold);border-color:var(--brand-gold-soft)}
+
+/* v73 — language selector matches the homepage exactly */
+.language-button{
+  width:auto;min-width:158px;height:42px;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:0 14px;color:rgba(235,205,153,.9);
+  background:rgba(8,17,35,.58);border:2px solid rgba(204,157,88,.62);
+  box-shadow:inset 0 0 0 2px rgba(255,232,178,.04),0 8px 20px rgba(0,0,0,.17);
+  letter-spacing:1px;font-size:15px;font-weight:800
+}
+.language-button::before,.language-button::after{display:none}
+.language-button .globe{width:19px;height:19px;opacity:.9;flex:none}
+#langButton .button-label{
+  display:inline;font-family:inherit;font-size:15px;font-weight:800;letter-spacing:1px;
+  line-height:normal;height:auto;color:inherit;text-shadow:none;transform:none
+}
+.language-button .lang-arrow{font-size:14px;line-height:1;transform:translateY(-1px);opacity:.78;color:inherit}
+.language .menu{
+  top:50px;right:0;width:158px;padding:6px;
+  background:rgba(8,16,32,.97);border:2px solid rgba(198,151,85,.58);
+  box-shadow:0 18px 34px rgba(0,0,0,.34)
+}
+.language .menu button{
+  height:34px;padding:0;text-align:center;color:rgba(235,205,153,.92);
+  background:transparent;font-family:inherit;font-size:14px;font-weight:800;letter-spacing:.8px
+}
+.language .menu button:hover,.language .menu button.active{background:rgba(232,191,116,.12)}
 </style>
 </head>
 <body>
@@ -353,9 +380,12 @@ canvas{image-rendering:pixelated;display:block}
     <div class="top-actions">
       <a class="pixel-button" href="index.html"><span class="button-label" data-k-text="backHome"></span></a>
       <div class="language">
-        <button class="language-button" id="langButton" type="button">
-          <svg class="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(230,190,116,.86)" stroke-width="2" shape-rendering="crispEdges"/><path d="M4 12H20M6 8H18M6 16H18M12 3C9 6 8 9 8 12C8 15 9 18 12 21M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="rgba(230,190,116,.76)" stroke-width="1.6" shape-rendering="crispEdges"/></svg>
-          <span class="button-label" data-k-text="languageLabel"></span><span style="color:#e5bd78;line-height:1;transform:translateY(1px)">⌄</span>
+        <button class="language-button" id="langButton" type="button" aria-label="选择语言">
+          <svg class="globe" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" shape-rendering="crispEdges"/>
+            <path d="M4 12H20M6 8H18M6 16H18M12 3C9 6 8 9 8 12C8 15 9 18 12 21M12 3C15 6 16 9 16 12C16 15 15 18 12 21" fill="none" stroke="currentColor" stroke-width="1.6" shape-rendering="crispEdges"/>
+          </svg>
+          <span class="button-label" data-k-text="languageLabel"></span><span class="lang-arrow">⌄</span>
         </button>
         <div class="menu" id="langMenu">
           <button data-lang="zh-CN">简体中文</button><button data-lang="zh-TW">繁體中文</button><button data-lang="en">English</button><button data-lang="ja">日本語</button>
@@ -610,6 +640,7 @@ function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
   document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
   document.querySelectorAll("[data-k-text]").forEach(el=>{el.textContent=tr(el.dataset.kText)});
+  document.querySelectorAll("#langMenu button").forEach(button=>button.classList.toggle("active",button.dataset.lang===S.lang));
   const uploadLines=String(tr("uploadMain")).split(/\\n|\n/);
   const uploadMain=document.getElementById("uploadMainLine");
   const uploadSub=document.getElementById("uploadSubLine");
