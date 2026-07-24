@@ -14,6 +14,7 @@
   height:auto!important;
   transform-origin:top right!important
 }
+.global-back-fixed{transform-origin:top right!important}
 .language-fixed .language-button{
   position:relative!important;
   width:auto!important;
