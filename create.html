@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v81-form-readability -->
+<!-- version: v82-pixel-form-and-stone-selectors -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -393,6 +393,45 @@ canvas{image-rendering:pixelated;display:block}
 .upload-copy .main{font-size:13px;letter-spacing:.5px;white-space:nowrap}
 .upload-copy .sub{font-size:9px;letter-spacing:0;white-space:nowrap;opacity:.76}
 .submit-row{transform:translateY(-6px)}
+
+/* v82 — calm pixel veil, stronger pixel typography, restored stone selectors */
+.form-panel::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:-24px!important;
+  right:-26px!important;
+  top:-22px!important;
+  bottom:-24px!important;
+  width:auto!important;
+  height:auto!important;
+  z-index:-1;
+  border:0!important;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(5,17,34,.72),rgba(4,14,29,.64)),
+    repeating-linear-gradient(0deg,rgba(217,162,74,.018) 0 1px,transparent 1px 4px);
+  box-shadow:
+    inset 0 0 0 1px rgba(217,162,74,.10),
+    inset 0 0 34px rgba(2,8,18,.30),
+    0 8px 30px rgba(0,0,0,.12);
+  clip-path:polygon(10px 0,calc(100% - 10px) 0,calc(100% - 10px) 4px,100% 4px,100% calc(100% - 10px),calc(100% - 4px) calc(100% - 10px),calc(100% - 4px) 100%,10px 100%,10px calc(100% - 4px),0 calc(100% - 4px),0 10px,4px 10px,4px 4px,10px 4px)
+}
+.stone-selector{
+  top:357px;width:82px;height:56px;
+  filter:drop-shadow(0 4px 4px rgba(0,0,0,.34))
+}
+.stone-selector.prev{left:56px;background-image:url("assets/selector_stone_left.png")}
+.stone-selector.next{right:56px;background-image:url("assets/selector_stone_right.png")}
+.stone-selector:hover{transform:translateY(-2px);filter:brightness(1.10) drop-shadow(0 5px 4px rgba(0,0,0,.36))}
+.input-shell input,.input-shell textarea{
+  font-family:"Courier New","SimSun",monospace;
+  font-weight:700;
+  letter-spacing:.5px
+}
+.epitaph-field .input-shell{width:calc(100% - 72px)}
+#epitaph{padding:8px 68px 8px 4px!important;font-size:16px!important;line-height:40px}
+#epiCount{right:6px;bottom:6px;opacity:.78}
 </style>
 <link rel="stylesheet" href="assets/global-language.css" />
 <script src="assets/global-language.js" defer></script>
@@ -447,7 +486,7 @@ canvas{image-rendering:pixelated;display:block}
 
       <div class="section"><canvas class="txt" data-k="wordsSection" data-w="150" data-h="28" data-size="17"></canvas></div>
 
-      <div class="field full tall"><canvas class="label txt" data-k="epitaphLabel" data-w="260" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="epitaphDisplay"></canvas><textarea id="epitaph" maxlength="120"></textarea><canvas class="counter" id="epiCount"></canvas></div></div>
+      <div class="field full tall epitaph-field"><canvas class="label txt" data-k="epitaphLabel" data-w="260" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="epitaphDisplay"></canvas><textarea id="epitaph" maxlength="120"></textarea><canvas class="counter" id="epiCount"></canvas></div></div>
 
       <div class="field full tall"><canvas class="label txt" data-k="storyLabel" data-w="360" data-h="24" data-size="15"></canvas><div class="input-shell"><canvas class="display" id="storyDisplay"></canvas><textarea id="story" maxlength="300"></textarea><canvas class="counter" id="storyCount"></canvas></div></div>
 
@@ -530,7 +569,7 @@ function resize(){stage.style.transform=`scale(${Math.max(innerWidth/1672,innerH
 function setup(c,w,h,r=1){c.style.width=w+"px";c.style.height=h+"px";c.width=Math.max(1,Math.floor(w/r));c.height=Math.max(1,Math.floor(h/r));const ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;return{ctx,r}}
 function px(c,text,opt={}){
   const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;
-  const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);
+  const {ctx,r}=setup(c,w,h,opt.ratio||1.25);ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";
   const color=opt.color||"rgba(217,162,74,.88)";
   const lines=String(text||"").split(/\\n|\n/);
@@ -570,7 +609,7 @@ function fitStoneBlock(ctx,text,maxW,maxH,startSize,minSize,maxLines){
   return {size:minSize, lines, lineH};
 }
 function field(c,text,ph,multi=false){
-  const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,1);
+  const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,1.25);
   ctx.font=`900 ${Math.round(17/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
   const has=String(text||"").trim(),fill=has?"rgba(217,162,74,.94)":"rgba(217,162,74,.58)",content=has?text:ph;
   if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*Math.round(18*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}
@@ -661,9 +700,9 @@ function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style
 }
 
 const createCarve={
-  recess:"rgba(22,21,20,.96)",
-  shadow:"rgba(4,4,4,.54)",
-  highlight:"rgba(224,216,198,.38)"
+  recess:"rgba(18,17,16,.94)",
+  shadow:"rgba(3,3,3,.62)",
+  highlight:"rgba(232,222,201,.50)"
 };
 function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
@@ -692,7 +731,7 @@ function update(){
   drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,96,11,9,createCarve);
   drawCarvedLine(ctx,"—",110,61,34,10,9,createCarve);
   drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,77,96,11,9,createCarve);
-  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,97,92,34,9,7,3,createCarve);
+  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,96,96,40,10,8,3,createCarve);
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{
   el.addEventListener("input",()=>{update();persistDraft()});
