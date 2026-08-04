@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v79-form-legibility-refine -->
+<!-- version: v79-asymmetric-lighting -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -15,7 +15,7 @@ button,input,textarea{font:inherit}
   position:relative;width:1672px;height:941px;transform-origin:center center;overflow:hidden;
   background:
     linear-gradient(90deg,rgba(3,8,20,.76),rgba(3,8,20,.52) 52%,rgba(3,8,20,.42)),
-    url("assets/create_garden_bg_v81_darker_right_tight_lamps.png") center/cover no-repeat;
+    url("assets/create_garden_bg_v79.png") center/cover no-repeat;
 }
 .stage::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.42;
@@ -229,14 +229,17 @@ canvas{image-rendering:pixelated;display:block}
 /* v72 — approved integrated garden form */
 :root{--brand-gold:#c7841d;--brand-gold-soft:rgba(199,132,29,.78);--brand-gold-dim:rgba(199,132,29,.48)}
 .stage{
-  background:
-    linear-gradient(rgba(3,12,25,.18),rgba(3,12,25,.28)),
-    url("assets/create_garden_bg_v81_darker_right_tight_lamps.png") center/cover no-repeat;
+  background:url("assets/create_garden_bg_v79.png") center/cover no-repeat;
 }
 .stage::before{opacity:.16}
 .stage::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 73% 48%,rgba(2,10,22,.08),rgba(2,10,22,.20) 78%);
+  background:linear-gradient(90deg,
+    rgba(2,10,22,.00) 0%,
+    rgba(2,10,22,.02) 38%,
+    rgba(2,10,22,.10) 52%,
+    rgba(2,10,22,.22) 76%,
+    rgba(2,10,22,.30) 100%);
 }
 .header{left:76px;right:72px;top:34px;height:46px}
 .brand{display:none}
