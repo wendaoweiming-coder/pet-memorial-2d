@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v80-background-focus-gradient -->
+<!-- version: v79-form-legibility-refine -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -230,20 +230,13 @@ canvas{image-rendering:pixelated;display:block}
 :root{--brand-gold:#c7841d;--brand-gold-soft:rgba(199,132,29,.78);--brand-gold-dim:rgba(199,132,29,.48)}
 .stage{
   background:
-    linear-gradient(rgba(3,12,25,.06),rgba(3,12,25,.12)),
+    linear-gradient(rgba(3,12,25,.18),rgba(3,12,25,.28)),
     url("assets/create_garden_bg.png") center/cover no-repeat;
 }
 .stage::before{opacity:.16}
 .stage::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(
-    ellipse 64% 82% at 73% 51%,
-    rgba(1,8,20,.36) 0%,
-    rgba(1,8,20,.34) 44%,
-    rgba(1,8,20,.23) 65%,
-    rgba(1,8,20,.10) 80%,
-    rgba(1,8,20,0) 100%
-  );
+  background:radial-gradient(ellipse at 73% 48%,rgba(2,10,22,.08),rgba(2,10,22,.20) 78%);
 }
 .header{left:76px;right:72px;top:34px;height:46px}
 .brand{display:none}
@@ -257,6 +250,11 @@ canvas{image-rendering:pixelated;display:block}
 .panel::before,.panel::after{display:none}
 .preview-panel{left:56px;top:84px;width:650px;height:820px;padding:0}
 .form-panel{left:748px;top:116px;width:836px;height:756px;padding:0 6px}
+.form-panel::before{
+  display:block;content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:-44px;right:-34px;top:-28px;bottom:-24px;
+  background:radial-gradient(ellipse at 54% 47%,rgba(3,12,26,.18) 0,rgba(3,12,26,.12) 54%,rgba(3,12,26,0) 82%);
+}
 .panel-title,.preview-note,.section{display:none!important}
 .section.visibility-heading,.section.photo-heading{
   display:flex!important;height:24px;background:transparent;border:0;padding:0;margin:0 0 -8px;align-items:center
@@ -294,17 +292,23 @@ canvas{image-rendering:pixelated;display:block}
 .field.tall .input-shell{
   height:106px;border-bottom:0;
   background:
-    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 35px/100% 2px no-repeat,
-    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 75px/100% 2px no-repeat,
-    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 104px/100% 2px no-repeat
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 34px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 68px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 102px/100% 2px no-repeat
 }
 .field.tall .input-shell::after{display:none}
 .input-shell input,.input-shell textarea{
-  color:var(--brand-gold)!important;caret-color:var(--brand-gold);padding:0 4px;font-size:18px;text-shadow:1px 1px 0 rgba(25,16,10,.56)
+  color:transparent!important;caret-color:var(--brand-gold);padding:0 4px;font-size:17px;
+  font-family:"SimSun","Courier New",monospace;font-weight:900;letter-spacing:.7px;text-shadow:none
 }
-.input-shell textarea{padding:8px 4px;line-height:40px}
-#nameDisplay,#epitaphDisplay,#storyDisplay{display:none!important}
-.display{left:3px;top:1px}
+.input-shell input::placeholder,.input-shell textarea::placeholder{color:transparent!important}
+.input-shell textarea{
+  padding:7px 74px 7px 4px;line-height:34px;white-space:pre-wrap;overflow-wrap:anywhere;
+  word-break:break-all;overflow-y:hidden
+}
+#nameDisplay,#epitaphDisplay,#storyDisplay{display:block!important}
+.display{left:4px;top:1px;max-width:calc(100% - 8px)}
+.tall .display{left:4px;top:7px;max-width:calc(100% - 78px)}
 .date-icon{display:none}
 .arrow{right:4px;top:20px;border-top-color:var(--brand-gold)}
 .type-menu{left:0;right:0;top:48px;border:2px solid var(--brand-gold-soft);background:rgba(3,13,29,.97);box-shadow:4px 4px 0 rgba(0,0,0,.22)}
@@ -321,7 +325,7 @@ canvas{image-rendering:pixelated;display:block}
 .upload-main,.slot{
   height:68px;border:0;background:transparent;box-shadow:none;position:relative
 }
-.upload-main::before,.slot::before{
+.slot::before{
   content:"";position:absolute;inset:0;opacity:.88;background:
     linear-gradient(var(--brand-gold),var(--brand-gold)) left top/18px 2px no-repeat,
     linear-gradient(var(--brand-gold),var(--brand-gold)) left top/2px 18px no-repeat,
@@ -332,12 +336,23 @@ canvas{image-rendering:pixelated;display:block}
     linear-gradient(var(--brand-gold),var(--brand-gold)) right bottom/18px 2px no-repeat,
     linear-gradient(var(--brand-gold),var(--brand-gold)) right bottom/2px 18px no-repeat
 }
+.upload-main::before{
+  content:"";position:absolute;inset:0;opacity:.96;background:
+    repeating-linear-gradient(90deg,var(--brand-gold) 0 5px,transparent 5px 10px) left top/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold) 0 5px,transparent 5px 10px) left bottom/100% 2px no-repeat,
+    repeating-linear-gradient(0deg,var(--brand-gold) 0 5px,transparent 5px 10px) left top/2px 100% no-repeat,
+    repeating-linear-gradient(0deg,var(--brand-gold) 0 5px,transparent 5px 10px) right top/2px 100% no-repeat
+}
+.upload-main::after{
+  content:"+";position:absolute;left:13px;top:50%;transform:translateY(-52%);
+  color:var(--brand-gold);font:900 22px/1 "Courier New",monospace
+}
 .slot::after{content:"+";position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-gold);font-size:28px;line-height:1}
 .slot.filled::after{display:none}
 .slot.filled::before{display:block}
-.upload-copy{left:14px;right:10px;color:var(--brand-gold)}
+.upload-copy{left:42px;right:10px;color:var(--brand-gold)}
 .upload-copy .main{font-size:14px}.upload-copy .sub{font-size:10px}
-.submit-row{margin-top:2px}
+.submit-row{margin-top:-10px}
 .submit{
   width:244px;height:62px;border:0;background:transparent url("assets/button_frame_a2_hollow_v69.png") center/100% 100% no-repeat;
   box-shadow:none;image-rendering:pixelated
@@ -347,6 +362,7 @@ canvas{image-rendering:pixelated;display:block}
 .submit .button-label{height:100%;color:var(--brand-gold);font-size:18px;transform:translateY(3px)}
 .button-label,.upload-copy{color:var(--brand-gold)}
 .form-panel canvas{filter:saturate(.72) brightness(.92)}
+.form-panel .display{filter:none}
 .counter{opacity:.68}
 .field-hint{top:76px;border-color:#b85b44;background:rgba(4,13,29,.95)}
 .toast{color:var(--brand-gold);border-color:var(--brand-gold-soft)}
@@ -554,10 +570,11 @@ function fitStoneBlock(ctx,text,maxW,maxH,startSize,minSize,maxLines){
   return {size:minSize, lines, lineH};
 }
 function field(c,text,ph,multi=false){
-  const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,1);
-  ctx.font=`900 ${Math.round(17/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
+  const p=c.parentElement,w=p.clientWidth-(multi?82:26),h=multi?92:p.clientHeight;const {ctx,r}=setup(c,w,h,1);
+  const fontSize=multi?16:17;
+  ctx.font=`900 ${Math.round(fontSize/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
   const has=String(text||"").trim(),fill=has?"rgba(199,132,29,.96)":"rgba(199,132,29,.66)",content=has?text:ph;
-  if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*Math.round(18*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}
+  if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*34+2;ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}
   else{let y=Math.round((c.height-Math.round(17/r))/2);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(String(content).slice(0,42),1,y+1);ctx.fillStyle=fill;ctx.fillText(String(content).slice(0,42),0,y)}
 }
 function drawStoneText(ctx,text,x,y,maxW,size,maxLines,color){
@@ -644,7 +661,7 @@ function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style
   lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
 }
 
-const createCarve={recess:"rgba(34,32,30,.78)",shadow:"rgba(8,8,7,.24)",highlight:"rgba(220,214,202,.16)"};
+const createCarve={recess:"rgba(43,40,36,.88)",shadow:"rgba(7,7,6,.34)",highlight:"rgba(228,216,191,.30)"};
 function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
   document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
@@ -653,13 +670,16 @@ function updateStatic(){
   const uploadLines=String(tr("uploadMain")).split(/\\n|\n/);
   const uploadMain=document.getElementById("uploadMainLine");
   const uploadSub=document.getElementById("uploadSubLine");
-  if(uploadMain) uploadMain.textContent=uploadLines[0]||"";
+  if(uploadMain) uploadMain.textContent=(uploadLines[0]||"").replace(/^[＋+]\s*/,"");
   if(uploadSub) uploadSub.textContent=uploadLines.slice(1).join(" ")||"";
   nameI.placeholder=tr("petNamePH");
   epiI.placeholder=tr("epitaphPH");
   storyI.placeholder=tr("storyPH");
 }
 function update(){
+  field(document.getElementById("nameDisplay"),nameI.value,tr("petNamePH"));
+  field(document.getElementById("epitaphDisplay"),epiI.value,tr("epitaphPH"),true);
+  field(document.getElementById("storyDisplay"),storyI.value,tr("storyPH"),true);
   field(document.getElementById("typeDisplay"),S.type?tr(S.type):"",tr("petTypePH"));
   field(document.getElementById("birthDisplay"),birthI.value?birthI.value.replaceAll("-"," / "):"",tr("birthPH"));
   field(document.getElementById("deathDisplay"),deathI.value?deathI.value.replaceAll("-"," / "):"",tr("deathPH"));
