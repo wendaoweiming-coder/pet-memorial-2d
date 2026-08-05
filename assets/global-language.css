@@ -15,11 +15,9 @@
   transform-origin:top right!important
 }
 .global-back-fixed{
-  width:158px!important;
-  min-width:158px!important;
-  max-width:158px!important;
+  width:148px!important;
+  min-width:148px!important;
   height:42px!important;
-  box-sizing:border-box!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -53,11 +51,9 @@
 }
 .language-fixed .language-button{
   position:relative!important;
-  width:158px!important;
+  width:auto!important;
   min-width:158px!important;
-  max-width:158px!important;
   height:42px!important;
-  box-sizing:border-box!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
