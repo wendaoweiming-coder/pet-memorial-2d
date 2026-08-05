@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v82-right-background-contrast -->
+<!-- version: v83-clean-right-background-contrast -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -15,7 +15,7 @@ button,input,textarea{font:inherit}
   position:relative;width:1672px;height:941px;transform-origin:center center;overflow:hidden;
   background:
     linear-gradient(90deg,rgba(3,8,20,.76),rgba(3,8,20,.52) 52%,rgba(3,8,20,.42)),
-    url("assets/create_garden_bg.png") center/cover no-repeat;
+    url("assets/create_garden_bg_form_dim.png") center/cover no-repeat;
 }
 .stage::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.42;
@@ -231,23 +231,12 @@ canvas{image-rendering:pixelated;display:block}
 .stage{
   background:
     linear-gradient(rgba(3,12,25,.18),rgba(3,12,25,.28)),
-    url("assets/create_garden_bg.png") center/cover no-repeat;
+    url("assets/create_garden_bg_form_dim.png") center/cover no-repeat;
 }
 .stage::before{opacity:.16}
 .stage::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  /* Darken only the scenery behind the form. The broad horizontal fade avoids
-     a centre seam, while the feathered opening keeps the right lantern and
-     its warm halo at their original brightness. */
-  background:rgba(1,7,17,.54);
-  -webkit-mask-image:
-    radial-gradient(circle 230px at 94.5% 80%,transparent 0 48%,rgba(0,0,0,.12) 66%,#000 100%),
-    linear-gradient(90deg,transparent 0 33%,rgba(0,0,0,.08) 42%,rgba(0,0,0,.52) 54%,#000 67% 100%);
-  -webkit-mask-composite:source-in;
-  mask-image:
-    radial-gradient(circle 230px at 94.5% 80%,transparent 0 48%,rgba(0,0,0,.12) 66%,#000 100%),
-    linear-gradient(90deg,transparent 0 33%,rgba(0,0,0,.08) 42%,rgba(0,0,0,.52) 54%,#000 67% 100%);
-  mask-composite:intersect;
+  background:radial-gradient(ellipse at 73% 48%,rgba(2,10,22,.08),rgba(2,10,22,.20) 78%);
 }
 .header{left:76px;right:72px;top:34px;height:46px}
 .brand{display:none}
@@ -263,7 +252,7 @@ canvas{image-rendering:pixelated;display:block}
 .form-panel{left:748px;top:116px;width:836px;height:756px;padding:0 6px}
 .form-panel::before{
   display:block;content:"";position:absolute;z-index:-1;pointer-events:none;
-  left:-44px;right:-34px;top:-28px;bottom:-24px;
+  left:-44px;right:-34px;top:-28px;bottom:-24px;width:auto;height:auto;border:0;
   background:radial-gradient(ellipse at 54% 47%,rgba(3,12,26,.18) 0,rgba(3,12,26,.12) 54%,rgba(3,12,26,0) 82%);
 }
 .panel-title,.preview-note,.section{display:none!important}
