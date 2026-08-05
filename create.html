@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v79-form-legibility-refine -->
+<!-- version: v82-right-background-contrast -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -236,7 +236,18 @@ canvas{image-rendering:pixelated;display:block}
 .stage::before{opacity:.16}
 .stage::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 73% 48%,rgba(2,10,22,.08),rgba(2,10,22,.20) 78%);
+  /* Darken only the scenery behind the form. The broad horizontal fade avoids
+     a centre seam, while the feathered opening keeps the right lantern and
+     its warm halo at their original brightness. */
+  background:rgba(1,7,17,.54);
+  -webkit-mask-image:
+    radial-gradient(circle 230px at 94.5% 80%,transparent 0 48%,rgba(0,0,0,.12) 66%,#000 100%),
+    linear-gradient(90deg,transparent 0 33%,rgba(0,0,0,.08) 42%,rgba(0,0,0,.52) 54%,#000 67% 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:
+    radial-gradient(circle 230px at 94.5% 80%,transparent 0 48%,rgba(0,0,0,.12) 66%,#000 100%),
+    linear-gradient(90deg,transparent 0 33%,rgba(0,0,0,.08) 42%,rgba(0,0,0,.52) 54%,#000 67% 100%);
+  mask-composite:intersect;
 }
 .header{left:76px;right:72px;top:34px;height:46px}
 .brand{display:none}
