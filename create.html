@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v82-balanced-lighting -->
+<!-- version: v79-dim-gold-restored -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -229,12 +229,14 @@ canvas{image-rendering:pixelated;display:block}
 /* v72 — approved integrated garden form */
 :root{--brand-gold:#c7841d;--brand-gold-soft:rgba(199,132,29,.78);--brand-gold-dim:rgba(199,132,29,.48)}
 .stage{
-  background:url("assets/create_garden_bg.png") center/cover no-repeat;
+  background:
+    linear-gradient(rgba(3,12,25,.18),rgba(3,12,25,.28)),
+    url("assets/create_garden_bg.png") center/cover no-repeat;
 }
 .stage::before{opacity:.16}
 .stage::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url("assets/create_form_overlay.svg") center/100% 100% no-repeat;
+  background:radial-gradient(ellipse at 73% 48%,rgba(2,10,22,.08),rgba(2,10,22,.20) 78%);
 }
 .header{left:76px;right:72px;top:34px;height:46px}
 .brand{display:none}
@@ -368,29 +370,6 @@ canvas{image-rendering:pixelated;display:block}
   background:transparent;font-family:inherit;font-size:14px;font-weight:800;letter-spacing:.8px
 }
 .language .menu button:hover,.language .menu button.active{background:rgba(232,191,116,.12)}
-
-/* v79 — unify the form with the homepage logo and protect text from scenery */
-:root{
-  --brand-gold:#d9a24a;
-  --brand-gold-soft:rgba(217,162,74,.68);
-  --brand-gold-dim:rgba(217,162,74,.42)
-}
-.form-grid{color:rgba(217,162,74,.88)}
-.form-panel canvas{filter:none}
-.input-shell input,.input-shell textarea{
-  color:rgba(217,162,74,.94)!important;
-  caret-color:#d9a24a;
-  text-shadow:1px 1px 0 rgba(20,14,9,.58)
-}
-#petName,#epitaph,#story{color:rgba(217,162,74,.94)}
-#petName::placeholder,#epitaph::placeholder,#story::placeholder{color:rgba(217,162,74,.58)}
-#epitaph{padding-right:150px!important}
-#epiCount{right:148px;opacity:.78}
-#storyCount{opacity:.78}
-.upload-copy{left:12px;right:8px;line-height:1.18}
-.upload-copy .main{font-size:13px;letter-spacing:.5px;white-space:nowrap}
-.upload-copy .sub{font-size:9px;letter-spacing:0;white-space:nowrap;opacity:.76}
-.submit-row{transform:translateY(-6px)}
 </style>
 <link rel="stylesheet" href="assets/global-language.css" />
 <script src="assets/global-language.js" defer></script>
@@ -530,7 +509,7 @@ function px(c,text,opt={}){
   const w=+c.dataset.w||opt.w||c.clientWidth||120,h=+c.dataset.h||opt.h||c.clientHeight||24,size=+c.dataset.size||opt.size||16;
   const {ctx,r}=setup(c,w,h,opt.ratio||1);ctx.clearRect(0,0,c.width,c.height);
   ctx.font=`900 ${Math.round(size/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.textAlign=opt.align||"left";
-  const color=opt.color||"rgba(217,162,74,.88)";
+  const color=opt.color||"rgba(199,132,29,.94)";
   const lines=String(text||"").split(/\\n|\n/);
   const lineH=Math.max(1,Math.round(size*1.38/r));
   const totalH=lines.length*lineH;
@@ -570,7 +549,7 @@ function fitStoneBlock(ctx,text,maxW,maxH,startSize,minSize,maxLines){
 function field(c,text,ph,multi=false){
   const p=c.parentElement,w=p.clientWidth-26,h=p.clientHeight-(multi?16:0);const {ctx,r}=setup(c,w,h,1);
   ctx.font=`900 ${Math.round(17/r)}px "SimSun","Courier New",monospace`;ctx.textBaseline="top";ctx.clearRect(0,0,c.width,c.height);
-  const has=String(text||"").trim(),fill=has?"rgba(217,162,74,.94)":"rgba(217,162,74,.58)",content=has?text:ph;
+  const has=String(text||"").trim(),fill=has?"rgba(199,132,29,.96)":"rgba(199,132,29,.66)",content=has?text:ph;
   if(multi){wrap(ctx,content,c.width-4).slice(0,3).forEach((line,i)=>{let y=i*Math.round(18*1.5/r);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(line,1,y+1);ctx.fillStyle=fill;ctx.fillText(line,0,y)})}
   else{let y=Math.round((c.height-Math.round(17/r))/2);ctx.fillStyle="rgba(25,16,10,.55)";ctx.fillText(String(content).slice(0,42),1,y+1);ctx.fillStyle=fill;ctx.fillText(String(content).slice(0,42),0,y)}
 }
@@ -658,11 +637,7 @@ function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style
   lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
 }
 
-const createCarve={
-  recess:"rgba(22,21,20,.96)",
-  shadow:"rgba(4,4,4,.54)",
-  highlight:"rgba(224,216,198,.38)"
-};
+const createCarve={recess:"rgba(34,32,30,.78)",shadow:"rgba(8,8,7,.24)",highlight:"rgba(220,214,202,.16)"};
 function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
   document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
@@ -681,16 +656,16 @@ function update(){
   field(document.getElementById("typeDisplay"),S.type?tr(S.type):"",tr("petTypePH"));
   field(document.getElementById("birthDisplay"),birthI.value?birthI.value.replaceAll("-"," / "):"",tr("birthPH"));
   field(document.getElementById("deathDisplay"),deathI.value?deathI.value.replaceAll("-"," / "):"",tr("deathPH"));
-  px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(217,162,74,.72)"});
-  px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(217,162,74,.72)"});
+  px(document.getElementById("epiCount"),`${epiI.value.length}/120`,{w:62,h:18,size:12,color:"rgba(199,132,29,.76)"});
+  px(document.getElementById("storyCount"),`${storyI.value.length}/300`,{w:62,h:18,size:12,color:"rgba(199,132,29,.76)"});
 
   const {ctx}=setup(stoneC,220,190,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
   // v48: all text is clipped to the recessed plaque and rendered as a shallow carving.
-  drawCarvedName(ctx,nameI.value.trim()||"小布丁",110,4,96,32,16,11,createCarve);
-  drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,96,11,9,createCarve);
-  drawCarvedLine(ctx,"—",110,61,34,10,9,createCarve);
-  drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,77,96,11,9,createCarve);
-  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,97,92,34,9,7,3,createCarve);
+  drawCarvedName(ctx,nameI.value.trim()||"小布丁",110,5,92,30,15,10,createCarve);
+  drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,92,10,8,createCarve);
+  drawCarvedLine(ctx,"—",110,61,34,9,8,createCarve);
+  drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,76,92,10,8,createCarve);
+  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,95,86,23,8,6,2,createCarve);
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{
   el.addEventListener("input",()=>{update();persistDraft()});
