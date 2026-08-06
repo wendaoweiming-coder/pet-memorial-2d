@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v85-recovered-cumulative -->
+<!-- version: v86-visual-correction -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -227,7 +227,7 @@ canvas{image-rendering:pixelated;display:block}
 .toast.show{opacity:1}
 
 /* v72 — approved integrated garden form */
-:root{--brand-gold:#c7841d;--brand-gold-soft:rgba(199,132,29,.78);--brand-gold-dim:rgba(199,132,29,.48)}
+:root{--brand-gold:#d9a24a;--brand-gold-soft:rgba(217,162,74,.82);--brand-gold-dim:rgba(217,162,74,.52)}
 .stage{
   background:
     linear-gradient(rgba(3,12,25,.18),rgba(3,12,25,.28)),
@@ -253,7 +253,7 @@ canvas{image-rendering:pixelated;display:block}
 .form-panel::before{
   display:block;content:"";position:absolute;z-index:-1;pointer-events:none;
   left:-44px;right:-34px;top:-28px;bottom:-24px;width:auto;height:auto;border:0;
-  background:radial-gradient(ellipse at 54% 47%,rgba(3,12,26,.18) 0,rgba(3,12,26,.12) 54%,rgba(3,12,26,0) 82%);
+  background:linear-gradient(90deg,rgba(1,7,16,.58) 0%,rgba(1,7,16,.52) 68%,rgba(1,7,16,.16) 88%,rgba(1,7,16,0) 100%);
 }
 .panel-title,.preview-note,.section{display:none!important}
 .section.visibility-heading,.section.photo-heading{
@@ -266,16 +266,16 @@ canvas{image-rendering:pixelated;display:block}
 .tombstone-wrap{left:50%;bottom:54px;width:424px;height:658px;transform:translateX(-50%)}
 .tombstone-img{
   display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;
-  image-rendering:pixelated;filter:brightness(.62) saturate(.54) contrast(1.13) drop-shadow(0 14px 12px rgba(0,0,0,.28))
+  image-rendering:pixelated;filter:drop-shadow(0 14px 12px rgba(0,0,0,.28))
 }
 #stoneText{top:300px;width:220px;height:190px}
 .stone-selector{
-  position:absolute;top:346px;width:64px;height:79px;border:0;padding:0;background-color:transparent;
+  position:absolute;top:363px;width:76px;height:46px;border:0;padding:0;background-color:transparent;
   background-position:center;background-repeat:no-repeat;background-size:100% 100%;image-rendering:pixelated;
   cursor:pointer;filter:drop-shadow(0 3px 3px rgba(0,0,0,.32));transition:transform .12s steps(2,end),filter .12s steps(2,end)
 }
-.stone-selector.prev{left:78px;background-image:url("assets/selector_left.png")}
-.stone-selector.next{right:78px;background-image:url("assets/selector_right.png")}
+.stone-selector.prev{left:70px;background-image:url("assets/selector_left.png")}
+.stone-selector.next{right:70px;background-image:url("assets/selector_right.png")}
 .stone-selector:hover{transform:translateY(-2px);filter:brightness(1.14) drop-shadow(0 4px 3px rgba(0,0,0,.34))}
 .stone-selector:focus-visible{outline:2px solid var(--brand-gold);outline-offset:4px}
 .form-grid{grid-template-columns:1fr 1fr;gap:12px 74px;color:var(--brand-gold)}
@@ -661,7 +661,7 @@ function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style
   lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
 }
 
-const createCarve={recess:"rgba(43,40,36,.88)",shadow:"rgba(7,7,6,.34)",highlight:"rgba(228,216,191,.30)"};
+const createCarve={recess:"rgba(30,28,26,.98)",shadow:"rgba(5,5,5,.46)",highlight:"rgba(235,226,207,.48)"};
 function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
   document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
@@ -688,11 +688,11 @@ function update(){
 
   const {ctx}=setup(stoneC,220,190,1);ctx.clearRect(0,0,stoneC.width,stoneC.height);
   // v48: all text is clipped to the recessed plaque and rendered as a shallow carving.
-  drawCarvedName(ctx,nameI.value.trim()||"小布丁",110,5,92,30,15,10,createCarve);
-  drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,92,10,8,createCarve);
-  drawCarvedLine(ctx,"—",110,61,34,9,8,createCarve);
-  drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,76,92,10,8,createCarve);
-  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,95,86,23,8,6,2,createCarve);
+  drawCarvedName(ctx,nameI.value.trim()||"小布丁",110,4,96,32,16,11,createCarve);
+  drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,96,11,9,createCarve);
+  drawCarvedLine(ctx,"—",110,61,34,10,9,createCarve);
+  drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,77,96,11,9,createCarve);
+  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,97,92,34,9,7,3,createCarve);
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{
   el.addEventListener("input",()=>{update();persistDraft()});
