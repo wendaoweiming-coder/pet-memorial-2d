@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v88-brighter-left-v86-stone -->
+<!-- version: v89-balanced-composition -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -235,12 +235,12 @@ canvas{image-rendering:pixelated;display:block}
 }
 .stage::before{opacity:.16}
 .stage::after{
-  content:"";position:absolute;left:0;top:0;bottom:0;width:58%;z-index:0;pointer-events:none;
-  background:radial-gradient(circle at 57.75% 15%,rgba(242,247,255,.17) 0,rgba(151,192,235,.09) 5%,rgba(91,139,197,.02) 11%,rgba(91,139,197,0) 17%);
-  -webkit-backdrop-filter:brightness(1.19) saturate(1.14) contrast(1.04);
-  backdrop-filter:brightness(1.19) saturate(1.14) contrast(1.04);
-  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 72%,rgba(0,0,0,.62) 84%,transparent 100%);
-  mask-image:linear-gradient(90deg,#000 0%,#000 72%,rgba(0,0,0,.62) 84%,transparent 100%);
+  content:"";position:absolute;left:0;top:0;bottom:0;width:70%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 47.85% 15%,rgba(242,247,255,.10) 0,rgba(151,192,235,.045) 7%,rgba(91,139,197,.012) 14%,rgba(91,139,197,0) 22%);
+  -webkit-backdrop-filter:brightness(1.12) saturate(1.08) contrast(1.02);
+  backdrop-filter:brightness(1.12) saturate(1.08) contrast(1.02);
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.82) 68%,rgba(0,0,0,.42) 84%,transparent 100%);
+  mask-image:linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.82) 68%,rgba(0,0,0,.42) 84%,transparent 100%);
 }
 .header{left:76px;right:72px;top:34px;height:46px}
 .brand{display:none}
@@ -257,7 +257,7 @@ canvas{image-rendering:pixelated;display:block}
 .form-panel::before{
   display:block;content:"";position:absolute;z-index:-1;pointer-events:none;
   left:-44px;right:-34px;top:-28px;bottom:-24px;width:auto;height:auto;border:0;
-  background:radial-gradient(ellipse at 54% 47%,rgba(3,12,26,.18) 0,rgba(3,12,26,.12) 54%,rgba(3,12,26,0) 82%);
+  background:radial-gradient(ellipse at 52% 46%,rgba(12,31,56,.30) 0,rgba(8,24,46,.20) 55%,rgba(5,18,37,.08) 78%,rgba(3,12,26,0) 94%);
 }
 .panel-title,.preview-note,.section{display:none!important}
 .section.visibility-heading,.section.photo-heading{
@@ -267,7 +267,7 @@ canvas{image-rendering:pixelated;display:block}
   width:650px;height:820px;border:0;background:transparent;box-shadow:none;overflow:visible
 }
 .preview-scene::after{display:none}
-.tombstone-wrap{left:50%;bottom:54px;width:424px;height:658px;transform:translateX(-50%)}
+.tombstone-wrap{left:50%;bottom:60px;width:424px;height:658px;transform:translateX(-50%) scale(.94);transform-origin:center bottom}
 .tombstone-img{
   display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;
   image-rendering:pixelated;filter:drop-shadow(0 14px 12px rgba(0,0,0,.28))
@@ -287,7 +287,7 @@ canvas{image-rendering:pixelated;display:block}
 .field.tall{height:136px}
 .label{height:26px;margin:0 0 3px}
 .input-shell,.field.tall .input-shell{
-  height:48px;border:0;border-bottom:2px solid var(--brand-gold-soft);background:transparent;box-shadow:none
+  height:48px;border:0;border-bottom:2px solid var(--brand-gold-soft);background:linear-gradient(90deg,rgba(3,14,30,.11),rgba(3,14,30,.04));box-shadow:none
 }
 .input-shell::after{
   content:"";position:absolute;right:-1px;bottom:-2px;width:8px;height:8px;
@@ -296,9 +296,10 @@ canvas{image-rendering:pixelated;display:block}
 .field.tall .input-shell{
   height:106px;border-bottom:0;
   background:
-    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 34px/100% 2px no-repeat,
-    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 68px/100% 2px no-repeat,
-    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 102px/100% 2px no-repeat
+    repeating-linear-gradient(90deg,var(--brand-gold-dim) 0 3px,transparent 3px 8px) left 34px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-dim) 0 3px,transparent 3px 8px) left 68px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-dim) 0 3px,transparent 3px 8px) left 102px/100% 2px no-repeat,
+    linear-gradient(90deg,rgba(3,14,30,.18),rgba(3,14,30,.08))
 }
 .field.tall .input-shell::after{display:none}
 .input-shell input,.input-shell textarea{
@@ -356,7 +357,7 @@ canvas{image-rendering:pixelated;display:block}
 .slot.filled::before{display:block}
 .upload-copy{left:42px;right:10px;color:var(--brand-gold)}
 .upload-copy .main{font-size:14px}.upload-copy .sub{font-size:10px}
-.submit-row{margin-top:-10px}
+.submit-row{margin-top:-18px}
 .submit{
   width:244px;height:62px;border:0;background:transparent url("assets/button_frame_a2_hollow_v69.png") center/100% 100% no-repeat;
   box-shadow:none;image-rendering:pixelated
@@ -696,7 +697,7 @@ function update(){
   drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,96,11,9,createCarve);
   drawCarvedLine(ctx,"—",110,61,34,10,9,createCarve);
   drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,77,96,11,9,createCarve);
-  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,98,104,58,11,9,4,createCarve);
+  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,98,108,62,13,10,4,createCarve);
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{
   el.addEventListener("input",()=>{update();persistDraft()});
