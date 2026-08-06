@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>创建墓碑｜STILLIGHT</title>
-<!-- version: v90-form-and-engraving-fix -->
+<!-- version: v92-layout-designed-background -->
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050d19}
@@ -13,9 +13,7 @@ button,input,textarea{font:inherit}
 .viewport{position:fixed;inset:0;display:grid;place-items:center;background:#050d19;overflow:hidden}
 .stage{
   position:relative;width:1672px;height:941px;transform-origin:center center;overflow:hidden;
-  background:
-    linear-gradient(90deg,rgba(3,8,20,.76),rgba(3,8,20,.52) 52%,rgba(3,8,20,.42)),
-    url("assets/create_garden_bg_form_dim.png") center/cover no-repeat;
+  background:url("assets/create_garden_bg_redesigned.png") center/cover no-repeat;
 }
 .stage::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.42;
@@ -229,19 +227,9 @@ canvas{image-rendering:pixelated;display:block}
 /* v72 — approved integrated garden form */
 :root{--brand-gold:#d9a24a;--brand-gold-soft:rgba(217,162,74,.82);--brand-gold-dim:rgba(217,162,74,.52)}
 .stage{
-  background:
-    linear-gradient(rgba(3,12,25,.18),rgba(3,12,25,.28)),
-    url("assets/create_garden_bg_form_dim.png") center/cover no-repeat;
+  background:url("assets/create_garden_bg_redesigned.png") center/cover no-repeat;
 }
-.stage::before{opacity:.16}
-.stage::after{
-  content:"";position:absolute;left:0;top:0;bottom:0;width:70%;z-index:0;pointer-events:none;
-  background:radial-gradient(circle at 47.85% 15%,rgba(242,247,255,.10) 0,rgba(151,192,235,.045) 7%,rgba(91,139,197,.012) 14%,rgba(91,139,197,0) 22%);
-  -webkit-backdrop-filter:brightness(1.12) saturate(1.08) contrast(1.02);
-  backdrop-filter:brightness(1.12) saturate(1.08) contrast(1.02);
-  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.82) 68%,rgba(0,0,0,.42) 84%,transparent 100%);
-  mask-image:linear-gradient(90deg,#000 0%,#000 55%,rgba(0,0,0,.82) 68%,rgba(0,0,0,.42) 84%,transparent 100%);
-}
+.stage::before,.stage::after{display:none}
 .header{left:76px;right:72px;top:34px;height:46px}
 .brand{display:none}
 .top-actions{margin-left:auto;gap:12px}
@@ -253,13 +241,8 @@ canvas{image-rendering:pixelated;display:block}
 .panel{z-index:2;background:transparent;border:0;box-shadow:none}
 .panel::before,.panel::after{display:none}
 .preview-panel{left:56px;top:84px;width:650px;height:820px;padding:0}
-.form-panel{left:748px;top:116px;width:836px;height:756px;padding:0 6px;isolation:isolate}
-.form-panel::before{
-  display:block;content:"";position:absolute;z-index:0;pointer-events:none;
-  left:-44px;right:-34px;top:-28px;bottom:-24px;width:auto;height:auto;border:0;
-  background:linear-gradient(90deg,rgba(8,25,49,.64) 0%,rgba(8,26,51,.56) 68%,rgba(7,24,47,.28) 88%,rgba(6,20,40,.08) 100%);
-}
-.form-grid{position:relative;z-index:1}
+.form-panel{left:748px;top:116px;width:836px;height:756px;padding:0 6px}
+.form-panel::before{display:none}
 .panel-title,.preview-note,.section{display:none!important}
 .section.visibility-heading,.section.photo-heading{
   display:flex!important;height:24px;background:transparent;border:0;padding:0;margin:0 0 -8px;align-items:center
@@ -268,7 +251,7 @@ canvas{image-rendering:pixelated;display:block}
   width:650px;height:820px;border:0;background:transparent;box-shadow:none;overflow:visible
 }
 .preview-scene::after{display:none}
-.tombstone-wrap{left:50%;bottom:75px;width:424px;height:658px;transform:translateX(-50%) scale(.94);transform-origin:center bottom}
+.tombstone-wrap{left:50%;bottom:54px;width:424px;height:658px;transform:translateX(-50%)}
 .tombstone-img{
   display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;
   image-rendering:pixelated;filter:drop-shadow(0 14px 12px rgba(0,0,0,.28))
@@ -279,8 +262,8 @@ canvas{image-rendering:pixelated;display:block}
   background-position:center;background-repeat:no-repeat;background-size:100% 100%;image-rendering:pixelated;
   cursor:pointer;filter:drop-shadow(0 3px 3px rgba(0,0,0,.32));transition:transform .12s steps(2,end),filter .12s steps(2,end)
 }
-.stone-selector.prev{left:95px;background-image:url("assets/selector_left.png")}
-.stone-selector.next{right:95px;background-image:url("assets/selector_right.png")}
+.stone-selector.prev{left:70px;background-image:url("assets/selector_left.png")}
+.stone-selector.next{right:70px;background-image:url("assets/selector_right.png")}
 .stone-selector:hover{transform:translateY(-2px);filter:brightness(1.14) drop-shadow(0 4px 3px rgba(0,0,0,.34))}
 .stone-selector:focus-visible{outline:2px solid var(--brand-gold);outline-offset:4px}
 .form-grid{grid-template-columns:1fr 1fr;gap:12px 74px;color:var(--brand-gold)}
@@ -288,7 +271,7 @@ canvas{image-rendering:pixelated;display:block}
 .field.tall{height:136px}
 .label{height:26px;margin:0 0 3px}
 .input-shell,.field.tall .input-shell{
-  height:48px;border:0;border-bottom:2px solid var(--brand-gold-soft);background:linear-gradient(90deg,rgba(3,14,30,.11),rgba(3,14,30,.04));box-shadow:none
+  height:48px;border:0;border-bottom:2px solid var(--brand-gold-soft);background:transparent;box-shadow:none
 }
 .input-shell::after{
   content:"";position:absolute;right:-1px;bottom:-2px;width:8px;height:8px;
@@ -297,10 +280,9 @@ canvas{image-rendering:pixelated;display:block}
 .field.tall .input-shell{
   height:106px;border-bottom:0;
   background:
-    repeating-linear-gradient(90deg,rgba(217,162,74,.64) 0 3px,transparent 3px 8px) left 34px/100% 2px no-repeat,
-    repeating-linear-gradient(90deg,rgba(217,162,74,.64) 0 3px,transparent 3px 8px) left 68px/100% 2px no-repeat,
-    repeating-linear-gradient(90deg,rgba(217,162,74,.64) 0 3px,transparent 3px 8px) left 102px/100% 2px no-repeat,
-    linear-gradient(90deg,rgba(3,14,30,.18),rgba(3,14,30,.08))
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 34px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 68px/100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--brand-gold-soft) 0 3px,transparent 3px 8px) left 102px/100% 2px no-repeat
 }
 .field.tall .input-shell::after{display:none}
 .input-shell input,.input-shell textarea{
@@ -358,7 +340,7 @@ canvas{image-rendering:pixelated;display:block}
 .slot.filled::before{display:block}
 .upload-copy{left:42px;right:10px;color:var(--brand-gold)}
 .upload-copy .main{font-size:14px}.upload-copy .sub{font-size:10px}
-.submit-row{margin-top:-28px}
+.submit-row{margin-top:-10px}
 .submit{
   width:244px;height:62px;border:0;background:transparent url("assets/button_frame_a2_hollow_v69.png") center/100% 100% no-repeat;
   box-shadow:none;image-rendering:pixelated
@@ -367,9 +349,9 @@ canvas{image-rendering:pixelated;display:block}
 .submit:hover{background-color:transparent;filter:brightness(1.14);transform:translateY(-2px)}
 .submit .button-label{height:100%;color:var(--brand-gold);font-size:18px;transform:translateY(3px)}
 .button-label,.upload-copy{color:var(--brand-gold)}
-.form-panel canvas{filter:saturate(.82) brightness(.98)}
+.form-panel canvas{filter:saturate(.72) brightness(.92)}
 .form-panel .display{filter:none}
-.counter{opacity:.84;filter:none!important}
+.counter{opacity:.68}
 .field-hint{top:76px;border-color:#b85b44;background:rgba(4,13,29,.95)}
 .toast{color:var(--brand-gold);border-color:var(--brand-gold-soft)}
 
@@ -667,7 +649,7 @@ function drawCarvedBlock(ctx,text,x,y,maxW,maxH,startSize,minSize,maxLines,style
   lines.forEach((line,i)=>paintCarved(ctx,line,x,start+i*lineH,style));ctx.restore();
 }
 
-const createCarve={recess:"rgba(65,59,53,.92)",shadow:"rgba(8,8,7,.30)",highlight:"rgba(235,226,207,.36)"};
+const createCarve={recess:"rgba(30,28,26,.98)",shadow:"rgba(5,5,5,.46)",highlight:"rgba(235,226,207,.48)"};
 function fmt(v){return v?v.replaceAll("-","."):"----.--.--"}
 function updateStatic(){
   document.querySelectorAll(".txt").forEach(c=>px(c,tr(c.dataset.k)||c.dataset.k));
@@ -698,7 +680,7 @@ function update(){
   drawCarvedLine(ctx,fmt(birthI.value||"2014-06-12"),110,44,96,11,9,createCarve);
   drawCarvedLine(ctx,"—",110,61,34,10,9,createCarve);
   drawCarvedLine(ctx,fmt(deathI.value||"2025-11-03"),110,77,96,11,9,createCarve);
-  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,96,108,70,13,10,4,createCarve);
+  if(epiI.value.trim()) drawCarvedBlock(ctx,epiI.value.trim(),110,97,92,34,9,7,3,createCarve);
 }
 [nameI,birthI,deathI,epiI,storyI].forEach(el=>{
   el.addEventListener("input",()=>{update();persistDraft()});
